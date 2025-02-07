@@ -1,0 +1,129 @@
+# README
+
+# 2025.02.03
+
+# 2025.02.04
+- create pacakge ormoracle
+-- install package python-dotenv : pip install python-dotenv
+-- install pacakge sqlalchemy : pip install sqlalchemy (https://www.sqlalchemy.org/)
+--- install package oracledb : pip install oracledb
+
+
+
+
+'''
+
+3. 모델 정의 (models.py)
+python
+복사
+편집
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from .database import Base
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)  # Oracle에서는 autoincrement X, 대신 SEQUENCE 사용 가능
+    name = Column(String(50), nullable=False)
+    email = Column(String(100), unique=True, index=True, nullable=False)
+
+    posts = relationship("Post", back_populates="author")
+
+
+class Post(Base):
+    __tablename__ = "posts"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    title = Column(String(255), nullable=False)
+    content = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    author = relationship("User", back_populates="posts")
+4. CRUD 함수 (crud.py)
+python
+복사
+편집
+from sqlalchemy.orm import Session
+from .models import User, Post
+
+def create_user(db: Session, name: str, email: str):
+    user = User(name=name, email=email)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+def get_user(db: Session, user_id: int):
+    return db.query(User).filter(User.id == user_id).first()
+
+def create_post(db: Session, title: str, content: str, user_id: int):
+    post = Post(title=title, content=content, user_id=user_id)
+    db.add(post)
+    db.commit()
+    db.refresh(post)
+    return post
+5. 실제 사용 예제 (main.py)
+python
+복사
+편집
+from .database import SessionLocal, engine, Base
+from .crud import create_user, get_user, create_post
+
+# 테이블 생성 (DB 초기화 시 실행)
+Base.metadata.create_all(bind=engine)
+
+# 데이터베이스 세션 생성
+db = SessionLocal()
+
+# 사용자 추가
+new_user = create_user(db, name="John Doe", email="johndoe@example.com")
+print(f"Created User: {new_user.name}, {new_user.email}")
+
+# 특정 사용자 조회
+user = get_user(db, new_user.id)
+print(f"Retrieved User: {user.name}, {user.email}")
+
+# 게시글 추가
+new_post = create_post(db, title="My First Post", content="Hello, Oracle!", user_id=new_user.id)
+print(f"Created Post: {new_post.title}, Author: {new_post.author.name}")
+
+# 세션 닫기
+db.close()
+
+####################
+# DB 연결 설정
+engine = create_engine('oracle+cx_oracle://username:password@hostname:port/sid')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# 예: 'term_id'가 1인 레코드 삭제
+term_to_delete = session.query(AppTerm).filter(AppTerm.term_id == 1).first()
+
+if term_to_delete:
+    session.delete(term_to_delete)  # 해당 레코드 삭제
+    session.commit()  # 변경 사항 커밋
+else:
+    print("Record not found.")
+
+session.close()
+
+
+# DB 연결 설정
+engine = create_engine('oracle+cx_oracle://username:password@hostname:port/sid')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# 예: 'term_id'가 1인 레코드의 'name'과 'slug'를 업데이트
+term_to_update = session.query(AppTerm).filter(AppTerm.term_id == 1).first()
+
+if term_to_update:
+    term_to_update.name = 'Updated Term Name'  # 업데이트할 이름
+    term_to_update.slug = 'updated-slug'       # 업데이트할 슬러그
+    session.commit()  # 변경 사항 커밋
+else:
+    print("Record not found.")
+
+session.close()
+'''
+
