@@ -1,9 +1,0 @@
-# README
-
-# 2025.02.03
-
-# 2025.02.04
-- create pacakge ormoracle
--- install package python-dotenv : pip install python-dotenv
--- install pacakge sqlalchemy : pip install sqlalchemy (https://www.sqlalchemy.org/)
---- install package oracledb : pip install oracledb

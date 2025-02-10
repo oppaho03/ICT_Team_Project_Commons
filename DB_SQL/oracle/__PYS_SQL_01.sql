@@ -1,4 +1,5 @@
 /* by. PYS Account / oracle
+
 */
 
 /* SEQUENCE */
@@ -31,15 +32,31 @@ END;
 */
 
 /* OTHER TIPS
+-한국어 포함 : NVARCHAR2
+-영어만 포함: VARCHAR2
+
+-- 부모 테이블 삭제 되면 자식 테이블도 삭제
+CONSTRAINT 참초_별칭 FOREIGN KEY (자식컬럼) REFERENCES 부모테이블(부모컬럼)ON DELETE CASCADE
+
+-- 부모 테이블 삭제 되어도 자식 테이블은 낮음
+-- CONSTRAINT 참초_별칭 FOREIGN KEY (자식컬럼) REFERENCES 부모테이블(부모컬럼)ON DELETE SET NULL
+
 -- ALTER TABLE 테이블_이름 MODIFY 테이블_컬럼명 값;
+-- ALTER TABLE 테이블_이름 ADD CONSTRAINT 참초_별칭 FOREIGN KEY (자식컬럼) REFERENCES 부모테이블(부모컬럼) ON DELETE CASCADE;
 
 -- CLOB : '' 값 대신 EMPTY_CLOB() 사용
 -- CLOB : TO_CLOB('값') 
 -- TIMESTAMP : SYSDATE 현재 일자
+
+- CHAR(1) CHECK (is_active IN ('Y', 'N'))
+- NUMBER(1) CHECK (is_active IN (0, 1)) DEFAULT 1 NOT NULL
 */
 
 
-/* TABLE: USERS */
+/* TABLE: USERS */ 
+-- USER Roles 
+-- capabilities : administrator | editor | subscriber
+
 -- CREATE SEQUENCE
 CREATE SEQUENCE APP_USERS_ID_SEQ
 START WITH 1 
@@ -94,6 +111,29 @@ CREATE INDEX idx_app_usermeta_user_id ON app_usermeta( user_id );
 -- CREATE INDEX idx_app_usermeta_meta_key ON app_usermeta (SUBSTR(meta_key, 1, 191));
 
 
+/* TABLE: USER SNS LOGINS  */
+-- CREATE TABLE
+CREATE TABLE app_user_sns_logins (
+    id NUMBER(20) GENERATED ALWAYS AS IDENTITY PRIMARY KEY, -- AUTO_INCREMENT 대체
+    sns_login VARCHAR2(100) NOT NULL,
+    user_id NUMBER(20,0) DEFAULT 0 NOT NULL,
+    provider VARCHAR2(20) NOT NULL CHECK (provider IN ('google', 'facebook', 'kakao', 'naver')),
+    provider_id  VARCHAR2(255) NOT NULL UNIQUE,
+    access_token CLOB NULL,
+    refresh_token CLOB NULL,
+    status NUMBER DEFAULT 0 NOT NULL,
+    login_updated TIMESTAMP DEFAULT TO_DATE('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') NOT NULL,
+    login_created TIMESTAMP DEFAULT TO_DATE('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') NOT NULL,
+    
+    CONSTRAINT fk_app_user_sns_logins_user FOREIGN KEY (user_id) REFERENCES app_users(id) ON DELETE CASCADE
+);
+
+-- ALTER TABLE app_user_sns_logins ADD CONSTRAINT pk_app_user_sns_logins PRIMARY KEY (id); 
+CREATE INDEX idx_app_user_sns_logins_sns_login ON app_user_sns_logins( sns_login ) ;
+CREATE INDEX idx_app_user_sns_logins_user_id ON app_user_sns_logins( user_id );
+
+
+
 
 /* TABLE: POSTS  */
 -- CREATE SEQUENCE
@@ -105,28 +145,29 @@ NOCYCLE;
 
 CREATE TABLE app_posts (
     id NUMBER(20,0) PRIMARY KEY,
-    guid VARCHAR2(255) DEFAULT '' NOT NULL,
+    guid VARCHAR2(255) DEFAULT '' NULL,
     post_parent NUMBER(20) DEFAULT 0 NOT NULL,
     post_author NUMBER(20, 0) DEFAULT 0 NOT NULL,
     post_type VARCHAR2(20) DEFAULT 'post' NOT NULL,
-    post_mime_type VARCHAR2(100) DEFAULT '' NOT NULL,
+    post_mime_type VARCHAR2(100) DEFAULT '' NULL,
     post_title CLOB NOT NULL, 
     post_content CLOB DEFAULT EMPTY_CLOB(),
     post_excerpt CLOB DEFAULT EMPTY_CLOB(),        
     post_status VARCHAR2(20) DEFAULT 'publish' NOT NULL, 
-    post_pass VARCHAR2(255) DEFAULT '' NOT NULL,
-    post_name VARCHAR2(200) DEFAULT '' NOT NULL,
+    post_pass VARCHAR2(255) DEFAULT '' NULL,
+    post_name VARCHAR2(200) DEFAULT '' NULL,
     post_date TIMESTAMP DEFAULT TO_DATE('1970-01-01', 'YYYY-MM-DD') NOT NULL,
     post_date_gmt TIMESTAMP DEFAULT TO_DATE('1970-01-01', 'YYYY-MM-DD') NOT NULL,
     post_modified TIMESTAMP DEFAULT TO_DATE('1970-01-01', 'YYYY-MM-DD') NOT NULL,
     post_modified_gmt TIMESTAMP DEFAULT TO_DATE('1970-01-01', 'YYYY-MM-DD') NOT NULL,    
     comment_status VARCHAR2(20) DEFAULT 'open' NOT NULL,
-    comment_count NUMBER(20) DEFAULT '' NOT NULL,
-    menu_order NUMBER DEFAULT 0 NOT NULL,
+    comment_count NUMBER(20) DEFAULT 0 NOT NULL,
+    menu_order NUMBER DEFAULT 0 NOT NULL
     
-    CONSTRAINT fk_app_posts_post_parent FOREIGN KEY (post_parent) REFERENCES app_posts(id)
+    -- CONSTRAINT fk_app_posts_post_parent FOREIGN KEY (post_parent) REFERENCES app_posts(id)ON DELETE CASCADE
 );
 
+-- ALTER TABLE app_posts DROP CONSTRAINT fk_app_posts_post_parent;
 
 CREATE INDEX idx_app_posts_post_name ON app_posts (post_name);
 CREATE INDEX idx_app_posts_post_parent ON app_posts (post_parent);
@@ -245,13 +286,15 @@ END;
 
 /* TABLE: TERM_POST_RELATIONSHIPS */
 CREATE TABLE app_term_post_relationships (
-    object_id NUMBER(20,0) GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    term_taxonomy_id NUMBER(20, 0) DEFAULT 0 NOT NULL,
+    object_id NUMBER(20,0) NOT NULL,
+    term_taxonomy_id NUMBER(20, 0) NOT NULL,
     term_order NUMBER DEFAULT 0 NOT NULL,
     
+    CONSTRAINT fk_app_term_post_relationships_object_id FOREIGN KEY (object_id) REFERENCES app_posts(id) ON DELETE CASCADE,
     CONSTRAINT fk_app_term_post_relationships_term_taxonomy_id FOREIGN KEY (term_taxonomy_id) REFERENCES app_term_taxonomy(term_taxonomy_id) ON DELETE CASCADE
 );
 
+CREATE INDEX idx_app_term_post_relationships_object_id ON app_term_post_relationships( object_id );
 CREATE INDEX idx_app_term_post_relationships_term_taxonomy_id ON app_term_post_relationships( term_taxonomy_id );
 
 -- DROP TABLE app_term_post_relationships;
