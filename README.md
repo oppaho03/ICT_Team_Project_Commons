@@ -11,3 +11,5 @@
 ## UPDATE history logs
 + 2025.02.07 DB_Oracle/
 + 2025.02.07 python/ 
+
++ 2025.02.10 reset
