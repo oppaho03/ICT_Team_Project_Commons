@@ -30,7 +30,7 @@ END;
 CREATE TABLE app_users (
     id NUMBER(20, 0) PRIMARY KEY, 
     user_email VARCHAR2(100) NOT NULL UNIQUE,
-    user_pass NVARCHAR2(255) DEFAULT '' NOT NULL, 
+    user_pass VARCHAR2(255) DEFAULT '' NOT NULL, 
     user_nicname NVARCHAR2(50) DEFAULT '' NOT NULL,
     user_activation_key VARCHAR2(255) DEFAULT '' NULL,
     user_registered TIMESTAMP DEFAULT TO_DATE('1970-01-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS') NOT NULL,
@@ -136,7 +136,3 @@ CREATE TABLE app_user_sns_logins (
 CREATE INDEX i_app_user_sns_logins_user_id ON app_user_sns_logins( user_id ); 
 CREATE INDEX i_app_user_sns_logins_status ON app_user_sns_logins( status ); 
 CREATE INDEX i_app_user_sns_logins_provider ON app_user_sns_logins( provider ); 
-
-
-
-
