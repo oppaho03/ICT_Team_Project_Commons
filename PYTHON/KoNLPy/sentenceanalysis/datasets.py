@@ -113,10 +113,26 @@ class Dataset :
 
     tokens = okt.pos(sentence)  # 형태소 분석 후 단어와 품사 분리
 
-    pos_count = sum(1 for word, pos in tokens if pos in ['Noun', 'Adjective'] and word in pos_words)
-    neg_count = sum(1 for word, pos in tokens if pos in ['Noun', 'Adjective'] and word in neg_words)
-    print(sentence, neg_count, pos_count)
-    if neg_count >= pos_count: return -1
+    # pos_count = sum(1 for word, pos in tokens if pos in ['Noun', 'Adjective'] and word in pos_words)
+    # neg_count = sum(1 for word, pos in tokens if pos in ['Noun', 'Adjective'] and word in neg_words)
+
+    # 2025.02.12 점수 할당 방식 수정
+    neg_word_counts = pos_word_counts = None
+    neg_count = pos_count = 0
+    for word, pos in tokens:
+      if pos not in ['Noun', 'Adjective'] : continue
+      if word in neg_words and word in pos_words:
+        if neg_word_counts is None : neg_word_counts = Counter( neg_words )
+        if pos_word_counts is None: pos_word_counts = Counter(pos_words)
+        neg_count += neg_word_counts.get(word)
+        pos_count += pos_word_counts.get(word)
+      elif word in neg_words:
+        neg_count += 1
+      elif word in pos_words:
+        pos_count += 1
+    # for word, pos in tokens:
+
+    if neg_count > pos_count: return -1
     elif pos_count > neg_count: return 1
     else: return 0
 
