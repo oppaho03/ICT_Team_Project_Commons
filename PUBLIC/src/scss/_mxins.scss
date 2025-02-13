@@ -1,0 +1,64 @@
+@charset 'UTF-8';
+
+
+
+/// ------------------------------------------------------------
+/// Global @MIXIN 
+/// 
+/// READ MORE
+/// Update Version: 2.0.0  
+/// Update Date: 2025.01.
+/// ------------------------------------------------------------
+/// ------------------------------------------------------------
+/// @MIXIN :: Media Querys
+/// 
+/// * prefix : meq-*
+/// ------------------------------------------------------------
+
+/// IE를 지원하는 브라우저일 경우 코드 적용
+/// @access public
+@mixin meq-supports-ie {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { @content; }    
+}
+
+/// HOVER 가상 속성을 지원하는 브라우저일 경우 코드 적용
+/// @access public
+/// @param {number} $exec: 0, 1
+@mixin meq-hover($exec: 1) {
+  @media ( hover : hover ), (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @if $exec == 1 { &:hover { @content; } }
+    @else { @content; }
+  }
+}
+
+
+
+/// ------------------------------------------------------------
+/// @MIXIN :: Media Querys
+/// 
+/// * prefix : meq-*
+/// ------------------------------------------------------------
+
+/// 속성에 브라우저 접두사 설정 
+/// @access public
+/// @param {string} $property
+/// @param {*} $value
+/// @param { list | string |none } $prefixes [()]
+/// @example prefix(width, 100px, "ms" "o" "moz" "webkit" "")
+@mixin set-prefix( $property, $value, $prefixes: none ) {
+  @if ( $prefixes == none ) { 
+    $prefixes : ("ms" "o" "moz" "webkit" ""); 
+  }
+  @else if ( type-of($prefixes) == string ) {
+
+    @if ( to-lower-case($prefixes) == "webkit" ) { $prefixes : ( "webkit" "" ); }
+    @else { $prefixes: ( "" ); }
+    
+  } 
+
+  @each $pre in $prefixes {
+    @if $pre == "" { #{$property}: $value; }
+    @else { -#{$pre}-#{$property} : $value; }
+  } /// end @each
+
+}

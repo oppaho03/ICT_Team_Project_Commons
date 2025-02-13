@@ -1,0 +1,67 @@
+/// em, rem 단위 별 글자 기본 크기
+
+$base-em-size: 16px !default;
+$base-rem-size: 16px !default;
+
+//* -------------------------------------------------------------------------- */
+
+/// 단위 제거 유틸리티
+/// @param {number} $value 단위를 가진 숫자 값
+/// @return {number(unitless)} 단위를 제거한 숫자 값
+
+@function remove-unit($value) {
+  @return ($value / ($value * 0 + 1));
+}
+
+//* -------------------------------------------------------------------------- */
+// 단위 변경 유틸리티
+
+// px → em
+@function _px2em($px, $base: $base-em-size) {
+  @return (remove-unit($px / $base)) * 1em;
+}
+
+// em → px
+@function _em2px($em, $base: $base-em-size) {
+  @return (remove-unit($em * $base)) * 1px;
+}
+
+// px → rem
+@function _px2rem($px, $base: $base-rem-size) {
+  @return (remove-unit($px / $base)) * 1rem;
+}
+
+@function _rem2px($rem, $base: $base-rem-size) {
+  @return (remove-unit($rem * $base)) * 1px;
+}
+
+/// px → em 단위 변경 유틸리티
+/// @param {number} $px px 단위를 가진 숫자 값
+/// @param {number} $base [$base-em-size] 계산에 사용되는 기준 값(px)
+/// @returns {number} 계산된 em 단위 숫자 값
+
+@function em($px, $base: $base-em-size) {
+  @return _px2em($px, $base);
+}
+
+/// px → rem 단위 변경 유틸리티
+/// @param {number} $px px 단위를 가진 숫자 값
+/// @param {number} $base [$base-em-size] 계산에 사용되는 기준 값(px)
+/// @returns {number} 계산된 rem 단위 숫자 값
+
+@function rem($px, $base: $base-rem-size) {
+  @return _px2rem($px, $base);
+}
+
+//* ------------------------------------------------------------------
+
+// 단위 없는 값인 경우, px 값으로 반환
+@function unitless-px($value) {
+  @return if(unitless($value), if($value != 0, $value * 1px, $value), $value);
+}
+
+// 전달 받은 값이 숫자인 경우 unitless-px() 함수 결과 값 반환
+// 전달 받은 값이 문자인 경우, 문자 그대로 반환
+@function get-number-or-string($value) {
+  @return if(type-of($value) == 'number', unitless-px($value), $value);
+}

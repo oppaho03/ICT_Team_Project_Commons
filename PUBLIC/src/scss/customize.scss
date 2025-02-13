@@ -1,0 +1,40 @@
+@charset 'UTF-8';
+@use "sass:color"; 
+@use "sass:math";
+@use "sass:map";
+
+/// --------------------------------------------------------------
+/// # Front styles 
+/// --------------------------------------------------------------
+/// # .sass, *.scss compile command 
+/// - $sass -w --no-source-map -s compressed ./:../../dist/css/
+/// - sass -w --no-source-map -s compressed ./front.scss:../../dist/css/front.min.css
+/// --------------------------------------------------------------
+
+
+/// --------------------------------------------------------------
+/// * 라이브러리 (Library)
+/// --------------------------------------------------------------
+/// * + https://sass-lang.com/documentation/at-rules/mixin/
+/// --------------------------------------------------------------
+@import 'lib/scss-mixins-main/index'; 
+
+
+
+/// --------------------------------------------------------------
+/// * 전역 및 공통 변수 또는 함수 
+/// --------------------------------------------------------------
+@import './variables';
+@import './functions';
+@import './mxins';
+
+
+
+/// --------------------------------------------------------------
+/// * SCSS 템플릿 파트 (SCSS Template Parts)
+/// --------------------------------------------------------------
+@import './templates/commons';
+@import './templates/layout';
+@import './templates/head';
+@import './templates/foot';
+@import './templates/main';

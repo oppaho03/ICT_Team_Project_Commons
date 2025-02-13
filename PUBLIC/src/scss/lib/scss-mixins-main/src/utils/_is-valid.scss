@@ -1,0 +1,30 @@
+//* -------------------------------------------------------------------------- */
+// 타입 or 키워드 검사 유틸리티
+
+@function is-valid-types($data, $typelist) {
+  @each $valid-type in $typelist {
+    @if type-of($data) == $valid-type {
+      @return true;
+    }
+  }
+  @return false;
+}
+
+@function is-valid-keywords($data, $keywordslist) {
+  @each $valid-keyword in $keywordslist {
+    @if $data == $valid-keyword {
+      @return true;
+    }
+  }
+  @return false;
+}
+
+@function is-include-items($list, $comparelist) {
+  $result-list: ();
+
+  @each $item in $list {
+    $result-list: append($result-list, is-valid-keywords($item, $comparelist));
+  }
+
+  @return type-of(index($result-list, true)) == 'number';
+}

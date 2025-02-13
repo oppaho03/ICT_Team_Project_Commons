@@ -1,0 +1,174 @@
+@charset 'UTF-8';
+
+
+/// ------------------------------------------------------------
+/// READ MORE
+/// 
+/// Update Version: 2.0.0 
+/// @ Built-In Modules: https://sass-lang.com/documentation/modules
+/// 
+/// ------------------------------------------------------------
+
+/// ------------------------------------------------------------
+/// @FUNCTION DEFAULT
+/// ------------------------------------------------------------
+/// * if(조건식, 표현식1, 표현식2); sass 삼항 연산자
+/// 
+/// 문자 함수
+/// * quote(_STR_) : 문자에 따옴표를 추가
+/// * unquote(_STR_) : 문자에서 따옴표를 제거
+/// * str-insert(_STR_, $insert, $index) : 문자의 index번째에 특정 문자를 삽입
+/// * str-index(_STR_, $substring) : 문자에서 특정 문자의 첫 index를 반환
+/// * str-slice(_STR_, $start-at, [$end-at]) : 문자에서 특정 문자 추출
+/// * to-upper-case(_STR_) / to-lower-case(_STR_) : 문자를 대/소문자를 변환
+///
+/// 
+/// 숫자 함수
+/// * percentage($number) : 숫자(단위 무시)를 백분율로 변환
+///   ex. percentage(50px / 100px) // 50%
+/// * round($number) : 정수로 반올림
+/// * ceil($number) : 정수로 올림
+/// * floor($number) : 정수로 내림(버림)
+/// * abs($number) : 숫자의 절대 값을 반환
+/// * min($numbers…) : 숫자 중 최소 값
+/// * max($numbers…) : 숫자 중 최대 값
+/// * random() : 0 부터 1 사이의 난수를 반환
+/// 
+/// List 함수
+/// * length($list) : List의 개수를 반환
+/// * nth($list, $n) : List에서 n번째 값을 반환
+/// * set-nth($list, $n, $value) : List에서 n번째 값을 다른 값으로 변경
+/// * append(_LIST_, _VAL_)
+/// * join($list1, $list2, [$separator]) : 두 개의 List를 하나로 결합
+///   ex. join(10px 20px, 30px 40px)  // 10px 20px 30px 40px
+/// * zip($lists…) : 여러 List들을 하나의 다차원 List로 결합
+///   ex. zip(1px 1px 3px, solid dashed solid, red green blue) // 1px solid red, 1px dashed green, 3px solid blue
+/// * index($list, $value) : List에서 특정 값의 index를 반환
+/// 
+/// MAP 함수
+/// * map-get (_LIST_, _KEY_), get 
+/// * map-merge($map1, $map2) : 두 개의 Map을 병합하여 새로운 Map 생성
+/// * map-keys($map) : Map에서 모든 key를 List로 반환
+/// * map-values($map) : Map에서 모든 value를 List로 반환
+/// 
+/// 관리함수
+/// * variable-exists(name) : 변수가 현재 범위에 존재하는지 여부를 반환(인수는 $없이 변수의 이름만 사용)
+/// * unit($number) : 숫자의 단위를 반환
+/// * unitless($number) : 숫자에 단위가 있는지 여부를 반환
+/// * comparable($number1, $number2) : 두 개의 숫자가 연산 가능한지 여부를 반환
+/// * type-of(VALUE)
+/// ------------------------------------------------------------
+
+/// @access public
+/// @param {Value} $vw : view width
+@function width-vw ( $vw ) { 
+  @return calc( #{$vw} - (100vw - 100%) ); 
+}
+
+/// @access public
+/// @param {Value} $string : String
+/// @param {Value} $separator : separator (default: ,)
+@function str-split($string, $separator: ',') {
+  $split-list: ();
+  $index: str-index($string, $separator);
+
+  @while $index != null {
+    $item: str-slice($string, 1, $index - 1);
+    $split-list: append($split-list, $item);
+    $string: str-slice($string, $index + 1);
+    $index: str-index($string, $separator);
+  }
+
+  @return append($split-list, $string);
+}
+
+
+
+
+
+/// ------------------------------------------------------------
+/// @FUNCTION COLORS 
+/// ------------------------------------------------------------
+/// 
+/// LINK: https://sass-lang.com/documentation/modules/color
+/// 
+/// * hsl: hsl(_COLOR_RGB_) => RGB to HEX
+/// * hue: adjust-hue(_COLOR_HEX_, _DEG_ ) 
+/// * complement(_COLOR_HEX_)
+/// 
+/// * mix(_COLOR_1_, _COLOR_2_) : 두 개의 색을 섞음
+/// * lightness (밝기)
+///   - lighten(_COLOR_HEX_, _AMOUNT_(%)): 더 밝게
+///   - darken(_COLOR_RGB_, _AMOUNT_(%)): 더 어둡게
+/// * saturation (채도)
+///   - saturate(_COLOR_HEX_, _AMOUNT_(%)): 색상 채도 높게
+///   - desaturate(_COLOR_HEX_, _AMOUNT_(%)): 색상 채도 낮게
+/// * grayscale(_COLOR_HEX_) : 색상을 회색으로 변환
+/// * invert(_COLOR_HEX_) : 색상 반전
+/// * rgba(_COLOR_HEX_, _ALPHA_(%)) : 색상 투명도
+/// * opacify(_COLOR_HEX_, $amount) / fade-in(_COLOR_HEX_, $amount) : 색상 점점 불투명 
+/// * transparentize($color, $amount) / fade-out($color, $amount) : 색상 점점 투명
+/// ------------------------------------------------------------
+
+// @debug color-shade(#666666, 95%);
+// @debug color-shade(#666666, 80%);
+// @debug color-shade(#666666, 60%);
+// @debug color-shade(#666666, 40%);
+// @debug color-shade(#666666, 20%);
+// @debug '-----------------------';
+// @debug color-tint(#666666, 20%);
+// @debug color-tint(#666666, 40%);
+// @debug color-tint(#666666, 60%);
+// @debug color-tint(#666666, 80%);
+// @debug color-tint(#666666, 95%);
+
+
+/// @access public 
+/// @param {Color} $color: color value
+/// @param {Number} $percentage: 0~100
+@function color-tint( $color, $percentage ) { @return mix( white, $color, $percentage ); }
+
+/// @access public 
+/// @param {Color} $color: color value
+/// @param {Number} $percentage: 0~100
+@function color-shade( $color, $percentage ) { @return mix( black, $color, $percentage ); }
+
+/// @access public 
+/// @param {Color} $color: color value
+/// @param {Number} $percentage: 0~100
+@function color-lighten( $color, $percentage ) { @return lighten( $color, $percentage ); }
+
+/// @access public 
+/// @param {Color} $color: color value
+/// @param {Number} $percentage: 0~100
+@function color-darken( $color, $percentage ) { @return darken( $color, $percentage ); }
+
+
+
+
+
+/// ------------------------------------------------------------
+/// @FUNCTION (Customize)
+/// ------------------------------------------------------------
+
+/// @access public
+/// @param {String} $key : 디바이스 스크린 사이즈(breakpoint name)
+/// @requires $key
+/// @return ( min, max )
+/// -- ./_variables.scss :: $--breakpoints
+/// -- ./_mixins.scss :: mq-respond-to ($key)
+@function get-breakpoints($key) {
+  $key: to-lower-case($key);
+  @return map.get($--breakpoints, $key);
+}
+
+/// @access public
+/// @param {String} $key : 색 명칭 또는 이름
+/// @requires $key
+/// @return {String} 
+/// -- ./_variables.scss :: $--colors-palette
+/// -- ./_mixins.scss :: mq-respond-to ($key)
+@function get-color($key) {
+  $key: to-lower-case($key);
+  @return map.get($--colors-palette, $key);
+}

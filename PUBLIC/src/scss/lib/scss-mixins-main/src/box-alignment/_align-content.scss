@@ -1,0 +1,63 @@
+// 참고: https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
+
+@mixin align-content($value, $mode: grid) {
+  @if $value == 'start' {
+    align-content: if($mode == grid, start, flex-start);
+  }
+  @if $value == 'end' {
+    align-content: if($mode == grid, end, flex-end);
+  }
+  @if $value == 'center' {
+    align-content: center;
+  }
+  @if $value == 'left' {
+    align-content: left;
+  }
+  @if $value == 'right' {
+    align-content: right;
+  }
+
+  @if $value == 'normal' {
+    align-content: normal;
+  }
+
+  @if $value == 'baseline' {
+    align-content: baseline;
+  }
+  @if $value == 'first-baseline' {
+    align-content: first baseline;
+  }
+  @if $value == 'last-baseline' {
+    align-content: last baseline;
+  }
+
+  @if $value == 'between' {
+    align-content: space-between;
+  }
+  @if $value == 'around' {
+    align-content: space-around;
+  }
+  @if $value == 'evenly' {
+    align-content: space-evenly;
+  }
+  @if $value == 'stretch' {
+    align-content: stretch;
+  }
+
+  @if $value == 'safe' {
+    align-content: safe center;
+  }
+  @if $value == 'unsafe' {
+    align-content: unsafe center;
+  }
+
+  @if $value == 'inherit' {
+    align-content: inherit;
+  }
+  @if $value == 'initial' {
+    align-content: initial;
+  }
+  @if $value == 'unset' {
+    align-content: unset;
+  }
+}

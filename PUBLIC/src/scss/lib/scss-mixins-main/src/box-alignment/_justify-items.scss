@@ -1,0 +1,56 @@
+// 참고: https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items
+
+@mixin justify-items($value) {
+  @if $value == 'auto' {
+    justify-items: auto;
+  }
+  @if $value == 'normal' {
+    justify-items: normal;
+  }
+  @if $value == 'stretch' {
+    justify-items: stretch;
+  }
+
+  @if $value == 'start' {
+    justify-items: start;
+  }
+  @if $value == 'end' {
+    justify-items: end;
+  }
+  @if $value == 'center' {
+    justify-items: center;
+  }
+  @if $value == 'left' {
+    justify-items: left;
+  }
+  @if $value == 'right' {
+    justify-items: right;
+  }
+
+  @if $value == 'baseline' {
+    justify-items: baseline;
+  }
+  @if $value == 'first-baseline' {
+    justify-items: first baseline;
+  }
+  @if $value == 'last-baseline' {
+    justify-items: last baseline;
+  }
+
+  @if $value == 'safe' {
+    justify-items: safe center;
+  }
+  @if $value == 'unsafe' {
+    justify-items: unsafe center;
+  }
+
+  @if $value == 'inherit' {
+    justify-items: inherit;
+  }
+  @if $value == 'initial' {
+    justify-items: initial;
+  }
+  @if $value == 'unset' {
+    justify-items: unset;
+  }
+}

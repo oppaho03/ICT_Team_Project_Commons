@@ -1,0 +1,68 @@
+// @include flex-item(grow 1 shrink 0 basis 100% order last);
+// @include flex-item(g 1 s 0 b 100% o last self-end);
+// @include flex-item(self-start);
+
+@mixin flex-item($args) {
+  @if $args != null {
+    // align-self
+    @each $keyword
+      in self-auto
+      self-normal
+      self-start
+      self-end
+      self-center
+      self-stretch
+      self-baseline
+      self-first-baseline
+      self-last-baseline
+      self-safe
+      self-unsafe
+      self-inherit
+      self-initial
+      self-unset
+    {
+      $self-value-index: index($args, $keyword);
+      @if $self-value-index {
+        $self-value: nth($args, $self-value-index);
+        @include align-self(str-replace($self-value, 'self-'), flex);
+      }
+    }
+
+    @if is-include-items($args, auto initial none) {
+      @if index($args, auto) {
+        @include flex(auto);
+      }
+      @if index($args, initial) {
+        @include flex(initial);
+      }
+      @if index($args, none) {
+        @include flex(none);
+      }
+    }
+
+    @if is-include-items($args, grow g shrink s basis b) {
+      // flex-grow
+      $grow-value: get-match-value-of-keys($args, grow g);
+      // flex-shrink
+      $shrink-value: get-match-value-of-keys($args, shrink s);
+      // flex-basis
+      $basis-value: get-match-value-of-keys($args, basis b);
+
+      // flex
+      @include flex(
+        if($grow-value, $grow-value, 0) if($shrink-value, $shrink-value, 1)
+          if($basis-value, $basis-value, auto)
+      );
+    }
+
+    // order
+    $order-value: get-match-value-of-keys($args, order o);
+    @if $order-value {
+      @include order($order-value);
+    }
+  }
+}
+
+@mixin flex-i($args) {
+  @include flex-item($args);
+}

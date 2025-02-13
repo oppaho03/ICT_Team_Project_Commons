@@ -1,0 +1,15 @@
+@import '../index';
+
+//* -------------------------------------------------------------------------- */
+
+// @include initialize(true);
+
+@debug str-replace('fadsf', 'fa', '');
+
+.flex-container {
+  @include flex-container(row wrap justify-cener items-center);
+
+  .item {
+    @include flex-item(auto self-center);
+  }
+}

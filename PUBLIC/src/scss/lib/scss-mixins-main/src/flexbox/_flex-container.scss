@@ -1,0 +1,24 @@
+// Flex Container 요소에 설정 가능한 속성
+// 참고: https://developer.mozilla.org/ko/docs/Glossary/Flex_Container
+// - flex-direction
+// - flex-wrap
+// - justify-content
+// - align-items
+// - align-content
+
+@mixin flex-container($args, $mode: flex) {
+  display: if($mode == flex, flex, inline-flex);
+  @include flex-container-append($args);
+}
+
+@mixin flex-c($args, $mode: flex) {
+  @include flex-container($args, $mode);
+}
+
+@mixin inline-flex-container($args) {
+  @include flex-c($args, inline-flex);
+}
+
+@mixin inline-flex-c($args) {
+  @include inline-flex-container($args);
+}

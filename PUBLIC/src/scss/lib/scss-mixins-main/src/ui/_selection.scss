@@ -1,0 +1,19 @@
+@mixin selection($selector: null) {
+  @if $selector == null {
+    ::-moz-selection {
+      @content;
+    }
+    ::selection {
+      @content;
+    }
+  } @else {
+    @each $selector in str-split($selector, ',') {
+      #{$selector}::-moz-selection {
+        @content;
+      }
+      #{$selector}::selection {
+        @content;
+      }
+    }
+  }
+}

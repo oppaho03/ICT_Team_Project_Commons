@@ -1,0 +1,29 @@
+// CSS Font 속성
+// 참고: https://www.w3.org/TR/css-fonts-4/
+
+// font-style
+// font-weight
+// font-variant
+// font-family
+// font-size
+// font-size-adjust
+// font-stretch
+// font-kerning
+// line-height
+
+@mixin font($args) {
+  $props: style weight variant size size-adjust family stretch kerning
+    line-height lh;
+
+  @each $prop in $props {
+    $prop-index: index($args, $prop);
+    @if $prop-index {
+      $value: nth($args, $prop-index + 1);
+      @if $prop == 'line-height' or $prop == 'lh' {
+        line-height: $value;
+      } @else {
+        font-#{$prop}: $value;
+      }
+    }
+  }
+}
