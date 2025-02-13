@@ -18,78 +18,116 @@ $grid-breakpoints: (
 /// 
 
 $color-palette: (
+
+  "text": (
+    "title": #080A0C,
+    "body": #26292B,
+    "bodysub": #4E565F,
+    "caption": #9DA5AE,
+  ),     
+  "bg": (
+    "100": #FAFAFA,
+    "200": #F4F5F5,
+    "300": #E3E6E8,
+  ),
+  "br": (
+    "100": #F4F5F5,
+    "200": #D2D6DA,
+    "300": #6D767E,
+  ),
+  "black": (
+    "": #17191C,
+    "100": #17191C,
+    "200": #26292B,
+    "300": #343A40,
+    "400": #4E565F,
+    "500": #6D767E,
+    "600": #9DA5AE,
+    "700": #D2D6DA,
+    "800": #E3E6E8,
+    "900": #F4F5F5,
+  ),
+  "white": (
+    "": #FAFAFA,
+    "100": #FAFAFA,
+    "200": #F4F5F5,
+    "300": #E3E6E8,
+    "400": #D2D6DA,
+    "500": #9DA5AE,
+    "600": #6D767E,
+    "700": #4E565F,
+    "800": #343A40,
+    "900": #26292B,    
+  ),
   "primary": (
-    "": #D70010,
-    "1" : #FDD8CA, 
-    "2" : #FBAA96, 
-    "3" : #F37061, 
-    "4" : #E73C39, 
-    "5" : #D70010, 
-    "6" : #B8001E, 
-    "7" : #9A0027, 
-    "8" : #7C002B, 
-    "9" : #67002C
-  ), 
+    "": #26EE8E,
+    "normal" : #26EE8E, 
+    "hover" : #7AFBBD, 
+    "active" : #0FD878, 
+    "disabled" : #92F6C6, 
+    "subtitle" : #EEFFF6, 
+    "strong" : #088D4E,
+  ),
+  "secondary": (
+    "": #0F5EDD,
+    "normal" : #0F5EDD, 
+    "hover" : #1779F9, 
+    "active" : #144FB9, 
+    "disabled" : #87AEED, 
+    "subtitle" : #91D2FF, 
+    "strong" : #132B58,
+  ),
+  "tertiary": (
+    "": #08CAE3,
+    "normal" : #08CAE3, 
+    "hover" : #23D8ED, 
+    "active" : #0996B1, 
+    "disabled" : #83E4F1, 
+    "subtitle" : #CFFBFE, 
+    "strong" : #166174,
+  ),
   "success": (
-    "": #60BA1B,
-    "1" : #ECFBD0, 
-    "2" : #D6F8A3, 
-    "3" : #B3EA72, 
-    "4" : #8FD54C, 
-    "5" : #60BA1B, 
-    "6" : #489F13, 
-    "7" : #34850D, 
-    "8" : #236B08, 
-    "9" : #165905
-  ), 
-  "info": (
-    "": #0086CE,
-    "1" : #CAF7FC, 
-    "2" : #96EAFA, 
-    "3" : #60D0F0, 
-    "4" : #38B1E1, 
-    "5" : #0086CE, 
-    "6" : #0068B1, 
-    "7" : #004D94, 
-    "8" : #003777, 
-    "9" : #002762
-  ), 
+    "": #13D47A,
+    "normal" : #13D47A, 
+    "hover" : #3CEC99, 
+    "active" : #09B062, 
+    "disabled" : #89E9BC,
+  ),
+  "information": (
+    "": #325EFF,
+    "normal" : #325EFF, 
+    "hover" : #5B89FF, 
+    "active" : #1235FE, 
+    "disabled" : #98AEFF,
+  ),
   "warning": (
-    "": #DDB100,
-    "1" : #FDF7CA, 
-    "2" : #FBED96, 
-    "3" : #F4DD61, 
-    "4" : #EACB3A, 
-    "5" : #DDB100, 
-    "6" : #BE9400, 
-    "7" : #9F7800, 
-    "8" : #805E00, 
-    "9" : #6A4C00
-  ), 
+    "": #FF9910,
+    "normal" : #FF9910, 
+    "hover" : #FFB238, 
+    "active" : #F67D00, 
+    "disabled" : #FFCB87,
+  ),
   "danger": (
-    "": #DD3716,
-    "1" : #FDE5CF, 
-    "2" : #FBC4A0, 
-    "3" : #F49A70, 
-    "4" : #EA724C, 
-    "5" : #DD3716, 
-    "6" : #BE1F10, 
-    "7" : #9F0C0B, 
-    "8" : #80070E, 
-    "9" : #6A0412
-  )
+    "": #FF3912,
+    "normal" : #FF3912, 
+    "hover" : #FF836A, 
+    "active" : #ED3915, 
+    "disabled" : #FFA18F,
+  ),
+
 ) !default;
+
 /// Placeholder selectors 
-%font-color-primary {
+// %font-color-primary {
 
-  $colorset: map-get($color-palette, "primary" );
+//   $colorset: map-get($color-palette, "primary" );
 
-  & { 
-    color: map-get( $colorset, "5" ); 
-  } 
-  &--hover { 
-    color: map-get( $colorset, "5" ); 
-    &:hover { color: map-get( $colorset, "7" ); ; } 
-  }
+//   & { 
+//     color: map-get( $colorset, "5" ); 
+//   } 
+//   &--hover { 
+//     color: map-get( $colorset, "5" ); 
+//     &:hover { color: map-get( $colorset, "7" ); ; } 
+//   }
   
-}
+// }
