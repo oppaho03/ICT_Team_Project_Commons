@@ -9,3 +9,28 @@
 #wrapper {
   background-color: #eee;
 }
+
+.app {
+
+    // /// mobile
+    // @include media( "<#{ map-get($grid-breakpoints, 'sm' ) }" ) {
+    //   font-size: 14px;
+    // }
+
+
+  &-main {
+
+    &-wrapper {
+
+      $lg : map-get( $grid-breakpoints, 'lg' );
+      $xl : map-get( $grid-breakpoints, 'xl' );
+
+      @include media( ">=#{$lg}", "<#{$xl}" ) {
+        background-color: #f00;
+        padding-left: 25vw;
+      }
+      
+    } // &-wrapper
+
+  }
+}
