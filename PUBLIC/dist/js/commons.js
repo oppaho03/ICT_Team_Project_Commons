@@ -34,6 +34,37 @@ function isset ( value ) {
 }
 
 /**
+ * URL 쿼리 파싱 (Parsing URL query string)
+ * @param {string} search_key 
+ * @param {null|string} url 
+ * @return { SVGStringList }
+ */
+function getURIQuery (search_key, url) {
+	// get current url
+	if ( !url || typeof url === undefined ) url = document.location.href;
+	
+	// remove to '#(sharp)'
+	if ( url.indexOf('#') !== -1 ) url = url.slice(0, url.indexOf('#'));
+	var querys = (url.slice(url.indexOf("?") + 1, url.length)).split('&');
+
+	var result; // find result value
+
+	for ( var i in querys ) {
+		var [key, value] =  querys[i].split('=');
+		if ( typeof value == 'undefined' ) value = '';
+
+		if ( key == search_key ) {
+			result = value; // set result value
+			break;
+		}
+	}
+
+	return result ? result : '';
+}
+
+
+
+/**
  * Fetch [ GET / JSON ]
  * @param { string } url 
  * @param { Object } params
@@ -96,6 +127,17 @@ async function fetchGetJSONAsync( url, params, cb_success = null, cb_error = nul
 /*--------------------------------------------------------------
  * DOM Control Functions
 --------------------------------------------------------------*/
+
+// 스크립트 추가 (add script)
+/**
+ * Dom 에 <script> 추가하기
+ * @param {string} url 
+ */
+function addScript (url) {
+	var script = document.createElement('script');
+	script.src = url;
+	document.body.appendChild(script);
+}
 
 /**
  * 스크린(윈도우) 가로 반환 
