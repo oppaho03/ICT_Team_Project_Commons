@@ -124,6 +124,44 @@ async function fetchGetJSONAsync( url, params, cb_success = null, cb_error = nul
 
 // getData();
 
+
+
+/*--------------------------------------------------------------
+ * 'String' Functions 
+--------------------------------------------------------------*/
+
+/**
+ * 문자열을 글자 단위로 자르고 <span /> 테그에 넣는 함수
+ * @param {string} value - 파싱 대상 문자열
+ * @return {string} 
+ */
+function toSpannedLine ( value ) {
+
+  var value = value.replace(/<(?!br\s*\/?)[^>]+>/gi, ''); // 모든 HTML 태그 제거, <br> 제외
+  if ( ! value || value.trim() != '' ) return ''
+
+  var lines = value.split( /<br\s*\/?>/i );  // <br> 기준으로 텍스트 분리
+  var wrappedLines = lines.map( function( line ) {
+    
+    var count = -1;
+    
+    return Array.from( line ).map( function( char ) {
+
+      count ++; 
+      char = char.replace(/(\r\n|\n|\r)/g, '<br/>'); // <br/>
+      
+      if ( char == "<br/>" ) return char;
+      else return `<span class='ch' data-index="${count}">${char}</span>` 
+
+    } ).join('');
+
+  } );
+
+  return wrappedLines.join('<br>'); // <br>을 추가하여 원래 형식으로 반환
+}
+
+
+
 /*--------------------------------------------------------------
  * DOM Control Functions
 --------------------------------------------------------------*/
@@ -179,37 +217,52 @@ function getOffset( elem ) {
   return { top: top, left: left };
 }
 
-/*--------------------------------------------------------------
- * 'String' Functions 
---------------------------------------------------------------*/
 
 /**
- * 문자열을 글자 단위로 자르고 <span /> 테그에 넣는 함수
- * @param {string} value - 파싱 대상 문자열
- * @return {string} 
+ * 엘리멘트 이벤트 바인드 설정
+ * @param { HTMLElement } elem 
+ * @param { string | object } name 
+ * @param { function } handler 
+ * @param { object } options 
+ * @returns 
  */
-function toSpannedLine ( value ) {
+function setEventListener (elem, name, handler, options) {
+  /*
+    'options'
+    - useCapture: boolean, 이벤트 캡처링을 여부 (기본값 false)
+    - once : boolean, 단일 호출 (기본값 false)
+    - passive : boolean, true 시 preventDefault()를 호출하지 않을 것을 알림 -> 스크롤 성능을 향상
+  */
+	if ( !elem ) return;
+	if ( !options ) options = null;
 
-  var value = value.replace(/<(?!br\s*\/?)[^>]+>/gi, ''); // 모든 HTML 태그 제거, <br> 제외
-  if ( ! value || value.trim() != '' ) return ''
+	if ( elem instanceof NodeList ) {
+		Array.prototype.slice.call(elem).forEach(function(item){ return setEventListener(item, name, handler, options); });
+		return;
+	}
 
-  var lines = value.split( /<br\s*\/?>/i );  // <br> 기준으로 텍스트 분리
-  var wrappedLines = lines.map( function( line ) {
-    
-    var count = -1;
-    
-    return Array.from( line ).map( function( char ) {
-
-      count ++; 
-      char = char.replace(/(\r\n|\n|\r)/g, '<br/>'); // <br/>
-      
-      if ( char == "<br/>" ) return char;
-      else return `<span class='ch' data-index="${count}">${char}</span>` 
-
-    } ).join('');
-
-  } );
-
-  return wrappedLines.join('<br>'); // <br>을 추가하여 원래 형식으로 반환
+	// window.attachEvent ? window.attachEvent("onload", handler) : window.addEventListener("load", handler, { once : true });
+	elem.attachEvent
+	? elem.attachEvent(typeof name == "string" ? name : name[0], handler)
+	: elem.addEventListener(typeof name == "string" ? name : name[1], handler, options);
 }
 
+/**
+ * 엘리멘트 이벤트 바인드 취소
+ * @param { HTMLElement } elem 
+ * @param { string | object } name 
+ * @param { function } handler 
+ * @returns 
+ */
+function resetEventListener (elem, name, handler) {
+	if ( !elem ) return;
+
+	if ( elem instanceof NodeList ) {
+		Array.prototype.slice.call(elem).forEach(function(item){ return resetEventListener(item, name, handler); });
+		return;
+	}
+
+	elem.detachEvent
+	? elem.detachEvent(typeof name == "string" ? name : name[0], handler)
+	: elem.removeEventListener(typeof name == "string" ? name : name[1], handler);
+}

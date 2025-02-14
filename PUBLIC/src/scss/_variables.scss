@@ -3,6 +3,10 @@
 /// --------------------------------------------------------------
 /// # brakpoints
 /// --------------------------------------------------------------
+/// - Mobile : xs, sm, md 
+/// - Laptop : lg 
+/// - Desktop: xxl, xxl
+/// --------------------------------------------------------------
 $grid-breakpoints: (
   xs: 0,    // 기본값 (모바일)
   sm: 576px,
@@ -93,21 +97,21 @@ $color-palette: (
     "active" : #09B062, 
     "disabled" : #89E9BC,
   ),
-  "information": (
+  "info": (
     "": #325EFF,
     "normal" : #325EFF, 
     "hover" : #5B89FF, 
     "active" : #1235FE, 
     "disabled" : #98AEFF,
   ),
-  "warning": (
+  "warn": (
     "": #FF9910,
     "normal" : #FF9910, 
     "hover" : #FFB238, 
     "active" : #F67D00, 
     "disabled" : #FFCB87,
   ),
-  "danger": (
+  "error": (
     "": #FF3912,
     "normal" : #FF3912, 
     "hover" : #FF836A, 

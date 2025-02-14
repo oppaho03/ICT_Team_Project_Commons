@@ -5,3 +5,75 @@
 /// --------------------------------------------------------------
 /// - 
 /// --------------------------------------------------------------
+
+.app-header {
+
+  &-wrapper {
+
+  }
+
+  
+
+//   &-outer { }
+
+  
+//   // &-outer ::
+//   &-wrapper {
+//     box-sizing: border-box;
+//   }
+
+//   // & :: 
+//   #header-main {
+    
+//     // bootstrap : flex 
+//     width : 100%; 
+
+//     .app-branding {
+//       &-headline {
+//         a.has-logo-image img.logo-image ~ span { 
+//           position: absolute; 
+//           visibility: hidden; 
+//         }
+//       }
+//     }
+
+    
+
+
+  
+}
+
+#apphead {
+
+  @include position( fixed, t 0  l 0 z 1000 );
+ 
+  padding: 1em 0;
+  width: 100%;
+  background-color: #ddd;
+
+  
+  
+  .app {
+
+    &-branding {
+      
+      &-headline {
+
+        a.has-logo-image img {
+          display: block;
+          width: auto;
+          height: 50px;
+        }
+
+        a.has-logo-image img ~ span {  
+          @include position( absolute, l 0 t 0 );
+          visibility: hidden;
+        }
+
+      }
+
+    } // &-branding
+
+  }
+
+}

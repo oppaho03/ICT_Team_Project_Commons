@@ -10,27 +10,66 @@
   background-color: #eee;
 }
 
-.app {
+.lyt {
 
-    // /// mobile
-    // @include media( "<#{ map-get($grid-breakpoints, 'sm' ) }" ) {
-    //   font-size: 14px;
-    // }
+  &-root {
+    // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+    @include grid-c( 1, 2, 0, f row-dense, justify-items-start items-stretch, "drawable content" );
 
+    grid-template-columns: auto 1fr; // reset
 
-  &-main {
-
-    &-wrapper {
-
-      $lg : map-get( $grid-breakpoints, 'lg' );
-      $xl : map-get( $grid-breakpoints, 'xl' );
-
-      @include media( ">=#{$lg}", "<#{$xl}" ) {
-        background-color: #f00;
-        padding-left: 25vw;
-      }
+    width: 100%;
+    min-height: 100vh;
+   
+    & &-item {
       
-    } // &-wrapper
+      &:first-child {
+        // grid-item($area:[string, list], $align:list)
+        @include grid-item( $area: drawable );
 
-  }
+        width: 290px;
+        
+      }
+      &:last-child {
+        // grid-item($area:[string, list], $align:list)
+        @include grid-item( $area: content );
+        
+        width: 100%;
+      }
+    }
+
+  } // .lyt-root
+
+}
+
+
+
+/// --------------------------------------------------------------
+/// # 홈(Home) 
+/// --------------------------------------------------------------
+
+
+body:is(.home) {
+
+  // position: relative;
+  // height: 100%;
+  // background-color: #00f;
+
+  // #wrapper {
+    
+  //   background-color: #ff0;
+  //   @include flex-container( column nowrap );
+    
+  //   .app-footer-wrapper {
+  //     @include flex-item( g 1 s 1 b 100% );
+     
+  //   }
+  //   // .app-footer-wrapper { 
+  //   //   @include flex-item( g 0 s 0 b auto );
+  //   // }
+  //   // & > .app-main-wrapper {
+  //   //   @include flex-item( g 1 s 1 b 100% );
+  //   // }
+  // }
+
 }
