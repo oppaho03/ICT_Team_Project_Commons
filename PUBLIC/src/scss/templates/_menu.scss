@@ -34,6 +34,15 @@
     
     position: relative;
     height: 100%;
+    
+    &::after {
+      content:'';
+      @include position ( absolute, t 0 r 0 z 100 );
+      background-color: var(--app-color-br-300);
+      width: 1px; 
+      height: 100%;
+      // background-blend-mode: color-burn;
+    }
   } // &-wrapper
 
   &#drawable-menu {
@@ -42,8 +51,21 @@
 
     width: 100%;
     height: 100%;
+    background-color: var(--app-color-bg-100);
 
-    background-color: #eee;
+    /// @ 미디어 쿼리 
+    $bg : $grid-breakpoints;
+    $bg_lg: map-get( $bg, 'lg' );
+    @include media( "<#{$bg_lg}" ) { // : 모바일 
+
+      & { padding-top: 76px; }
+
+    }
+    @include media( ">=#{$bg_lg}" ) { // : PC
+
+      & { padding-top: 78px; }
+
+    }
   } // &
 
 }

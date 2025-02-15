@@ -9,9 +9,7 @@
 
 #apphead {
 
-  
-
-  padding: 20px 0;
+  padding: 14px 0;
   @include position( fixed, t 0  l 0 z 1000 );
   width: 100%;
   background-color: transparent;
@@ -23,6 +21,42 @@
     a.brand > .logo-img ~ * { visibility: hidden; }
     // a.brand > .logo-img { height: 30px; }
   } // .app-branding
+
+  #app-global-menu {
+    .user-profile {
+      $_prefix: user-profile;
+      // .#{$_prefix}__photo { }
+      .#{$_prefix}__photo-img { width: 48px; height: 48px; }
+      // &__contents {}
+    } // .user-profile
+  } // #app-global-menu
+
+  /// @ 미디어 쿼리 
+  $bg : $grid-breakpoints;
+  $bg_lg: map-get( $bg, 'lg' );
+  @include media( "<#{$bg_lg}" ) { // : 모바일 
+    .app-branding {
+      a.brand > .logo-img { height: 42px; }
+    } // .app-branding
+
+    #app-global-menu {
+      .user-profile {
+        $_prefix: user-profile;
+        .#{$_prefix}__photo-img { width: 38px; height: 38px; }
+        &__contents { display: none; }
+      } // .user-profile
+    } // #app-global-menu
+
+  }
+  // @include media( ">=#{$bg_lg}" ) { // : PC
+
+  //   #app-global-menu {
+
+      
+
+  //   } // #app-global-menu
+
+  // }
 
 }
 

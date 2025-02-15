@@ -33,7 +33,7 @@
 
       <!-- 레이아웃 아이템 : 컨텐츠  -->
       <div class="lyt-grid-item" role="section" >
-        <div class="wrap">
+        <div class="wrap d-flex flex-column" style="min-height: 100%;">
           
           <div class="app-header-wrap">
             <div class="app-header-outer"> 
@@ -72,16 +72,19 @@
                       <nav class="app-header-menu" id="app-global-menu">
                         
                         <ul class="menu menu-list list-unstyled d-flex justify-content-start align-items-center mb-0"> 
-                          <li class="menu-item menu-item-type-icon me-2">I01</li>
-                          <li class="menu-item menu-item-type-icon me-2">I02</li>
-                          <li class="menu-item menu-item-type-icon me-4">
+                          <li class="menu-item menu-item-type-icon me-2">
                             <a class="link link-icon" title="ICON MENU 01" rel> 
+                              <img class="link-icon-img" width="24" height="24" src="./assets/resources/icons/others/data.svg" alt="..." decoding="async" />
+                            </a>
+                          </li>
+                          <li class="menu-item menu-item-type-icon me-4">
+                            <a class="link link-icon" title="ICON MENU 02" rel> 
                               <img class="link-icon-img" width="24" height="24" src="./assets/resources/icons/others/bell.svg" alt="..." decoding="async" />
                             </a>
                           </li>
                           <li class="menu-item menu-item-type-mixins">
                             <dl class="dl dl-type-user-profile user-profile d-flex align-items-center mb-0">
-                              <dt class="user-profile__photo me-2"> <img class="logo-image" width="48" height="48" src="./assets/resources/_ex/profile.png" alt="USER01" decoding="async" /> </dt>
+                              <dt class="user-profile__photo me-2"> <img class="user-profile__photo-img" width="48" height="48" src="./assets/resources/_ex/profile.png" alt="USER01" decoding="async" /> </dt>
                               <dt class="user-profile__contents"> <label class="" aria-label="USER001">USER001</label> </dt>
                             </dl> <!-- .user-profile -->
                           </li>
@@ -97,12 +100,42 @@
             </div> <!-- .app-header-outer -->
           </div> <!-- .app-header-wrap -->
 
-          <div class="app-content-wrap">
-            CONTENT
+          <div class="app-content-wrap flex-grow-1 flex-shrink-1" >
+
+            <main class="app-content" id="content" role="main">
+              
+              <section class="section" style="background-color: #eee;">
+                
+                <div class="form-wrap">
+                  <br><br><br><br><br><br><br><br>
+                  <form class="" id="" method="POST" action>
+
+                    <div class="search-box">
+                      <button class="btn-search"><i class="fas fa-search"></i></button>
+                      <input type="text" class="form-control" id="inputPassword" placeholder="search ...">
+                    </div>
+                   
+
+                  </form>
+                </div>
+
+              </section>
+
+              <section class="section">SECTION 2</section>
+
+            </main> <!-- #content -->
+
           </div> <!-- .app-content-wrap -->
 
           <div class="app-footer-wrap">
-            FOOTER
+            <div class="app-footer-outer">
+              <div class="app-footer-inner">
+                <footer class="app-header" id="appfoot" role="contentinfo"> 
+                  FOOTER
+                </footer>
+              </div> <!-- .app-footer-inner -->
+            </div> <!-- .app-footer-outer -->
+
           </div> <!-- .app-footer-wrap -->
 
         </div> <!-- wrap -->
