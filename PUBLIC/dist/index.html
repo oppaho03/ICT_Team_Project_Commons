@@ -27,94 +27,97 @@
 
 </head>
 <body class="app home page">
-  <div id="wrapper">
+  <div id="wrapper" style="position: relative;">
 
-    <div class="lyt lyt-root">
-      <div class="lyt lyt-root-item">
-        <div class="app-drawable-menu-wrapper">
+    <div class="lyt-grid root" > 
 
-          <!-- -->
-
-          <aside class="app-drawable-menu" id="app-drawable-menu" >
-            <div class="container-fluid"> 
-              
-              DRAWABLE MENU
-
-            </div>
-          </aside> <!-- #app-drawable-menu -->
-
-        </div> <!-- .app-drawable-menu-wrapper -->
-      </div>
-      <div class="lyt lyt-root-item d-flex flex-column">
-        <div class="app-header-wrapper">
+      <!-- 레이아웃 아이템 : 컨텐츠  -->
+      <div class="lyt-grid-item" role="section" >
+        <div class="wrap">
           
-          <div class="app-header-inner">
+          <div class="app-header-wrap">
+            <div class="app-header-outer"> 
 
-            <header class="app-header" id="apphead" role="banner"> 
-              <div class="container-fluid d-flex align-items-center"> 
+              <header class="app-header" id="apphead" role="banner">
+                <div class="d-flex align-items-center">
+                  <div class="app-header-inner flex-grow-0 flex-shrink-0">
 
-                <div class="app-drawable-menu-toggles d-flex align-items-center">
-                  
-                  <!-- cehcked disabled -->
-                  <div class="form-check form-switch drawable-menu">
-                    <input class="form-check-input" type="checkbox" role="switch" id="drawable-menu-switch" checked> 
-                    <label class="form-check-label" for=""></label>
-                  </div> 
+                    <!-- <div class="container-fluid"> -->
 
-                  <!-- aria-controls="site-navigation" aria-expanded="false" -->
+                    <!-- 서랍 메뉴(Drawable Menu) 토글 버튼 -->
+                    <div class="app-header-drawable-menu-toggle">
+                      <!-- 햄버거 메뉴 (Hamburger menu) -->
+                      <button class="menu-toggle menu-toggle-hb" aria-label="서랍 메뉴" id="drawable-menu-toggle" aria-controls="drawable-menu">
+                        <svg width="100" height="100" viewBox="0 0 100 100" tabindex="-1" >
+                          <path class="line line-1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                          <path class="line line-2" d="M 20,50 H 80" />
+                          <path class="line line-3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                        </svg>
+                      </button>
+                    </div> <!-- .app-drawable-menu-toggle -->
 
-                  <button class="menu-toggle menu-toggle-hb" aria-label="Primary Menu" id="drawable-menu-toggle">
-                    <svg width="100" height="100" viewBox="0 0 100 100" tabindex="-1">
-                      <path class="line line-1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-                      <path class="line line-2" d="M 20,50 H 80" />
-                      <path class="line line-3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
-                    </svg>
-                  </button>
+                    <!-- </div> -->
+                    
+                  </div> <div class="app-header-inner flex-grow-1 flex-shrink-1 d-flex">
+                    <div class="container-fluid d-flex justify-content-between align-items-center">
+                      
+                      <!-- 브랜딩 메뉴 : 로고 (LOGO) -->
+                      <div class="app-branding">
+                        <h1 class="app-branding-headline mb-0" title="VITA" aria-label="VITA" itemprop="headline">
+                          <a class="brand has-logo-img" href="#"> <img class="logo-img" width="auto" height="50" src="./assets/resources/logo_outline.svg" alt="VITA" decoding="async" /> <span>VITA</span> </a>
+                        </h1>
+                      </div> <!-- .app-branding -->
 
+                      <!-- 전역 메뉴 (global menu, primary) -->
+                      <nav class="app-header-menu" id="app-global-menu">
+                        
+                        <ul class="menu menu-list list-unstyled d-flex justify-content-start align-items-center mb-0"> 
+                          <li class="menu-item menu-item-type-icon me-2">I01</li>
+                          <li class="menu-item menu-item-type-icon me-2">I02</li>
+                          <li class="menu-item menu-item-type-icon me-4">
+                            <a class="link link-icon" title="ICON MENU 01" rel> 
+                              <img class="link-icon-img" width="24" height="24" src="./assets/resources/icons/others/bell.svg" alt="..." decoding="async" />
+                            </a>
+                          </li>
+                          <li class="menu-item menu-item-type-mixins">
+                            <dl class="dl dl-type-user-profile user-profile d-flex align-items-center mb-0">
+                              <dt class="user-profile__photo me-2"> <img class="logo-image" width="48" height="48" src="./assets/resources/_ex/profile.png" alt="USER01" decoding="async" /> </dt>
+                              <dt class="user-profile__contents"> <label class="" aria-label="USER001">USER001</label> </dt>
+                            </dl> <!-- .user-profile -->
+                          </li>
+                        </ul>
 
+                      </nav> <!-- # app-global-menu -->
 
-                  <!-- <button class="menu" onclick="this.classList.toggle('opened');this.setAttribute('aria-expanded', this.classList.contains('opened'))" aria-label="Main Menu">
-                    <svg width="100" height="100" viewBox="0 0 100 100">
-                      <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-                      <path class="line line2" d="M 20,50 H 80" />
-                      <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
-                    </svg>
-                  </button> -->
+                    </div>
+                  </div>
+                </div>
+              </header> <!-- #apphead -->
 
+            </div> <!-- .app-header-outer -->
+          </div> <!-- .app-header-wrap -->
 
-                </div> <!-- app-drawable-menu-toggle -->
+          <div class="app-content-wrap">
+            CONTENT
+          </div> <!-- .app-content-wrap -->
 
-                <div class="app-branding">
-                  
-                  <h1 class="app-branding-headline mb-0" title="VITA" aria-label="VITA" itemprop="headline">
+          <div class="app-footer-wrap">
+            FOOTER
+          </div> <!-- .app-footer-wrap -->
 
-                    <a class="brand has-logo-image" href="#">
-                      <img class="logo-image" width="24" height="24" src="./assets/resources/logo_outline.svg" alt="VITA" decoding="async" />
-                      <span>VITA</span>
-                    </a>
+        </div> <!-- wrap -->
+      </div> <!-- .lyt-grid-item -->
 
-                  </h1>
+      <!-- # 레이아웃 아이템 : 사이드 ( 서랍메뉴 ) -->
+      <div class="lyt-grid-item" role="section">
+        
+        <div class="app-drawable-menu-wrap">
+          <aside class="app-drawable-menu" id="drawable-menu">DRAWABLE</aside>
+        </div> <!-- app-drawable-menu-wrap -->
 
-                </div> <!-- .app-branding -->
+      </div> <!-- .lyt-grid-item -->
 
-                <nav class="app-primary" id="primary">
-                  PRIMARY NAV
-                </nav> <!-- .app-primary -->
-
-              </div>
-            </header> <!-- .app-header -->
-          </div> <!-- .app-header-inner -->
-
-        </div> <!-- .app-header-wrapper -->
-        <div class="app-main-wrapper">
-          MAIN 
-         <div style="height:200vh;background-color:#f00;" ></div> 
-        </div> <!-- .app-main-wrapper -->
-        <div class="app-footer-wrapper">
-          FOOTER
-        </div> <!-- .app-footer-wrapper -->
-      </div>
-    </div> <!-- .lyt-root -->
+    </div> <!-- .lyt-grid -->
 
   </div> <!-- #wrapper -->
 </body>

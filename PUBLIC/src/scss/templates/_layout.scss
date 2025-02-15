@@ -3,73 +3,254 @@
 /// --------------------------------------------------------------
 /// # 레이아웃 (Layout) 
 /// --------------------------------------------------------------
-/// - 
+/// - .lyt
 /// --------------------------------------------------------------
 
 #wrapper {
-  background-color: #eee;
+  background-image: URL("../assets/resources/index.webp");
+  background-position: center;
+  background-size: cover;
 }
 
-.lyt {
 
-  &-root {
-    // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
-    @include grid-c( 1, 2, 0, f row-dense, justify-items-start items-stretch, "drawable content" );
+/* 'root' 레이아웃
+*/
+.lyt-grid:is(.root) {
 
-    grid-template-columns: auto 1fr; // reset
+  width: 100%; 
+  min-height: 100vh;
+  
 
-    width: 100%;
-    min-height: 100vh;
-   
-    & &-item {
-      
-      &:first-child {
-        // grid-item($area:[string, list], $align:list)
-        @include grid-item( $area: drawable );
+  /// @ 미디어 쿼리 
+  $bg : $grid-breakpoints;
+  $bg_lg: map-get( $bg, 'lg' );
+  @include media( "<#{$bg_lg}" ) { // : 모바일 
+    // & {}
 
-        width: 290px;
-        
-      }
-      &:last-child {
-        // grid-item($area:[string, list], $align:list)
-        @include grid-item( $area: content );
-        
-        width: 100%;
+    // & > .lyt-grid-item {
+    //   // 레이아웃 아이템 : 컨텐츠 
+    //   &:nth-child(1) { }
+
+    //    // 레이아웃 아이템 : 사이드 ( 서랍메뉴 )
+    //   &:nth-child(2) { }
+    // }
+
+    // 서랍 메뉴 활성화 처리 (.expanded-menu-drawable)
+    $size: ( 'min': 0px, 'max': 320px ); 
+    $min: map-get($map: $size, $key: "min");
+    $max: map-get($map: $size, $key: "max");
+    #drawable-menu {
+      @include position( fixed, t 0 l 0 z 999 );
+      width: 100%;
+      height: 100%;
+      max-width: $max;
+
+      @include set-prefix( transform, translateX( calc($max * -1) ), 'webkit' '' );
+
+      will-change: transform;
+      @include set-prefix ( transition, transform 0.6s ease(inout-circ), 'webkit' '' );
+
+    }
+
+    @at-root body:is( .expanded-menu-drawable ) {
+      .lyt-grid:is(.root) {
+        #drawable-menu{ @include set-prefix( transform, translateX( 0 ), 'webkit' '' ); }  
       }
     }
 
-  } // .lyt-root
+  }
+  @include media( ">=#{$bg_lg}" ) { // : PC
+
+    & { // .lyt-grid:is(.root) 
+      // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+      @include grid-c( 1, 2, 0, f row-dense, justify-items-start items-stretch self-stretch, "drawable content" );
+      grid-template-columns: auto 1fr; 
+    } // & 
+
+    & > .lyt-grid-item {
+      
+      // 레이아웃 아이템 : 컨텐츠 
+      &:nth-child(1) { 
+        @include grid-item( $area: content ); 
+        width: 100%; 
+      }
+
+       // 레이아웃 아이템 : 사이드 ( 서랍메뉴 )
+      &:nth-child(2) { 
+        @include grid-item( $area: drawable ); 
+      }
+
+    } // .lyt-grid-item  
+
+    // 서랍 메뉴 활성화 처리 (.expanded-menu-drawable)
+    $size: ( 'min': 48px, 'max': 320px ); 
+    $min: map-get($map: $size, $key: "min");
+    $max: map-get($map: $size, $key: "max");
+
+    #drawable-menu,
+    #drawable-menu-toggle {
+      will-change: margin; 
+      @include set-prefix ( transition, margin 0.6s ease(inout-circ), 'webkit' '' );
+    }
+
+    #drawable-menu { 
+      margin-left: calc( ($max - $min) * -1 );
+      width: $max; 
+    } 
+
+    #drawable-menu-toggle { margin-right: 0; }
+
+
+    @at-root body:is( .expanded-menu-drawable ) {
+      .lyt-grid:is(.root) {
+        #drawable-menu{ margin-left: 0; }  
+        #apphead #drawable-menu-toggle { margin-right: calc( $max - $min ); }
+      }
+    }
+
+  }
 
 }
 
 
 
-/// --------------------------------------------------------------
-/// # 홈(Home) 
-/// --------------------------------------------------------------
+///////////////////
 
 
-body:is(.home) {
 
-  // position: relative;
-  // height: 100%;
-  // background-color: #00f;
 
-  // #wrapper {
+// .lyt {
+
+//   &-root {
     
-  //   background-color: #ff0;
-  //   @include flex-container( column nowrap );
-    
-  //   .app-footer-wrapper {
-  //     @include flex-item( g 1 s 1 b 100% );
-     
-  //   }
-  //   // .app-footer-wrapper { 
-  //   //   @include flex-item( g 0 s 0 b auto );
-  //   // }
-  //   // & > .app-main-wrapper {
-  //   //   @include flex-item( g 1 s 1 b 100% );
-  //   // }
-  // }
+//     width: 100%;
+//     // min-height: 100vh;
+   
+//     // @ MEDIA QUERY
+//     $_bp-lg: map-get( $grid-breakpoints, 'lg' );
+//     @include media( "<#{$_bp-lg}" ) { // @ MOBILE 
 
-}
+//       // 그리드 레이아웃
+//       // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+//       @include grid-c( 1, 1, 0, f row-dense, justify-items-start items-stretch);
+
+//       grid-template-columns: 1fr; // reset
+//       min-height: 100vh;
+
+//       & &-item {
+
+//         // grid-item($area:[string, list], $align:list)
+//         &:first-child { 
+//           @include position( absolute, t 0 l 0 z 1 );
+//         }
+//         &:last-child { width: 100%; }
+
+//         /* 서랍 메뉴 활성화 토글 (body.extend-drawable-menu) */
+//         &{
+
+//           $_size : ( 'min': 80px, 'max': 320px ); 
+//           $_min: map-get($map: $_size, $key: "min");
+//           $_max: map-get($map: $_size, $key: "max");
+
+//           // 서랍 메뉴
+//           .app-drawable {
+//             &-menu#drawable-menu{
+
+//               @include position( fixed, t 0 l 0 z 100 );
+//               background-color: #ddd;
+
+//               will-change: left;
+//               @include set-prefix ( transition, left 0.6s ease(inout-circ), 'webkit' '' );
+  
+//               width: $_max;
+//             }
+
+//           } // .app-drawable-*
+
+//           @at-root body:not( .extend-drawable-menu ) {
+            
+//             .app-drawable {
+//               &-menu#drawable-menu{ left:calc($_max * -1) !important; }  
+
+//             } // .app-drawable-*
+//           }
+//         } // * 서랍 메뉴 활성화 토글 (body.extend-drawable-menu)
+
+//       } // & &-item
+      
+//     } // : MOBILE
+//     @include media( ">=#{$_bp-lg}" ) { // : PC
+//       // 그리드 레이아웃
+//       // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+//       @include grid-c( 1, 2, 0, f row-dense, justify-items-start items-stretch, "drawable content" );
+
+//       grid-template-columns: auto 1fr; // reset
+//       min-height: 100vh;
+
+//       & &-item {
+
+//         // grid-item($area:[string, list], $align:list)
+//         &:first-child { 
+//           @include grid-item( $area: drawable ); 
+//         }
+//         &:last-child { 
+//           @include grid-item( $area: content );  
+//           width: 100%;
+//         }
+
+//       } // & &-item
+
+//       /* 서랍 메뉴 활성화 토글 (body.extend-drawable-menu) */
+//       &{
+//         $_size : ( 'min': 80px, 'max': 320px ); 
+//         $_min: map-get($map: $_size, $key: "min");
+//         $_max: map-get($map: $_size, $key: "max");
+
+//         // 서랍 메뉴
+//         .app-drawable {
+
+//           &-menu#drawable-menu{
+//             will-change: margin;
+//             @include set-prefix ( transition, margin 0.6s ease(inout-circ), 'webkit' '' );
+
+//             width: $_max;
+//           }
+
+//           &-menu-toggle {
+//             will-change: width;
+//             @include set-prefix ( transition, width 0.6s ease(inout-circ), 'webkit' '' ); 
+
+//             width: $_max;
+//           }
+
+//         } // .app-drawable-*
+
+
+//         @at-root body:not( .extend-drawable-menu ) {
+//           .app-drawable {
+//             &-menu#drawable-menu{ margin-left: calc( ($_max - $_min) * -1 ); }  
+//             &-menu-toggle { width: $_min; }
+//           } // .app-drawable-*
+//         }
+//         // @at-root body:is( .extend-drawable-menu ) {
+//         //   @debug $_min;
+          
+//         // }
+//       } // * 서랍 메뉴 활성화 토글 (body.extend-drawable-menu)
+      
+//     } // : PC
+
+//   } // .lyt-root
+
+// }
+
+
+
+// /// --------------------------------------------------------------
+// /// # 홈(Home) 
+// /// --------------------------------------------------------------
+
+
+// body:is(.home) {
+
+// }

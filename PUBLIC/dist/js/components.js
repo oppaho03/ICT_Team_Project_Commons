@@ -16,43 +16,41 @@
   App.prototype.resizes = []
   App.prototype.scrolls = []
 
-  /* 바인드 : Drawable Menu(사이드 메뉴) 토글 버튼 
+  /* 바인드 : 'Primary' 서랍 메뉴(Drawable Menu) 토글 버튼 / 스위치(체크박스)
   */ 
   App.prototype.binds.push( function( e ) {
 
-    // 토글 버튼( <button> )
-    var btn = document.getElementById("drawable-menu-toggle");
-    if ( ! btn ) return; 
+    // 서랍 메뉴 토글 버튼 / 스위치(체크박스) 
+    var btn, sw; 
 
-    setEventListener( btn, 'click', function(e) {
-      var t = e.target; // or this 
+    // 서랍 메뉴 토글 스위치(체크박스) 
+    // input#primary-menu-toggle
+    sw = document.getElementById("drawable-menu-toggle");
+    if ( sw ) {
+      setEventListener( sw, 'click', function(e) {
+        // 스위치 (체크박스)
+        var self = e.target;
 
-      t.classList.toggle('opened'); // 'opended' toggled 
-      
-      var toggled = t.classList.contains('opened');
-      t.setAttribute( 'aria-expanded', toggled );
+        self.classList.toggle('extend'); 
+        var extend = self.classList.contains('extend');
+        self.setAttribute( 'aria-expanded', extend ); // aria-expanded 속성 토글
+        
+        document.body.classList.toggle('expanded-menu-drawable');
 
-      
+      }, { capture: true, passive: true } );
 
-    }, { capture: true, passive: true } );
+    } 
 
-    // 체크박스( <input> )
-    var sw = document.getElementById( "drawable-menu-switch" );
-
-    setEventListener( sw, 'change', function(e) {
-      var t = e.target; // or this 
-
-      var checked = t.checked ?? false;
-      console.log(checked);
-
-      // <button> 선택
-      var btn = document.getElementById("drawable-menu-toggle");
-      if ( btn ) {
-        btn.click();
-      }
-      
-
-    }, { capture: true, passive: true } );
+    // 서랍 메뉴(Drawable Menu) 토글 버튼
+    // button#mobile-drawable-menu-toggle
+    btn = document.getElementById("mobile-drawable-menu-toggle");
+    if ( btn ) {
+      // 스위치 델리게이
+      setEventListener( btn, 'click', function(e) {
+        var sw = document.getElementById("drawable-menu-toggle");
+        if ( sw ) sw.click();
+      }, { capture: true, passive: true } );
+    }
 
   } );
   

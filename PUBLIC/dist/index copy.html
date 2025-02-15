@@ -29,153 +29,111 @@
 <body class="app home page">
   <div id="wrapper">
 
-    <div class="app-header-outer">
-      
-      <div class="app-header-inner">
+    <div class="lyt lyt-root">
+      <div class="lyt lyt-root-item">
+        <div class="app-drawable-menu-wrapper">
 
+          <aside class="app-drawable-menu" id="drawable-menu" style="background:#eee;">
+            <div class="container-fluid">
+              MENU
+            </div>
+          </aside> <!-- #app-drawable-menu -->
+
+        </div> <!-- .app-drawable-menu-wrapper -->
+      </div>
+      <div class="lyt lyt-root-item d-flex flex-column">
         <div class="app-header-wrapper">
-          <header class="app-header" id="apphead" role="banner"> 
+          
+          <div class="app-header-inner">
 
-            <div class="app-branding"> 
-              <h1 class="app-branding-headline mb-0" title="VITA" aria-label="VITA" itemprop="headline">
-                <a class="brand has-logo-image" href="#">
-                  <img class="logo-image" width="24" height="24" src="./assets/resources/logo_outline.svg" alt="VITA" decoding="async" />
-                  <span>VITA</span>
-                </a>
-              </h1> <!-- .app-branding-headline -->
-            </div> <!-- .app-branding -->
-
-          </header> <!-- .app-header -->
-        </div>
-
-      </div>
-
-      <div class="app-header-inner">
-        
-      </div>
-    </div>
-
-    <div class="lyt-l flex-lg-grow-0 flex-lg-shrink-0">
-
-
-      <div class="app-header-outer">
-        <div class="app-header-inner">
-          <div class="app-header-wrapper">
             <header class="app-header" id="apphead" role="banner"> 
-              
-              <div calss="app-header__main"> 
-                
-              </div>
+              <div class="d-flex align-items-center"> 
 
-            </header> <!-- #apphead -->
-          </div>
-        </div>
-      </div>
+                <div class="app-drawable-menu-toggle">
 
-      <!-- <div class="container-fluid">  -->
-        LAYOUT LEFT
-      <!-- </div> -->
-    </div>
-
-    <div class="lyt d-lg-flex flex-lg-row">
-
-      <div class="lyt-r flex-lg-grow-1 flex-lg-shrink-1">
-        MAIN / FOOTER
-      </div>
-
-      
-
-    </div>
-
-
-    <!--
-    -->
-
-    <div class="app-header-outer-wrapper">
-
-      <div class="app-header-outer">
-        
-        <div class="app-header-wrapper" >
-
-          <header class="app-header" id="mhead" role="banner">
-            
-            <div class="app-header-main d-flex flex-row" id="header-main">
-
-              <div class="app-branding"> 
-                
-                <h1 class="app-branding-headline mb-0" title="VITA" aria-label="VITA" itemprop="headline">
+                  <div class="container-fluid d-flex align-items-center">
                   
-                  <a class="brand has-logo-image" href="#">
-                    <img class="logo-image" width="24" height="24" src="./assets/resources/logo_outline.svg" alt="VITA" decoding="async" />
-                    <span>VITA</span>
-                  </a>
+                    <!-- 'Drawable' 서랍 메뉴 토글 (스위치) | checked -->
+                    <div class="form-check form-switch d-none d-lg-block">
+                      <input class="form-check-input" type="checkbox" role="switch" id="drawable-menu-toggle" > 
+                      <label class="form-check-label" for=""></label>
+                    </div> 
 
-                </h1> <!-- .app-branding-headline -->
-
-              </div> <!-- .app-branding -->
-
-              <div class="app-menu-wrapper flex-grow-1 flex-shrink-1"> 
-                <nav class="menu" id="primary">  
-
-                </nav>
-                <div class="profile">
-                  <div class="d-flex">
+                    <!-- 'Drawable' 서랍 메뉴 토글 -->
+                    <button class="menu-toggle menu-toggle-hb d-lg-none" aria-label="Drawable Menu" id="mobile-drawable-menu-toggle" aria-controls="app-drawable-menu">
+                      <svg width="100" height="100" viewBox="0 0 100 100" tabindex="-1" >
+                        <path class="line line-1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                        <path class="line line-2" d="M 20,50 H 80" />
+                        <path class="line line-3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                      </svg>
+                    </button>
 
                   </div>
-                  <div class="profile__img">
-                    IMAGE
-                  </div>
-                  <div class="profile__contents"> 
-                    INFORMATION
-                  </div>
-                </div>
-              </div> <!-- .app-header-main-priamry -->
 
-            </div> <!-- .app-header-main -->
+                </div> <!-- app-drawable-menu-toggle -->
 
-          </header> <!-- .app-header -->
+                <div class="app-branding">
+                  <div class="container-fluid">
+                    <h1 class="app-branding-headline mb-0" title="VITA" aria-label="VITA" itemprop="headline">
+                      <a class="brand has-logo-image" href="#">
+                        <img class="logo-image" width="24" height="24" src="./assets/resources/logo_outline.svg" alt="VITA" decoding="async" />
+                        <span>VITA</span>
+                      </a>
+                    </h1>
+                  </div>
+                </div> <!-- .app-branding -->
+
+                <nav class="app-navigation-menu flex-grow-1 flex-shrink-1" id="primary">
+                  <div class="container-fluid d-flex justify-content-end align-items-center">
+                    
+                    <!-- <ul class="list-unstyled d-flex mb-0 px-0">
+                      <li>menu1</li>
+                      <li>menu2</li>
+                      <li>menu3</li>
+                    </ul> -->
+
+                    <ul class="user-menu list-unstyled d-flex align-items-center mb-0 px-0">
+                      <li class="list-item">
+                        <a class="link link-icon"> 
+                          <img class="link-icon-img" width="24" height="24" src="./assets/resources/icons/others/data.svg" alt="..." decoding="async" />
+                        </a>
+                      </li>
+                      <li class="list-item">
+                        <a class="link link-icon"> 
+                          <img class="link-icon-img" width="24" height="24" src="./assets/resources/icons/others/bell.svg" alt="..." decoding="async" />
+                        </a>
+                      </li>
+                      <li class="list-item">
+                        <dl class="user-profile d-flex align-items-center mb-0">
+                          <dt class="user-profile__photo">
+                            <img class="logo-image" width="48" height="48" src="./assets/resources/_ex/profile.png" alt="USER01" decoding="async" />
+                          </dt>
+                          <dl class="user-profile__content mb-0"><label>USER001</label></dl>
+                        </dl>
+                      </li>
+                    </ul>
+
+                   
+
+                  </div>
+                </nav> <!-- #apphead-menu -->
+
+              </div>
+            </header> <!-- .app-header -->
+
+          </div> <!-- .app-header-inner -->
 
         </div> <!-- .app-header-wrapper -->
-
-      </div> <!-- .app-header-outer -->
-
-      <div class="app-header-outer">
-        
-        <div class="app-drawable-menu-wrapper" >
-          <aside class="app-drawable-menu" id="drawable-menu" style="background:#aaa;">
-            DRAWABLE
-          </aside> <!-- .app-drawable-menu -->
-        </div> <!-- .app-drawable-menu-wrapper -->
-
-      </div> <!-- .app-header-outer -->
-
-    </div> <!-- .app-header-outer-wrapper -->
-
-    <div class="app-main-wrapper">
-      <main class="app-main" id="contents" style="background:#ccc;">
-        
-        <section>SECTION 1</section>
-        <section>SECTION 2</section>
-
-      </main> <!-- .app-main -->
-    </div> <!-- .app-main-wrapper-->
-
-    <div class="app-footer-wrapper">
-      <footer class="app-footer" id="mfoot" style="background:#ddd;">
-        FOOTER
-      </footer>
-    </div> <!-- .app-footer-wrapper -->
-
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" checked > <!-- disabled -->
-      <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch checkbox input</label>
-    </div>
+        <div class="app-main-wrapper">
+          MAIN 
+         <!-- <div style="height:200vh;background-color:#f00;" ></div>  -->
+        </div> <!-- .app-main-wrapper -->
+        <div class="app-footer-wrapper">
+          FOOTER
+        </div> <!-- .app-footer-wrapper -->
+      </div>
+    </div> <!-- .lyt-root -->
 
   </div> <!-- #wrapper -->
-  
-
-
 </body>
 </html>
-
-<button id="site-navigation-menu-toggle" class="menu-toggle" aria-controls="site-navigation" aria-expanded="false" style="top: 0px;"><span></span></button>

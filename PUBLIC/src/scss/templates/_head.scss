@@ -3,77 +3,99 @@
 /// --------------------------------------------------------------
 /// # 헤더 <header> 
 /// --------------------------------------------------------------
-/// - 
+/// - .app-header
+/// - #apphead
 /// --------------------------------------------------------------
-
-.app-header {
-
-  &-wrapper {
-
-  }
-
-  
-
-//   &-outer { }
-
-  
-//   // &-outer ::
-//   &-wrapper {
-//     box-sizing: border-box;
-//   }
-
-//   // & :: 
-//   #header-main {
-    
-//     // bootstrap : flex 
-//     width : 100%; 
-
-//     .app-branding {
-//       &-headline {
-//         a.has-logo-image img.logo-image ~ span { 
-//           position: absolute; 
-//           visibility: hidden; 
-//         }
-//       }
-//     }
-
-    
-
-
-  
-}
 
 #apphead {
 
+  
+
+  padding: 20px 0;
   @include position( fixed, t 0  l 0 z 1000 );
- 
-  padding: 1em 0;
   width: 100%;
-  background-color: #ddd;
+  background-color: transparent;
 
+  $prefix: app-header;
+  // .#{$prefix}-drawable-menu-toggle {}
   
-  
-  .app {
-
-    &-branding {
-      
-      &-headline {
-
-        a.has-logo-image img {
-          display: block;
-          width: auto;
-          height: 50px;
-        }
-
-        a.has-logo-image img ~ span {  
-          @include position( absolute, l 0 t 0 );
-          visibility: hidden;
-        }
-
-      }
-
-    } // &-branding
-
-  }
+  .app-branding {
+    a.brand > .logo-img ~ * { visibility: hidden; }
+    // a.brand > .logo-img { height: 30px; }
+  } // .app-branding
 
 }
+
+// #apphead {
+
+//   @include position( fixed, t 0  l 0 z 1000 );
+ 
+//   padding: 1em 0;
+//   width: 100%;
+
+//   .app {
+
+//     &-branding {
+      
+//       &-headline {
+
+//         a.has-logo-image img {
+//           display: block;
+//           width: auto;
+//           height: 50px;
+//         }
+
+//         a.has-logo-image img ~ span {  
+//           @include position( absolute, l 0 t 0 );
+//           visibility: hidden;
+//         }
+
+//       }
+
+//     } // &-branding
+
+//     &-navigation-menu {
+
+//       // 헤더: 사용자 메뉴
+//       ul.user-menu {
+//         // 헤더: 사용자 프로필
+//         .user-profile {
+         
+//           &__content { margin-left: 1em; }
+//           &__content label { font-weight: bold; }
+
+//         } // .user-profile
+
+//         & > li { margin-left: 1rem; }
+//         & > li:last-child { margin-left: 3rem; } 
+
+//         a.link.link-icon {
+//           $_s: 24px;
+//           .link-icon-img { width: $_s; height: $_s; }
+//         }
+
+//       }
+
+
+
+//     } // &-navigation-menu
+    
+//     // @ MEDIAQUERY 
+//     @include media( "<#{map-get($map: $grid-breakpoints, $key: 'lg')}" ) { // : MOBILE 
+
+//       &-branding {
+//         &-headline a.has-logo-image img { height: 36px; }
+//       } // &-branding
+
+//       &-navigation-menu {
+//         ul.user-menu > li:last-child { margin-left: 1rem; } 
+//         ul.user-menu .user-profile__content { display: none; }
+        
+//       }
+
+//     }
+
+//   } // .app
+
+
+// } // #apphead

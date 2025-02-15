@@ -26,8 +26,9 @@ html { }
 
 html, body {
   color: var(--app-color-text-body);
+  font-size: 16px;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Nanum Gothic', sans-serif;
 }
-
 
 
 /// --------------------------------------------------------------
@@ -57,7 +58,7 @@ html, body {
     &:focus, 
     &:checked {
       background-size: $ball-size;
-      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Ccircle%20cx%3D%2219%22%20cy%3D%2219%22%20r%3D%2219%22%20fill%3D%22url%28%23paint0_linear_178_109%29%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_178_109%22%20x1%3D%220%22%20y1%3D%2219%22%20x2%3D%2238%22%20y2%3D%2219%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2326EE8E%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23EEFFF6%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Ccircle%20cx%3D%2219%22%20cy%3D%2219%22%20r%3D%2219%22%20fill%3D%22url%28%23paint0_linear_178_109%29%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_178_109%22%20x1%3D%220%22%20y1%3D%2219%22%20x2%3D%2238%22%20y2%3D%2219%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23573CF9%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23C6CCFF%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E");
 
       background-color: var(--app-color-white);
       border-color: var(--app-color-primary) // rgba($color_primary, 75%);
@@ -68,3 +69,99 @@ html, body {
   } // .form-check-input 
  
 } // .form-switch
+
+
+
+/// --------------------------------------------------------------
+/// # 컴포넌트 
+/// --------------------------------------------------------------
+
+/// a 링크 
+a.link {
+
+  cursor: pointer;
+
+  &.link-icon {
+    
+    img.link-icon-img {
+      display: block;
+      width: auto;
+      height: auto;
+    }
+
+  }
+  &.link-icon:hover {
+    img.link-icon-img { opacity: 0.6; }
+  }
+
+}
+
+
+// button 메뉴 
+button.menu {
+
+  &-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  /// 햄버거 메뉴 (Hamburger menu)
+  &-toggle-hb {
+    $_stroke : var(--app-color-primary);
+
+    display: flex;
+
+    width: 48px;
+    height: 48px;
+
+    & > * {  
+      pointer-events: none;
+      width: inherit;
+      height: inherit;
+    }
+
+    // <svg> <path>
+    path.line {
+      fill: none;
+      stroke:$_stroke;
+      stroke-width: 6;
+      transition: 
+        stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+        stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // 확장 토글 .extend
+    &:not(.extend) {
+      path.line-1, path.line-3 { stroke-dasharray: 60 207; }
+      path.line-2 { stroke-dasharray: 60 60; }
+    } 
+
+    &.extend {
+      path.line-1, path.line-3 { 
+        stroke-dasharray: 90 207; 
+        stroke-dashoffset: -134;
+      }
+      path.line-2 { 
+        stroke-dasharray: 1 60; 
+        stroke-dashoffset: -30;
+      }
+    }
+
+  } // &-toggle-hb
+
+  /// @ 미디어 쿼리 
+  $bg : $grid-breakpoints;
+  $bg_lg: map-get( $bg, 'lg' );
+  @include media( "<#{$bg_lg}" ) { // : 모바일 
+
+    &-toggle-hb {
+      width: 36px;
+      height: 36px;
+    }
+    
+  }
+
+} // button.toggle
+
