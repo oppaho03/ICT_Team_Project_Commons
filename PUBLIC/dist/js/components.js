@@ -16,6 +16,177 @@
   App.prototype.resizes = []
   App.prototype.scrolls = []
 
+  /* 바인드 : 폼 컨트롤 엘리멘트 초기화
+  */ 
+  App.prototype.binds.push( function( e ) {
+
+    var sels = document.getElementsByTagName( "select" );
+    Array.from( sels ).forEach( function(el) {
+   
+      // <Select> 복사 
+      var elClone = el.cloneNode(true);
+
+      // Wrapper 생성
+      var wrap = document.createElement( "div" );
+      wrap.className = "form-control-wrap";
+      wrap.appendChild( elClone );
+
+      /* <select> 인터페이스 생성
+      */
+      var prefix = "select-box";
+      var root = document.createElement("div");
+      if ( root ) {
+        
+        root.className = prefix;
+
+        // 현재 값 (current)
+        var cur = document.createElement( "div" );
+        cur.className = `${prefix}__current`;
+        cur.setAttribute('tabindex', '1'); 
+        if ( cur ) {
+
+        }
+        root.appendChild(cur);
+
+        
+        // 리스트 
+        var list = document.createElement( "ul" );
+        list.className = `${prefix}__list`;
+        if ( list ) {
+
+          var f = document.createDocumentFragment();
+
+          for( var opt of Array.from(elClone.options) ) {
+            console.log(opt);
+
+            var _li = document.createElement( "li" );
+            
+            var _lb = document.createElement( "label" );
+            _lb.className = `${prefix}__option`;            
+            _lb.setAttribute( 'for', '' );            
+            _lb.setAttribute( 'aria-hidden', 'aria-hidden' );
+            _lb.dataset['value'] = opt.value;
+            _lb.textContent = opt.textContent;
+
+            f.appendChild(_lb);
+
+          }
+
+          list.appendChild( f );
+        }
+
+        root.appendChild(list);
+        
+
+
+      }
+      wrap.appendChild( root );
+      
+
+
+      el.insertAdjacentElement("afterend", wrap);
+      el.remove(); // deleted 
+
+      // if ( typeof select.get !== 'undefined' ) select = select.get(0);
+  
+      // // <common-selectBox>
+      // var selectBox = select.parentNode; 
+    
+      // // common-selectBox > main-selectBox
+      // var main = selectBox.querySelector('.main-selectBox');
+      // if ( main ) main.remove();
+    
+      // main = document.createElement('ul');
+      // main.className = "main-selectBox"; // main-selectBox
+      // main.appendChild( document.createElement('li') );
+    
+      // var holder = document.createElement('a');
+      // holder.className = "placeholder";
+      // holder.innerText = "-";
+      // main.querySelector('li').appendChild(holder);
+    
+      // // common-selectBox > sub-selectBox
+      // var sub = document.createElement('ul');
+      // sub.className = "sub-selectBox";
+    
+      // Array.prototype.slice.call(select.options).forEach( function(option, i){
+      //   var _txt = option.innerText;
+      //   var _val = option.value;
+    
+      //   if ( i == 0 ) {
+      //     holder.innerText=_txt; // init placholder text
+      //     if ( option.disabled ) return;
+      //   }
+    
+      //   var _subItem = document.createElement('li');
+      //   var _contents = document.createElement('a');
+      //   _contents.className = "option";
+      //   if ( i == 0 ) _contents.classList.addClass = "selected";
+      //   _contents.href = '#' + _val;
+      //   _contents.innerText = _txt;
+    
+      //   _subItem.appendChild(_contents);
+      //   sub.appendChild(_subItem); // append sub-selectBox
+      // } );
+    
+      // main.querySelector('li').appendChild(sub); // append to main-selectBox > li
+      // selectBox.append(main);
+    
+      // // init element(css, bind)
+      // // $(sub).css("top", String($(main).height()) + "px");
+      // $(sub).css("top", String($(selectBox).height()) + "px");
+    
+      // $(holder).off().on('click', function(e){
+    
+      //   // select disabled
+      //   if ( $(this).closest(".common-selectBox").hasClass("disabled") ) {
+      //     return false;
+      //   }
+    
+      //   $(this)
+      //   .parent("li")
+      //   .children(".sub-selectBox")
+      //   .stop()
+      //   .slideToggle(function () {
+      //     $(this).parent("li").toggleClass("on");
+      //   });
+          
+      //   return false; // cancel href
+      // });
+    
+      // $(sub).find('.option').off().on('click', function() {
+      //   var val = this.href.substring(this.href.indexOf('#') + 1);
+      //   if ( val ) val = decodeURI(val);
+      //   var select = $(selectBox).find('select');
+      //   if ( select ) {
+      //     select.val(val);
+      //     select.change();
+      //   }
+      //   $(holder).click(); // close select-menus
+      //   return false;// cancel href
+      // });
+    
+      // $(select).off().on('change', function() {
+      //   // target == .sub-selectBox > li > a.option
+      //   var val = this.value;
+    
+      //   var target = $(selectBox).find('.sub-selectBox a:not([href="#' + val + '"]).selected');
+      //   if ( target.length ) target.removeClass('selected');
+    
+      //   target = $(selectBox).find('.sub-selectBox a[href="#' + val + '"]');
+      //   if( target.length  && !target.hasClass('selected')) target.addClass('selected');
+        
+      //   holder.href = "#" + val;
+      //   // holder.innerText = val ? val : target.text();
+      //   holder.innerText = target.text();
+        
+      // }).change();
+
+    } );
+
+    
+  } );
+
   /* 바인드 : 'Primary' 서랍 메뉴(Drawable Menu) 토글 버튼 / 스위치(체크박스)
   */ 
   App.prototype.binds.push( function( e ) {
