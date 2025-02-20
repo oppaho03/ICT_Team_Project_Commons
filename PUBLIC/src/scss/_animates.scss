@@ -4,8 +4,58 @@
 /// ------------------------------------------------------------
 /// 애니메이션 Keyframes 
 /// ------------------------------------------------------------
-/// https://animista.net/
+/// - https://animista.net/
 /// ------------------------------------------------------------
+
+/// Loader : Type 1
+@-webkit-keyframes loader-type-1-ring {
+	from { stroke-dasharray: 0 257 0 0 1 0 0 258; }
+	25% { stroke-dasharray: 0 0 0 0 257 0 258 0; }
+	50%, to { stroke-dasharray: 0 0 0 0 0 515 0 0; }
+}
+@keyframes loader-type-1-ring {
+	from { stroke-dasharray: 0 257 0 0 1 0 0 258; }
+	25% { stroke-dasharray: 0 0 0 0 257 0 258 0; }
+	50%, to { stroke-dasharray: 0 0 0 0 0 515 0 0; }
+}
+@-webkit-keyframes loader-type-1-ball {
+	from, 50% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: 1; }
+	64% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -109; }
+	78% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -145; }
+	92% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -157; }
+	57%, 71%, 85%, 99%, to { @include set-prefix( animation-timing-function, ease-out, "webkit" "" ); stroke-dashoffset: -163; }
+}
+@keyframes loader-type-1-ball {
+	from, 50% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: 1; }
+	64% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -109; }
+	78% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -145; }
+	92% { @include set-prefix( animation-timing-function, ease-in, "webkit" "" ); stroke-dashoffset: -157; }
+	57%, 71%, 85%, 99%, to { @include set-prefix( animation-timing-function, ease-out, "webkit" "" ); stroke-dashoffset: -163; }
+}
+
+
+/// waves
+@-webkit-keyframes waves {
+  0% { 
+    @include set-prefix( transform, scale(1), "webkit" "" );
+    opacity: 1;  
+  }
+  100% { 
+    @include set-prefix( transform, scale(4), "webkit" "" );
+    opacity: 0;  
+  }
+}
+@keyframes waves {
+  0% { 
+    @include set-prefix( transform, scale(1), "webkit" "" );
+    opacity: 1;  
+  }
+  100% { 
+    @include set-prefix( transform, scale(4), "webkit" "" );
+    opacity: 0;  
+  }
+}
+
 
 
 /* ----------------------------------------------
@@ -17,3 +67,12 @@
 .wobble-hor-bottom{-webkit-animation:wobble-hor-bottom .8s both;animation:wobble-hor-bottom .8s both}
  
 @-webkit-keyframes wobble-hor-bottom{0%,100%{-webkit-transform:translateX(0);transform:translateX(0);-webkit-transform-origin:50% 50%;transform-origin:50% 50%}15%{-webkit-transform:translateX(-30px) rotate(-6deg);transform:translateX(-30px) rotate(-6deg)}30%{-webkit-transform:translateX(15px) rotate(6deg);transform:translateX(15px) rotate(6deg)}45%{-webkit-transform:translateX(-15px) rotate(-3.6deg);transform:translateX(-15px) rotate(-3.6deg)}60%{-webkit-transform:translateX(9px) rotate(2.4deg);transform:translateX(9px) rotate(2.4deg)}75%{-webkit-transform:translateX(-6px) rotate(-1.2deg);transform:translateX(-6px) rotate(-1.2deg)}}@keyframes wobble-hor-bottom{0%,100%{-webkit-transform:translateX(0);transform:translateX(0);-webkit-transform-origin:50% 50%;transform-origin:50% 50%}15%{-webkit-transform:translateX(-30px) rotate(-6deg);transform:translateX(-30px) rotate(-6deg)}30%{-webkit-transform:translateX(15px) rotate(6deg);transform:translateX(15px) rotate(6deg)}45%{-webkit-transform:translateX(-15px) rotate(-3.6deg);transform:translateX(-15px) rotate(-3.6deg)}60%{-webkit-transform:translateX(9px) rotate(2.4deg);transform:translateX(9px) rotate(2.4deg)}75%{-webkit-transform:translateX(-6px) rotate(-1.2deg);transform:translateX(-6px) rotate(-1.2deg)}}
+
+
+.swing-in-left-bck{-webkit-animation:swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) both;animation:swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) both}
+
+ @-webkit-keyframes swing-in-left-bck{0%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);-webkit-transform-origin:left;transform-origin:left;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:left;transform-origin:left;opacity:1}}@keyframes swing-in-left-bck{0%{-webkit-transform:rotateY(-70deg);transform:rotateY(-70deg);-webkit-transform-origin:left;transform-origin:left;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:left;transform-origin:left;opacity:1}}
+
+ .swing-in-right-bck{-webkit-animation:swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both;animation:swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both}
+
+@-webkit-keyframes swing-in-right-bck{0%{-webkit-transform:rotateY(70deg);transform:rotateY(70deg);-webkit-transform-origin:right;transform-origin:right;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:right;transform-origin:right;opacity:1}}@keyframes swing-in-right-bck{0%{-webkit-transform:rotateY(70deg);transform:rotateY(70deg);-webkit-transform-origin:right;transform-origin:right;opacity:0}100%{-webkit-transform:rotateY(0);transform:rotateY(0);-webkit-transform-origin:right;transform-origin:right;opacity:1}}

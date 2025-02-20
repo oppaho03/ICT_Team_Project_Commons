@@ -25,20 +25,57 @@
 html { }
 
 html, body {
+  
   color: var(--app-color-text-body);
   font-size: 16px;
   font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Nanum Gothic', sans-serif;
+  line-height: 1.5;
 }
 
+body {
+  background-image: URL("../assets/resources/index.webp");
+  background-position: center;
+  background-size: cover;
+  overflow-x: hidden;
+}
+// @keyframes gradientAnimation {
+//     0% {
+//         background: linear-gradient(45deg, #573CF9, #00BFFF);
+//     }
+//     50% {
+//         background: linear-gradient(45deg, #573CF9, #FF69B4);
+//     }
+//     100% {
+//         background: linear-gradient(45deg, #573CF9, #32CD32);
+//     }
+// }
 
 /// --------------------------------------------------------------
-/// # 컴포넌트 (부트 스트랩)
+/// # 요소(Elements) + 부트 스트랩
 /// --------------------------------------------------------------
+
+input[class *= "-unstyled"] {
+
+  $types : ( "text", "password" ); 
+
+  @each $type in $types {
+    &[type="#{$type}"] {
+      border:  none;
+      background-color: transparent;
+
+      &:focus {
+        outline: none; // 포커스 시 테두리 제거
+        box-shadow: none; // 그림자 제거 (선택 사항)
+      }
+      
+    }
+  } // @each
+
+}
 
 .form-control {
   background-color: var(--app-color-bg-100);
 }
-
 
 /// .form-switch
 .form-switch {
@@ -79,7 +116,7 @@ html, body {
 
 
 /// --------------------------------------------------------------
-/// # 컴포넌트 
+/// # 요소(Elements)
 /// --------------------------------------------------------------
 
 /// a 링크 
@@ -102,6 +139,19 @@ a.link {
 
 }
 
+// button 
+button.btn-unstyled {
+
+  padding: 0;
+  background-color: transparent;
+  border: none;
+
+  &:focus {  
+    outline: none; /* 포커스 시 테두리 제거 */
+    box-shadow: none; /* 그림자 제거 (선택 사항) */
+  }
+
+}
 
 // button 메뉴 
 button.menu {
@@ -173,28 +223,391 @@ button.menu {
 
 
 
-/// .search-box
-.search-box {
+/// --------------------------------------------------------------
+/// # 검포넌트 (Components)
+/// --------------------------------------------------------------
+/// - .loader
+///   .type-1
+/// - .search-box
+/// - .chat
+///   .chat-*
+/// ---------------------------------------------------------------
 
-  padding: 0.5em;
+svg.loader.type-1 {
 
-  
-  background-color: var(--app-color-bg-100);
+  display: block;
+  width: 36px;
+  height: 36px;
 
-  @include set-prefix( box-shadow, 2px 2px 1px 0px rgba(78,86,95,0.75) inset, 'webkit' 'moz' '' );
-
-  input.form-control { 
-    border: none; 
-    &:focus { 
-      outline: none; /* 포커스 시 테두리 제거 */
-      box-shadow: none; /* 그림자 제거 (선택 사항) */
+  .loader {
+    &__ring, 
+    &__ball {
+      animation: loader-type-1-ring 2s ease-out infinite;
     }
-    outline: 0;
-
-    input.form-control:focus {
-      background-color: inherit;
+    &__ball {
+      animation-name: loader-type-1-ball;
     }
   }
 
 }
 
+.search-box {
+
+  padding: 0.5em;
+  width: auto; 
+  background-color: var(--app-color-bg-100);
+  border-radius: 0.5em;
+
+  @include set-prefix( box-shadow, 2px 2px 1px 0px rgba(78,86,95,0.5) inset, 'webkit' 'moz' '' );
+
+  button { 
+    &.icon-btn {
+      i { 
+        $_s: 24px;
+        display: block;
+        width: $_s;
+        height: $_s;
+        color: var( --app-color-text-bodysub ); 
+        line-height: $_s;
+        
+
+        &::before { font-size: 1em; }
+      }
+    }
+  } // button 
+
+  .input-wrap {
+    overflow: hidden; 
+
+    input[name="s"] {
+      &::placeholder { color: var( --app-color-text-bodysub ); }
+    }
+  } // .input-wrap
+
+} // .search-box
+
+// chat
+.chat {
+
+  // &-wrap {}
+
+  & > .row { max-width: 75%; }
+  & > .row:not(:last-child) { margin-bottom: 1em; }
+
+  // 채팅 타입 : 기본
+  .chat- {
+
+    &thumb,
+    &content {
+      color: var(--app-color-text-body);
+      font-size: 1rem; 
+    }
+
+    // &thumb
+    // : 썸네일 (Thumbnail)
+    &thumb {
+      
+      $s: 36px; // 48px
+      $mg: calc((48px - #{$s}) / 2);
+      margin: #{$mg} auto;
+
+      &, .front { @include position( relative ); }
+
+      .back, 
+      .front { 
+        display: block; 
+        width: $s;
+        height: $s;
+        border-radius: $s;
+      }
+
+      .back { @include position( absolute, l 0 t 0 z -1 ); }
+
+      .back-in {
+        &,
+        &::before,
+        &::after {
+          @include position( absolute, l 30% t 30% );
+          display: block;
+          width: 40%;
+          height: 40%;
+          @include set-prefix( transform-origin, center center, "webkit" "" );
+          border-radius: 100%;
+          
+          background-color: var(--app-color-primary);
+        }
+
+        &::before,
+        &::after  { content: "" }
+      }
+
+      &-img { display: block; width: 100%; height: 100%; }
+
+    } // &thumb
+
+    // &content
+    // : 컨텐츠 (Content)
+    &content {
+      @include flex-c( flex row justify-start items-start );
+      max-width: 100%;
+
+      .messages {
+        @include flex-item( g 0 s 0 b auto );
+        max-width: 100%;
+
+        white-space: wrap ;
+        word-break: break-all;
+        font-size: 1em;
+
+        h2, 
+        h3, 
+        h4, 
+        h5, 
+        h6 { 
+          color: var(--app-color-primary); 
+          font-weight: bold; 
+
+          & + p { text-indent: 0.75em; } 
+        } // headlines
+
+        & > *:is(p):last-child {  margin-bottom: 0; }
+
+        // 
+
+        // -webkit-animation:swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both;animation:swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both
+      } // .messages
+
+      .messages.type-bubble {
+        padding: 12px 1em;
+        background-color: var(--app-color-white);
+      }  // .messages.type-bubble
+
+      .messages.type-main { padding: 1em 0; }
+
+      .messages svg.loader {
+        $s: 24px;
+        &.type-1 { width: $s; height: $s; }
+      }
+
+    } // &content
+  
+  }
+
+  // 채팅 타입 : 봇 (BOT)
+  &.type-bot { 
+
+    .chat- {
+
+      &thumb {
+        .front { background-color: var(--app-color-primary); }
+        .front.has-img { padding: 0.5em; }
+      }
+
+      &content {
+        .messages > p[aria-label="message"] { @include set-prefix( animation, swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) both, "webkit" "" ); }
+      }
+      
+    }
+
+    &[data-status="pending"] .chat- {
+
+      &thumb {
+
+        .back-in {
+
+          &::before { 
+            z-index: 0;
+            @include set-prefix( animation, waves 2.5s 0.0s linear infinite, "webkit" "" );
+          }
+          &::after { 
+            z-index: 2; 
+            @include set-prefix( animation, waves 2.5s 1.4s linear infinite, "webkit" "" );
+          }
+          & { 
+            z-index: 1; 
+            @include set-prefix( animation, waves 2.5s 0.7s linear infinite, "webkit" "" );
+          }
+        } // .back-in
+
+        .front { background-color: transparent; }
+      }
+    }
+  }
+
+  // 채팅 타입 : 사용자 (USER)
+  &.type-user > .row { 
+    margin-left: auto;
+    @include flex-container-append( row-reverse );
+  }
+  &.type-user .chat- {
+
+    // &thumb
+    // : 썸네일 (Thumbnail)
+    &thumb {
+
+      .back { display: none; }
+
+      .front { background-color: var(--app-color-white); }
+      .front.has-img { padding: 2px; }
+    }
+    // &content
+    // : 컨텐츠 (Content)
+    &content {
+      @include flex-container-append( justify-end );
+
+      .messages > p[aria-label="message"] { @include set-prefix( animation, swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both, "webkit" "" ); }
+    }
+  } // &.type-user 
+
+  /// @ 미디어 쿼리 
+  $bps : $grid-breakpoints;
+  $bp_md: map-get( $bps, 'md' );
+  $bp_lg: map-get( $bps, 'lg' );
+  
+  @include media( "<#{$bp_md}" ) {
+    & > .row { 
+      margin-left: 0; 
+      margin-right: 0;
+      max-width: 100%;  
+    }
+
+  }
+  @include media( '>=#{$bp_md}', '<#{$bp_lg}' ) {
+    
+  }
+  @include media( '>=#{$bp_lg}' ) {
+    
+  }
+  
+
+} // .chat 
+
+
+/////
+
+
+
+
+////
+////
+////
+/// 
+/// 
+
+.select-box {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+  font-size: 18px;
+  color: #60666d;
+  
+  @media (min-width: 768px) {
+    width: 70%;
+  }
+  
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
+  
+  &__current {
+    position: relative;
+    box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
+    cursor: pointer;
+    outline: none;
+    
+    &:focus {
+      & + .select-box__list {
+        opacity: 1;
+
+        // We have to set "animation-name: none;" to make the list visible (read below how it works)
+
+        animation-name: none;
+        
+        .select-box__option {
+          cursor: pointer;
+        }
+      }
+      
+      .select-box__icon {
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+  }
+  
+  &__icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    opacity: 0.3;
+    transition: 0.2s ease;
+  }
+  
+  &__value {
+    display: flex;
+  }
+  
+  &__input {
+    display: none;
+    
+    &:checked + .select-box__input-text {
+      display: block;
+    }
+  }
+  
+  &__input-text {
+    display: none;
+    width: 100%;
+    margin: 0;
+    padding: 15px;
+    background-color: #fff;
+  }
+  
+  &__list {
+    position: absolute;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    
+    // We need to use animation with delay.
+    // Otherwise the click event will not have time to run on label, because this element disapears immediately when .select-box__current element loses the focus.
+    // This delay will not be noticed because we set "opacity" to "0".
+    // We also use "animation-fill-mode: forwards" to make the list stay hidden.
+    
+    animation-name: HideList;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: step-start;
+    box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
+  }
+  
+  &__option {
+    display: block;
+    padding: 15px;
+    background-color: #fff;
+    
+    &:hover,
+    &:focus {
+      color: #546c84;
+      background-color: #fbfbfb;
+    }
+  }
+}
+
+@keyframes HideList {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}

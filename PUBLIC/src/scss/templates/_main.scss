@@ -13,28 +13,110 @@
 
 #content {
   @include position( relative, z 1 );
+  height: 100%;
+
+  section { @include position( relative ); }
+  
+  
+  /* 채팅 프롬프트 (Chat Prompt)
+  */
+  #chat-prompt {
+
+    & { 
+      margin: 0 auto;
+      width: 100%;
+      // max-width: 1280px;
+    }
+
+    /// @ 미디어 쿼리
+    $bps: $grid-breakpoints;
+    $_md: map-get( $bps, "md" );
+    $_lg: map-get( $bps, "lg" );
+    $_xl: map-get( $bps, "xl" );
+
+    @include media( "<#{$_md}" ) {
+      & { padding: 0 2rem; }
+
+      // : 비활성화 
+      &:not(.activated) {}
+    }
+    @include media( ">=#{$_md}", "<#{$_xl}" ) {
+      & { padding: 0 2.5rem; }
+
+      // : 비활성화 
+      &:not(.activated) {
+        width: 580px;
+      }
+    }
+    @include media( ">=#{$_xl}" ) {
+
+
+      & { 
+        padding: 0 3rem; 
+        max-width: calc( 780px + 6rem );
+      }
+
+      // : 비활성화 
+      &:not(.activated) {
+        width: 680px;
+      }
+
+      // : 활성화 
+      &.activated { width: 100%; }
+    }
+
+  } // #chat-prompt
+
 }
 
 
+
 /// --------------------------------------------------------------
-/// 홈 (Home)
+/// 채팅 세션 (Chat Session)
+/// --------------------------------------------------------------
+/// - .home
 /// --------------------------------------------------------------
 
-body:is(.home) #content {
+body:is(.home) .app-content {
 
-  overflow:hidden;
-  width: 100%;
-  height: 100%;
+  &-wrap {
+    // # grid-container( $rows:number, $cols:number, $gap:number, $align:list, $auto:list, $areas:list)
+    @include grid-c( 1, 1, 0, f row-dense, justify-items-start items-stretch self-stretch );
+  } // &-wrap
 
-  @include position( absolute, l 0 t 0 z 1 );
+  &#content {
+    width: 100%;
+    
+    &, & > section { min-height: 100%; }
 
-  
-  @include flex-c( flex row nowrap items-stretch  );
-  
+    /* 채팅 프롬프트 (Chat Prompt)
+    */
+    // 세션 : 채팅 세션 
+    #chat-session {
 
-  & > .section {
-    @include flex-item( g 0 s 0 b 100% );
-    height: 100%;
-  }
+      // : 채팅 컨텐츠 
+      #chat-content {
+
+        .chat-list {
+
+          &-item { margin-bottom: 1.75em; }
+
+        }
+
+      }
+
+      // : 채팅 컨텐츠 바  
+      #chat-content ~ #chat-content-bar {
+        @include set-prefix( transition, bottom 0.6s ease(out-quad), 'webkit' '' );
+      }
+
+      // 채팅 프롬프트 (Chat Prompt)
+      #chat-prompt { 
+        @include set-prefix( transition, width 0.6s 0.0s ease(in-circ),  'webkit' '' ); 
+      }
+
+    } // #chat-content
+
+  } 
 
 }
