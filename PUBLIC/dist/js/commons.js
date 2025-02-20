@@ -266,3 +266,90 @@ function resetEventListener (elem, name, handler) {
 	? elem.detachEvent(typeof name == "string" ? name : name[0], handler)
 	: elem.removeEventListener(typeof name == "string" ? name : name[1], handler);
 }
+
+/**
+ * 엘리멘트 초기화 : 셀렉트 (Select) (커스텀)
+ * @param {HTMLSelectElement} elem 
+ * @returns
+ */
+function loadHTMLSelectElement( elem ) {
+  var __PREFIX__ = "select-box"; // 클래스 접두어
+  
+  // <select> 요소 복사 
+  var sel = elem.cloneNode(true);
+  sel.classList.add( "d-none" );
+
+  // 현재 선택된 옵션 값 구하기 
+  var curoption = sel.querySelector("option[selected]") ?? sel.options[0];
+
+  // '루트' (root) 생성
+  var root = document.createElement( "div" );
+  root.className = __PREFIX__;
+
+  // 'current' 영역
+  var rootCur = document.createElement( "div" );
+  if ( rootCur ) {
+    
+    rootCur.tabIndex = 1;
+    rootCur.className = `${__PREFIX__}__current`;
+
+    var item = document.createElement( "div" );
+    item.className = `${__PREFIX__}__value`;
+    item.innerHTML = `<p class="${__PREFIX__}__input-text">${curoption.textContent}</p>`;
+
+    rootCur.appendChild( item ); // append &__value
+    rootCur.appendChild( sel ); // append <select> (clone)
+  }
+  root.appendChild(rootCur); // append &__current
+
+  // 'list' 영역
+  var rootList = document.createElement( "ul" );
+  if ( rootList ) {
+
+    rootList.className = `${__PREFIX__}__list`;
+
+    // <select> 옵션 파싱
+    var items = '';
+    for( var opt of sel.options ) {
+      var _txt = opt.textContent;
+      var _val = opt.value;
+
+      var item = document.createElement( "li" );
+      item.innerHTML = `<label class="${__PREFIX__}__option" aria-hidden="aria-hidden" data-value="${_val}">${_txt}</label>`;
+
+      rootList.appendChild( item ); // append items
+    }
+
+    // 바인드 : 'list' Click  (Capturing)
+    setEventListener( rootList, 'click', function(e) {
+
+      var t = e.target;
+      var list = t.closest('ul');
+
+      if ( list && t.tagName && t.tagName.toLowerCase() == 'label' ) {
+
+        // &__current 
+        var cur = list.previousElementSibling;
+        var curInput = cur.querySelector("p[class$='__input-text']");
+        curInput.textContent =  t.textContent;
+        
+        // <select> 
+        var sel = list.parentNode.querySelector("select");
+        
+        if ( sel ) {
+          sel.value = t.dataset["value"]; // 값 변경
+          sel.dispatchEvent(new Event("change")); // 이벤트 강제 호출
+        } 
+      } 
+
+    }, true );
+
+  }
+  root.appendChild(rootList); // append &__list
+
+  elem.insertAdjacentElement("afterend", root); // painting 셀렉트 (Select) (커스텀)
+  elem.remove(); // Delete 원본 요소 (select)
+
+  return true;
+
+}

@@ -22,182 +22,69 @@
 
     var sels = document.getElementsByTagName( "select" );
     Array.from( sels ).forEach( function(el, elidx) {
+
+      return loadHTMLSelectElement( el );
    
       // <Select> 복사       
       var sel = el.cloneNode(true);
-      // var selId = (elidx + 1);       
-      // var selName = sel.name;
-      
-      // var options = sel.options;
+      sel.classList.add( "d-none" );
 
       // Wrapper 생성
       var wrap = document.createElement( "div" );
       wrap.className = "form-control-wrap";
-      wrap.appendChild( sel );
+      // wrap.appendChild( sel );
 
       /* <select> 인터페이스 생성
       */
       var prefix = "select-box";
       var root = document.createElement("div");
+      root.className = prefix;
+
       if ( root ) {
 
-        root.tabIndex = 1;
-        root.className = prefix;
-
         // 현재 값(포커싱) 영역 
-        var curarea = document.createElement( "div" );
-        if ( curarea ) {
+        var valarea = document.createElement( "div" );
+        valarea.tabIndex = 1;
+        valarea.className = `${prefix}__current`;
+
+        // 리스트 영역 
+        var listarea = document.createElement( "ul" );
+        listarea.className = `${prefix}__list`;
+
+        // <select> (Clone)
+        var count = 1;
+        for ( var o of sel.options ) {
+
+          var id = `select-option-${elidx + 1}-${count}`;
           
+          /// 값(Value) 
+          if ( true ) {
+            var _item = document.createElement( "div" );
+            _item.className = `${prefix}__value`;
+            _item.innerHTML = `<input class="${prefix}__input" type="radio" id="${id}" value="${o.value}" name="${sel.name}" ${count == 1 ? "checked" : ""}> <p class="${prefix}__input-text">${o.textContent}</p>`;
+
+            valarea.appendChild(_item); /// append _item
+          }
+
+          /// 옵션(Option)
+          if ( true ) {
+            var _item = document.createElement( "li" );
+            _item.innerHTML = `<label class="${prefix}__option" for="${id}" aria-hidden="aria-hidden">${o.textContent}</label>`;
+
+            listarea.appendChild( _item );
+          }
+          count ++;
         }
 
-     
-
-        root.appendChild(curarea);
-
-        // root.className = prefix;
-
-        // // 현재 값 (current)
-        // var cur = document.createElement( "div" );
-        // cur.className = `${prefix}__current`;
-        // cur.setAttribute('tabindex', '1'); 
-        // if ( cur ) {
-
-        // }
-        // root.appendChild(cur);
-
-        
-        // // 리스트 
-        // var list = document.createElement( "ul" );
-        // list.className = `${prefix}__list`;
-        // if ( list ) {
-
-        //   var f = document.createDocumentFragment();
-
-        //   for( var opt of Array.from(elClone.options) ) {
-        //     console.log(opt);
-
-        //     var _li = document.createElement( "li" );
-            
-        //     var _lb = document.createElement( "label" );
-        //     _lb.className = `${prefix}__option`;            
-        //     _lb.setAttribute( 'for', '' );            
-        //     _lb.setAttribute( 'aria-hidden', 'aria-hidden' );
-        //     _lb.dataset['value'] = opt.value;
-        //     _lb.textContent = opt.textContent;
-
-        //     f.appendChild(_lb);
-
-        //   }
-
-        //   list.appendChild( f );
-        // }
-
-        // root.appendChild(list);
-        
-
+        // 현재 값(포커싱) / 리스트 영역 
+        root.appendChild(valarea);
+        root.appendChild(listarea);
 
       }
-      wrap.appendChild( root );
-      
-
+      wrap.appendChild( root ); // 'root'(셀렉트 인터페이스) 삽입
 
       el.insertAdjacentElement("afterend", wrap);
       el.remove(); // deleted 
-
-      // if ( typeof select.get !== 'undefined' ) select = select.get(0);
-  
-      // // <common-selectBox>
-      // var selectBox = select.parentNode; 
-    
-      // // common-selectBox > main-selectBox
-      // var main = selectBox.querySelector('.main-selectBox');
-      // if ( main ) main.remove();
-    
-      // main = document.createElement('ul');
-      // main.className = "main-selectBox"; // main-selectBox
-      // main.appendChild( document.createElement('li') );
-    
-      // var holder = document.createElement('a');
-      // holder.className = "placeholder";
-      // holder.innerText = "-";
-      // main.querySelector('li').appendChild(holder);
-    
-      // // common-selectBox > sub-selectBox
-      // var sub = document.createElement('ul');
-      // sub.className = "sub-selectBox";
-    
-      // Array.prototype.slice.call(select.options).forEach( function(option, i){
-      //   var _txt = option.innerText;
-      //   var _val = option.value;
-    
-      //   if ( i == 0 ) {
-      //     holder.innerText=_txt; // init placholder text
-      //     if ( option.disabled ) return;
-      //   }
-    
-      //   var _subItem = document.createElement('li');
-      //   var _contents = document.createElement('a');
-      //   _contents.className = "option";
-      //   if ( i == 0 ) _contents.classList.addClass = "selected";
-      //   _contents.href = '#' + _val;
-      //   _contents.innerText = _txt;
-    
-      //   _subItem.appendChild(_contents);
-      //   sub.appendChild(_subItem); // append sub-selectBox
-      // } );
-    
-      // main.querySelector('li').appendChild(sub); // append to main-selectBox > li
-      // selectBox.append(main);
-    
-      // // init element(css, bind)
-      // // $(sub).css("top", String($(main).height()) + "px");
-      // $(sub).css("top", String($(selectBox).height()) + "px");
-    
-      // $(holder).off().on('click', function(e){
-    
-      //   // select disabled
-      //   if ( $(this).closest(".common-selectBox").hasClass("disabled") ) {
-      //     return false;
-      //   }
-    
-      //   $(this)
-      //   .parent("li")
-      //   .children(".sub-selectBox")
-      //   .stop()
-      //   .slideToggle(function () {
-      //     $(this).parent("li").toggleClass("on");
-      //   });
-          
-      //   return false; // cancel href
-      // });
-    
-      // $(sub).find('.option').off().on('click', function() {
-      //   var val = this.href.substring(this.href.indexOf('#') + 1);
-      //   if ( val ) val = decodeURI(val);
-      //   var select = $(selectBox).find('select');
-      //   if ( select ) {
-      //     select.val(val);
-      //     select.change();
-      //   }
-      //   $(holder).click(); // close select-menus
-      //   return false;// cancel href
-      // });
-    
-      // $(select).off().on('change', function() {
-      //   // target == .sub-selectBox > li > a.option
-      //   var val = this.value;
-    
-      //   var target = $(selectBox).find('.sub-selectBox a:not([href="#' + val + '"]).selected');
-      //   if ( target.length ) target.removeClass('selected');
-    
-      //   target = $(selectBox).find('.sub-selectBox a[href="#' + val + '"]');
-      //   if( target.length  && !target.hasClass('selected')) target.addClass('selected');
-        
-      //   holder.href = "#" + val;
-      //   // holder.innerText = val ? val : target.text();
-      //   holder.innerText = target.text();
-        
-      // }).change();
 
     } );
 
