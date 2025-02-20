@@ -21,61 +21,78 @@
   App.prototype.binds.push( function( e ) {
 
     var sels = document.getElementsByTagName( "select" );
-    Array.from( sels ).forEach( function(el) {
+    Array.from( sels ).forEach( function(el, elidx) {
    
-      // <Select> 복사 
-      var elClone = el.cloneNode(true);
+      // <Select> 복사       
+      var sel = el.cloneNode(true);
+      // var selId = (elidx + 1);       
+      // var selName = sel.name;
+      
+      // var options = sel.options;
 
       // Wrapper 생성
       var wrap = document.createElement( "div" );
       wrap.className = "form-control-wrap";
-      wrap.appendChild( elClone );
+      wrap.appendChild( sel );
 
       /* <select> 인터페이스 생성
       */
       var prefix = "select-box";
       var root = document.createElement("div");
       if ( root ) {
-        
+
+        root.tabIndex = 1;
         root.className = prefix;
 
-        // 현재 값 (current)
-        var cur = document.createElement( "div" );
-        cur.className = `${prefix}__current`;
-        cur.setAttribute('tabindex', '1'); 
-        if ( cur ) {
-
+        // 현재 값(포커싱) 영역 
+        var curarea = document.createElement( "div" );
+        if ( curarea ) {
+          
         }
-        root.appendChild(cur);
+
+     
+
+        root.appendChild(curarea);
+
+        // root.className = prefix;
+
+        // // 현재 값 (current)
+        // var cur = document.createElement( "div" );
+        // cur.className = `${prefix}__current`;
+        // cur.setAttribute('tabindex', '1'); 
+        // if ( cur ) {
+
+        // }
+        // root.appendChild(cur);
 
         
-        // 리스트 
-        var list = document.createElement( "ul" );
-        list.className = `${prefix}__list`;
-        if ( list ) {
+        // // 리스트 
+        // var list = document.createElement( "ul" );
+        // list.className = `${prefix}__list`;
+        // if ( list ) {
 
-          var f = document.createDocumentFragment();
+        //   var f = document.createDocumentFragment();
 
-          for( var opt of Array.from(elClone.options) ) {
-            console.log(opt);
+        //   for( var opt of Array.from(elClone.options) ) {
+        //     console.log(opt);
 
-            var _li = document.createElement( "li" );
+        //     var _li = document.createElement( "li" );
             
-            var _lb = document.createElement( "label" );
-            _lb.className = `${prefix}__option`;            
-            _lb.setAttribute( 'for', '' );            
-            _lb.setAttribute( 'aria-hidden', 'aria-hidden' );
-            _lb.dataset['value'] = opt.value;
-            _lb.textContent = opt.textContent;
+        //     var _lb = document.createElement( "label" );
+        //     _lb.className = `${prefix}__option`;            
+        //     _lb.setAttribute( 'for', '' );            
+        //     _lb.setAttribute( 'aria-hidden', 'aria-hidden' );
+        //     _lb.dataset['value'] = opt.value;
+        //     _lb.textContent = opt.textContent;
 
-            f.appendChild(_lb);
+        //     f.appendChild(_lb);
 
-          }
+        //   }
 
-          list.appendChild( f );
-        }
+        //   list.appendChild( f );
+        // }
 
-        root.appendChild(list);
+        // root.appendChild(list);
         
 
 
