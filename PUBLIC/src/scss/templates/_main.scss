@@ -5,6 +5,7 @@
 /// --------------------------------------------------------------
 /// - .app-content 
 /// - #content
+/// - #chat-content
 /// --------------------------------------------------------------
 
 .app-content {
@@ -24,9 +25,23 @@
 
     & { 
       margin: 0 auto;
+      @include position( relative );
       width: 100%;
       // max-width: 1280px;
     }
+
+    // 폼 필터 (form-filter)
+    .form-filter {
+
+      @include position( absolute, l 0 );
+      width: 100%;
+
+      $h: 50px;
+      height: $h; 
+
+      &:nth-child(1) { top: -#{$h}; }
+
+    } // .form-filter
 
     /// @ 미디어 쿼리
     $bps: $grid-breakpoints;
@@ -35,13 +50,16 @@
     $_xl: map-get( $bps, "xl" );
 
     @include media( "<#{$_md}" ) {
-      & { padding: 0 2rem; }
+      &, 
+      .form-filter { padding: 0 2rem; }
 
       // : 비활성화 
       &:not(.activated) {}
     }
     @include media( ">=#{$_md}", "<#{$_xl}" ) {
-      & { padding: 0 2.5rem; }
+
+      &, 
+      .form-filter { padding: 0 2.5rem; }
 
       // : 비활성화 
       &:not(.activated) {
@@ -50,11 +68,10 @@
     }
     @include media( ">=#{$_xl}" ) {
 
+      & { max-width: calc( 780px + 6rem ); }
 
-      & { 
-        padding: 0 3rem; 
-        max-width: calc( 780px + 6rem );
-      }
+      &, 
+      .form-filter { padding: 0 3rem; }
 
       // : 비활성화 
       &:not(.activated) {
@@ -67,7 +84,102 @@
 
   } // #chat-prompt
 
+  /* 채팅 컨텐츠 바 (Chat Content bar)
+  */
+  #chat-content-bar {
+
+    .form {
+
+      &-before { 
+
+        .headline { 
+          margin-bottom: .25em; 
+
+          $_color:  map-get( map-get( $color-palette, "br" ), "200" );
+          text-shadow: 1px 1px #{$_color}, 2px 2px #{$_color}, 3px 3px #{$_color}, 4px 4px #{$_color};
+        }
+
+        .headline + p { 
+          padding: 1em;
+          font-size: 1em; 
+          background-color: var(--app-color-white);
+          color: var(--app-color-text-bodysub);
+          border: 1px solid var(--app-color-br-100);
+
+          @include set-prefix( transition, background-color 0.6s ease, 'webkit' '' );
+        } // .headline + p
+      } // &-before
+
+    } // .form
+
+    &:not( .focused ) {
+
+      .form-before {  
+        .headline { @extend %focus-in-contract; }
+      }
+
+    }
+
+    &:is( .focused ) {
+
+      .form-before {  
+        .headline { @extend %blur-out-expand-fwd; }
+        .headline + p { border-color: transparent; background-color: transparent; }
+      }
+      
+    }
+
+
+      // @include grid-c( 1, 4, 20, row-dense );
+    // .content {
+
+    //   $prefix: content;
+
+    //   &.#{$prefix}-popular {
+        
+    //     .boxes {
+    //       @include grid-c( 1, 3, 16, row-dense, justify-items-center items-stretch, "posts keywords" );
+    //       grid-template-columns: 2fr 1fr; 
+    //     }
+
+    //     .boxes .box {
+    //       background-color: #eee;
+    //       width: 100%;
+
+    //       &:nth-child(1) { @include grid-item( $area: posts ); }
+    //       &:nth-child(2) { @include grid-item( $area: keywords ); }
+    //     }
+
+    //     .list-entry:is(.list-entry-post) {
+
+    //       .entry-card { 
+
+    //         &, 
+    //         &-content {
+    //           @include flex-c( flex row justify-start items-center );
+    //         }
+            
+    //       }
+
+    //     } // .list-entry
+
+    //   } // &-popular
+
+    // } // .content
+
+
+  } // chat-content-bar
+
+  /* 채팅 컨텐츠 (Chat Content)
+  */
+  #chat-content {
+  } // chat-content-bar
+
+
 }
+
+
+
 
 
 
@@ -113,10 +225,15 @@ body:is(.home) .app-content {
       // 채팅 프롬프트 (Chat Prompt)
       #chat-prompt { 
         @include set-prefix( transition, width 0.6s 0.0s ease(in-circ),  'webkit' '' ); 
-      }
+
+        &:not(.activated) {
+          .form-filter { display: none; }
+        }
+       
+      } // #chat-prompt
 
     } // #chat-content
 
-  } 
+  } // #content 
 
 }

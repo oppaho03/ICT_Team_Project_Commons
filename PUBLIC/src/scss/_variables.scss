@@ -121,6 +121,16 @@ $color-palette: (
 
 ) !default;
 
+
+
+/// --------------------------------------------------------------
+/// # Placeholder selectors 
+/// --------------------------------------------------------------
+
+%text-caption {
+  font-size: 0.75em;
+  color: var(--app-color-text-caption);
+}
 /// Placeholder selectors 
 // %font-color-primary {
 
@@ -135,3 +145,6 @@ $color-palette: (
 //   }
   
 // }
+
+
+

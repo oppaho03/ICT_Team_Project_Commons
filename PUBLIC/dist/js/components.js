@@ -4,6 +4,16 @@
 
 ( function( ) {
 
+  /* 핸들러 초기화
+  */
+
+  var _HGSAP = new HandlerGSPA( { 
+    "gsap": gsap, 
+    "CSSRulePlugin": CSSRulePlugin, 
+    "ScrollToPlugin": ScrollToPlugin,
+    "ScrollTrigger": ScrollTrigger 
+  } );
+
   /* App 객체 
   */ 
   var App = function () {
@@ -20,75 +30,7 @@
   */ 
   App.prototype.binds.push( function( e ) {
 
-    var sels = document.getElementsByTagName( "select" );
-    Array.from( sels ).forEach( function(el, elidx) {
 
-      return loadHTMLSelectElement( el );
-   
-      // <Select> 복사       
-      var sel = el.cloneNode(true);
-      sel.classList.add( "d-none" );
-
-      // Wrapper 생성
-      var wrap = document.createElement( "div" );
-      wrap.className = "form-control-wrap";
-      // wrap.appendChild( sel );
-
-      /* <select> 인터페이스 생성
-      */
-      var prefix = "select-box";
-      var root = document.createElement("div");
-      root.className = prefix;
-
-      if ( root ) {
-
-        // 현재 값(포커싱) 영역 
-        var valarea = document.createElement( "div" );
-        valarea.tabIndex = 1;
-        valarea.className = `${prefix}__current`;
-
-        // 리스트 영역 
-        var listarea = document.createElement( "ul" );
-        listarea.className = `${prefix}__list`;
-
-        // <select> (Clone)
-        var count = 1;
-        for ( var o of sel.options ) {
-
-          var id = `select-option-${elidx + 1}-${count}`;
-          
-          /// 값(Value) 
-          if ( true ) {
-            var _item = document.createElement( "div" );
-            _item.className = `${prefix}__value`;
-            _item.innerHTML = `<input class="${prefix}__input" type="radio" id="${id}" value="${o.value}" name="${sel.name}" ${count == 1 ? "checked" : ""}> <p class="${prefix}__input-text">${o.textContent}</p>`;
-
-            valarea.appendChild(_item); /// append _item
-          }
-
-          /// 옵션(Option)
-          if ( true ) {
-            var _item = document.createElement( "li" );
-            _item.innerHTML = `<label class="${prefix}__option" for="${id}" aria-hidden="aria-hidden">${o.textContent}</label>`;
-
-            listarea.appendChild( _item );
-          }
-          count ++;
-        }
-
-        // 현재 값(포커싱) / 리스트 영역 
-        root.appendChild(valarea);
-        root.appendChild(listarea);
-
-      }
-      wrap.appendChild( root ); // 'root'(셀렉트 인터페이스) 삽입
-
-      el.insertAdjacentElement("afterend", wrap);
-      el.remove(); // deleted 
-
-    } );
-
-    
   } );
 
   /* 바인드 : 'Primary' 서랍 메뉴(Drawable Menu) 토글 버튼 / 스위치(체크박스)
@@ -133,7 +75,7 @@
   */ 
   App.prototype.binds.push( function( e ) {
     // 프롬프트 (prompt) : 폼 (Form)
-    var prompt = document.getElementById("chat-prompt");
+    var prompt = document.getElementById("chat-prompt"); // <form>
     if ( ! prompt ) return;
     setEventListener( prompt, 'submit', function(e) {
 
@@ -155,7 +97,6 @@
       var cs = document.getElementById("chat-session");
       var cc = cs ? cs.querySelector("#chat-content") : null; 
       
-
       if ( ! cc ) return;
 
       var temp = cc.querySelector("#chat-template");
@@ -208,11 +149,12 @@
       /* 대화 입력 : 답변 (Question)
       */
       // prompt_value
-      setTimeout( function( prompt_value ) {
+      console.log( "request", prompt_value );
+      setTimeout( function(  ) {
 
-        /// Sample data 
-        console.log( "request", prompt_value );
-
+        /* 샘플 데이터
+          * - 서버 데이터 요청 
+        */ 
         var data = {
           "id" : 7,
           "fileName": "HC-A-02781336",
@@ -304,23 +246,159 @@
 
     // 프롬프트 (prompt) : 입력창 
     var input = prompt.querySelector("input[name='s']");
+
+    // 프롬프트 (prompt) : 입력창 'focus' / 'blur'
+    for( var _type of ["focus", "blur"] ) {
+
+      setEventListener( input, _type, function(e) {
+
+        var self = this;
+        var e_type = e.type;
+
+        // 채팅 프롬프트 : 폼(form)
+        var form = self.closest( "#chat-prompt" );
+        if ( form.classList.contains( 'activated' ) ) return; 
+
+        // .form-wrap#chat-content-bar
+        var wrap = form.closest(".form-wrap");
+        var cbef = wrap ? wrap.querySelector(".form-before") : null;
+        var caft = wrap ? wrap.querySelector(".form-after") : null;
+
+        if ( e_type.toLowerCase() == "focus" ) {
+          // on focus
+          if ( wrap && ! wrap.classList.contains("focused") ) wrap.classList.add("focused");
+
+          if ( cbef ) { 
+
+            // 헤드라인 (Headline)
+            var hl = cbef.querySelector(".headline"); // headline
+            var el = hl.nextElementSibling;
+            while ( el != null ) {
+
+              if ( ! el.querySelector("span") )  
+                el.innerHTML = toSpannedLine(el.textContent);
+
+              /* GSPA 애니메이션 정의 */
+              if ( _HGSAP.enabled() ) {
+
+                var _items = el.querySelectorAll("span");
+
+                gsap.to( _items , {
+                  ease: "power1.inOut",
+                  delay: 0.3,
+                  duration: 0.6, 
+                  opacity: 0,
+                  y: '-0.5em',
+                  stagger: { amount: 0.3, from: "start" }
+                });
+              }
+              else el.style.display = 'none';
+
+              el = el.nextElementSibling;
+            } // while ( el != null )
+
+          } // cbef
+          
+        }
+        else if ( e_type.toLowerCase() == "blur" ) {
+          // on blur
+          if ( wrap && wrap.classList.contains("focused") ) wrap.classList.remove("focused");
+
+          if ( cbef ) {
+            // 헤드라인 (Headline) 
+            var hl = cbef.querySelector(".headline"); // headline
+            var el = hl.nextElementSibling;
+            while ( el != null ) {
+
+              var _items = el.querySelectorAll("span");
+
+              /* GSPA 애니메이션 정의 */
+              if ( _HGSAP.enabled() ) {
+
+                var _items = el.querySelectorAll("span");
+
+                gsap.to( _items , {
+                  ease: "power1.inOut",
+                  duration: 0.6, 
+                  opacity: 1,
+                  y: 0,
+                  stagger: { amount: 0.3, from: "start" }
+                });
+              }
+              else el.style.display = 'block';
+
+              el = el.nextElementSibling;
+            } // while ( el != null )
+
+          } // cbef
+        }
+
+      }, { capture: false, passive: true } );
+
+    } // for( var _type of ["focus", "blur"] ) 
+
+    // 프롬프트 (prompt) : 입력창 'keydown'
     setEventListener( input, 'keydown', function(e) {
       var self = this;
       var key = (String)(e.key || e.code).toLowerCase();
 
       // 채팅 프롬프트 : 폼(form)
       var form = self.closest( "#chat-prompt" );
-
       if ( form ) {
         var activated = form.classList.contains( "activated" );
         if ( ! activated ) {
-          form.classList.add( "activated" );
+          
+          /* GSPA 애니메이션 정의 */
+          if ( _HGSAP.enabled() ) { 
+
+            var filters = [];
+
+            for ( var cnt of form.querySelectorAll(".form-filter") ) {
+              filters = filters.concat( Array.from( cnt.querySelectorAll( ".form-control, form-select, .form-switch" ) ) );
+            }
+
+            if ( filters.length ) {
+
+              var attrs = {
+                opacity: 0, 
+                y: '100%',
+                scale: 0.5
+              }
+              gsap.set( filters, attrs );
+
+              attrs = Object.assign( attrs, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 1,
+                delay: 0.6,
+                ease: "bounce.out",
+                stagger: { amount: 0.5, from: "start" }
+              } );
+
+              gsap.to( filters , attrs );
+            } // if ( filters.length )
+            
+          } // GSPA 애니메이션 정의 
 
           var formwrap = form.closest(".form-wrap");
           if ( formwrap ) formwrap.style.bottom =  (form.clientHeight / 2) + 'px';
-        }
+
+          form.classList.add( "activated" ); // "activated" 토글
+        } // "activated" 토글
       }
 
+      // 채팅 컨텐츠 영역 
+      var cc = document.getElementById("chat-content");
+      var ccList = cc ? cc.querySelector(".chat-list") : null;
+      if ( ccList ) {
+
+        // 초기 대화(chat) d-none 해제
+        for( var item of ccList.querySelectorAll(".chat-list-item.d-none") ) { item.classList.remove('d-none'); }
+
+
+      } // ccList
+ 
       var expts = [ "enter", "escape" ]; // 예외 키
       if ( ! expts.includes( key ) ) return;
 
@@ -336,38 +414,125 @@
       }
 
     }, { capture: false, passive: true } ); 
+    
+
+    // 프롬프트 (prompt) 필터 : 셀렉트
+    var filters = prompt.querySelectorAll( 
+      [ ".form-control", ".form-select" ]
+      .map( function( val ) { return ".form-filter " + val; } )
+      .join(",")
+    );
+
+    Array.from(filters).forEach( function(el) {
+
+      if ( el.classList.contains( "form-select" ) ) { // : <select>
+
+        var input = el.querySelector("select");
+        if ( ! input ) return; 
+
+        setEventListener( input, 'change', function(e) {
+          
+          var t = e.target; 
+          var name = t.name;
+          var value = t.value;
+
+          var txt = t.options[t.selectedIndex].text;
+
+          if ( ['department', 'disease'].indexOf( name ) !== -1 ) {
+
+            // 진료과목 -> 질병종류 목록 갱신
+            if ( name == "department" ) { // 진료과목 
+
+              /* 샘플 데이터
+               * - 서버 데이터 요청 
+              */ 
+              var _datas = {
+                "dep1": {
+                  "dis11": "HIV 감염",
+                  "dis12": "결핵",
+                  "dis13": "곰팡이 감염",
+                  "dis14": "말라리아",
+                  "dis15": "발진티푸스",
+                },
+                "dep2": {
+                  "dis21": "고막염",
+                  "dis22": "난청",
+                  "dis23": "만성 비염",
+                  "dis24": "수면 무호흡증",
+                },
+                "dep3": {
+                  "dis31": "괴혈병",
+                  "dis32": "납 중독",
+                  "dis33": "대사 증후군",
+                  "dis34": "비만",
+                  "dis35": "춘곤증",
+                },
+              } // _data
+  
+              /// 질병종료 셀렉트 불러오기
+              var sel = t.closest("form").querySelector("select[name='disease']");
+              if ( sel )  {
+  
+                sel.innerHTML = '<option value="">전체</option>';
+  
+                if ( _datas.hasOwnProperty(value) ) {
+  
+                  Object.entries(_datas[value]).forEach( function([_key, _val]) {
+  
+                    var _opt = document.createElement( "option" );
+                    _opt.value = _key;
+                    _opt.textContent = _val;
+  
+                    sel.appendChild( _opt );
+  
+                  }); 
+  
+                }
+                
+  
+              } // if (sel)
+  
+              console.log( txt );
+  
+            }
+
+          } // 진료과목, 질병종류
+
+        }, { capture: false, passive: false } );
+
+      }
+      else return;
+
+    } );
+
+
+    // if ( filters.length ) {
+
+    //   var attrs = {
+    //     opacity: 0, 
+    //     y: '100%',
+    //     scale: 0.5
+    //   }
+    //   gsap.set( filters, attrs );
+
+    //   attrs = Object.assign( attrs, {
+    //     opacity: 1,
+    //     y: 0,
+    //     scale: 1,
+    //     duration: 1,
+    //     delay: 0.6,
+    //     ease: "bounce.out",
+    //     stagger: { amount: 0.5, from: "start" }
+    //   } );
+
+    //   gsap.to( filters , attrs );
+
+    //////
+   
 
     // 프롬프트 (prompt) 버튼 (submit)
     var btn = prompt.querySelector("button[type='submit']");
     setEventListener( btn, 'click', function(e) {
-
-      // var self = e.target; 
-      // var expanded = self.classList.toggle("expanded") ;
-
-      // // self.setAttribute( 'aria-expanded', expanded );
-
-      // /// 프롬프트 (prompt) 
-      // var form = self.closest('form');
-      // form.classList.toggle("activated") ;
-      // // if ( ! form.classList.contains("activated") ) {
-      // //   form.classList.add("activated"); // 활성화
-      // // }
-      
-      // // 채팅 컨텐츠 활성화 및 비활성화 토글 (Toggled chat content)
-      // var mcnt = document.getElementById( "content" );
-      // var ccnt = document.getElementById( "chat-content" );
-      // if ( expanded ) {
-      //   // 채팅 컨텐츠 : 활성화
-      //   var prevEl = ccnt.previousElementSibling;
-      //   if ( prevEl ) {
-      //     // console.log(prevEl);
-      //     prevEl.style.marginLeft= String(-100) + "%";
-      //   }
-
-      // }
-      // else {
-      //   // 채팅 컨텐츠 : 비활성화 
-      // }
         
     }, { capture: false, passive: false } );
   });

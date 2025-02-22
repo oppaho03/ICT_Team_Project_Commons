@@ -38,18 +38,13 @@ body {
   background-size: cover;
   overflow-x: hidden;
 }
-// @keyframes gradientAnimation {
-//     0% {
-//         background: linear-gradient(45deg, #573CF9, #00BFFF);
-//     }
-//     50% {
-//         background: linear-gradient(45deg, #573CF9, #FF69B4);
-//     }
-//     100% {
-//         background: linear-gradient(45deg, #573CF9, #32CD32);
-//     }
-// }
 
+// clearfix
+.cf::after {
+  content: "";
+  display: table;
+  clear: both;
+}
 /// --------------------------------------------------------------
 /// # 요소(Elements) + 부트 스트랩
 /// --------------------------------------------------------------
@@ -73,9 +68,96 @@ input[class *= "-unstyled"] {
 
 }
 
-.form-control {
-  background-color: var(--app-color-bg-100);
+/* form-caption
+*/
+.form-caption {
+  $h: 24px;
+
+  margin-bottom: 0;
+  @include position( absolute, t calc($h * -1) l 0 );
+  display: block;
+
+  width: 100%;
+  height: $h;
+  line-height: $h;
+  
+  & > label { @extend %text-caption; }
+
+  &.underline {
+    $h: $h + 6;
+    top: calc($h * -1);
+
+    &::after {
+      content : "";
+      @include position( absolute, b 0 l 0 );
+      width: 100%;
+      height: 1px; 
+      background-color: var(--app-color-primary);
+    }
+  } // &.underline
 }
+
+
+/* form-control 
+*/
+.form-control {
+  @include position( relative );
+  background-color: var(--app-color-bg-100);
+
+  // <select>
+  &.form-select {
+    padding: 0;
+    background-image: none;
+
+    /// <select> 초기화 
+    select { 
+      z-index: 3;
+      padding: .375rem 0.75rem;
+      flex: 1;
+      background-color: transparent;
+      background-image: none;
+      outline: none;
+      border: 0;
+      box-shadow: none;
+      color: var(--app-color-text-bodysub);
+      cursor: pointer;
+      
+      // Remove arrow
+      @include set-prefix( appearance, none, 'webkit' 'moz' '' );
+      &::-ms-expand { display: none !important; } // Remove IE arrow 
+    }
+
+    & {
+      $expand-s : 36px;
+
+      position: relative;
+      @include flex-c( flex row items-center );
+      width: auto;
+      height: auto;
+      // overflow: hidden;
+
+      &::after {
+        $_s: $expand-s;
+
+        content: "\e920";
+
+        display: block;
+        @include position( absolute, t 0 r 0 z 1 );
+        width: $_s;
+        height: $_s;
+        line-height: $_s;
+        color: var(--app-color-text-bodysub);
+        text-align: center;
+        font-family: 'icomoon-ict' !important;
+        font-size: 0.75em;
+      }
+
+      select { padding-right: calc( $expand-s + 0.365rem ); }
+    }
+
+  } // <select> 
+}
+
 
 /// .form-switch
 .form-switch {
@@ -86,16 +168,15 @@ input[class *= "-unstyled"] {
   
   $bar-size_h : calc( #{$ball-size} + 6px );
   $bar-size_w : calc( #{$bar-size_h} * 2 );
+
+  @include position(relative);
+  width: auto;
+  padding: 0;
   
   .form-check-input {
+    margin: 0;
     width: $bar-size_w;
     height: $bar-size_h;
-
-    // pointer-events: none;
-
-    // & {
-    //   @include set-prefix( box-shadow, inset 1px 1px 2px 0px rgba($color_primary, 50%), "webkit" "moz" "" );
-    // }
 
     &:focus, 
     &:checked {
@@ -108,7 +189,11 @@ input[class *= "-unstyled"] {
 
     &:focus { background-position-x: $ball-ml; }
     &:checked { background-position-x: $ball-mr; } 
-  } // .form-check-input 
+  } // .form-check-input
+  
+  
+  // size 
+  & { height: 24px; }
  
 } // .form-switch
 
@@ -118,6 +203,15 @@ input[class *= "-unstyled"] {
 /// --------------------------------------------------------------
 /// # 요소(Elements)
 /// --------------------------------------------------------------
+
+h1, h2, h3, h4, h5, h6 {
+  
+  &.headline { 
+    font-weight: bold;
+    color: var( --app-color-primary );
+  }
+
+}
 
 /// a 링크 
 a.link {
@@ -137,6 +231,16 @@ a.link {
     img.link-icon-img { opacity: 0.6; }
   }
 
+}
+
+/// a 용어(Term) 
+a.term {
+  &[href] { cursor: pointer; }
+  
+  @include position(relative);
+  display: block;
+  background-color: var(--app-color-bg-300);
+  text-decoration: none;
 }
 
 // button 
@@ -250,17 +354,20 @@ svg.loader.type-1 {
     }
   }
 
-}
+} 
 
 /// 커스텀 셀렉트 박스
 /// <select>
 .select-box {
 
-  margin: 0 auto;
+  $prefix: select-box;
+
+  padding: 0;
+  margin: 0;
   @include position( relative );
   display: block;
 
-  width: 100%;
+  width: auto;
   font-size: 1em;
 
   &__current {
@@ -268,17 +375,34 @@ svg.loader.type-1 {
     @include set-prefix( box-shadow, 0 0.5em 1em -0.75em transparentize(#000, 0.9), 'webkit' 'moz' '' );
     cursor: pointer;
     outline: none;
+    
+    background-color: var(--app-color-white);
+    
+    // &::after {
+    //   content: "\e91f";
+    //   display: block;
+    //   @include position( absolute, r 0 t 0 );
+    //   width: 36px; 
+    //   height: 100%;
+    //   background-color: #ff0;
 
-    &:focus + ul {
-      opacity: 1;
-      @include set-prefix( animation, swing-in-top-fwd .5s cubic-bezier(.175,.885,.32,1.275) both, 'webkit' '' );
-      @include set-prefix( box-shadow, 0 0.5em 1em -0.75em transparentize(#000, 0.9), 'webkit' 'moz' '' );
-     
-      [class$="__option"]  { cursor: pointer; }
-    }
+
+    //   ////// rotate
+    // }
+
+
+    &:not(:focus) + ul { display: none; }
+    &:focus + ul { display: block; }
+    &:focus + ul *[class$="__option"]  { cursor: pointer; }
+
+    // &:focus .#{$prefix}__exapnd {
+    //   display: none !important;
+    //   @include set-prefix( transform, rotate(180deg), 'webkit' '' );
+    // }
+
   } // &__current 
 
-  &__value { @include flex-c( flex ); }
+  &__value { @include flex-c( flex row nowrap items-center ); }
 
   &__input {
     display: none; 
@@ -294,15 +418,29 @@ svg.loader.type-1 {
     background-color: var(--app-color-white);
   } // &__input-text
 
+  &__expand {
+
+    $s: 24px; 
+
+    display: block;
+    width: $s; 
+    min-width: $s;
+    height: $s;
+    line-height: $s;
+    text-align: center;
+
+  } // &__expand
+
   &__list {
     margin-top: 2px;
     padding: 0;
     @include position( absolute, z 10 );
     width: 100%;
-    opacity: 0;
+    list-style: none;
 
-    //
-
+    @include set-prefix( animation, swing-in-top-fwd .5s cubic-bezier(.175,.885,.32,1.275) both, 'webkit' '' );
+    @include set-prefix( box-shadow, 0 0.5em 1em -0.75em transparentize(#000, 0.9), 'webkit' 'moz' '' );
+    
     & > li { border-top: 1px solid var(--app-color-bg-200); }
   } //  &__list
   &__option {
@@ -311,7 +449,6 @@ svg.loader.type-1 {
     padding: 0.5em;
     background-color: var(--app-color-white);
     
-
     &:hover, 
     &:focus {
       color: var(--app-color-primary);
@@ -324,6 +461,7 @@ svg.loader.type-1 {
 
 
 /// 검색 박스
+/// 
 .search-box {
 
   padding: 0.5em;
@@ -364,7 +502,6 @@ svg.loader.type-1 {
 .chat {
 
   // &-wrap {}
-
   & > .row { max-width: 75%; }
   & > .row:not(:last-child) { margin-bottom: 1em; }
 
@@ -456,6 +593,8 @@ svg.loader.type-1 {
         background-color: var(--app-color-white);
       }  // .messages.type-bubble
 
+      .messages.type-main > p[aria-label="message"] { color: var(--app-color-text-bodysub); }
+
       .messages.type-main { padding: 1em 0; }
 
       .messages svg.loader {
@@ -478,7 +617,19 @@ svg.loader.type-1 {
       }
 
       &content {
-        .messages > p[aria-label="message"] { @include set-prefix( animation, swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) both, "webkit" "" ); }
+
+        .messages {
+
+          & > p[aria-label="message"] { @include set-prefix( animation, swing-in-left-bck .6s cubic-bezier(.175,.885,.32,1.275) both, "webkit" "" ); } 
+
+          &.type-main > p[aria-label="message"] { @include set-prefix( animation-delay, 0.3s, "webkit" "" ); }
+
+        } // .messages
+        
+      } // &content
+
+      &content:not(.col) {
+        @include flex-container-append( column );
       }
       
     }
@@ -509,28 +660,32 @@ svg.loader.type-1 {
   }
 
   // 채팅 타입 : 사용자 (USER)
-  &.type-user > .row { 
-    margin-left: auto;
-    @include flex-container-append( row-reverse );
-  }
-  &.type-user .chat- {
+  &.type-user {
 
-    // &thumb
-    // : 썸네일 (Thumbnail)
-    &thumb {
-
-      .back { display: none; }
-
-      .front { background-color: var(--app-color-white); }
-      .front.has-img { padding: 2px; }
+    & > .row {
+      margin-left: auto;
+      @include flex-container-append( row-reverse );
     }
-    // &content
-    // : 컨텐츠 (Content)
-    &content {
-      @include flex-container-append( justify-end );
 
-      .messages > p[aria-label="message"] { @include set-prefix( animation, swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both, "webkit" "" ); }
-    }
+    .chat- {
+      // &thumb
+      // : 썸네일 (Thumbnail)
+      &thumb {
+
+        .back { display: none; }
+
+        .front { background-color: var(--app-color-white); }
+        .front.has-img { padding: 2px; }
+      }
+      // &content
+      // : 컨텐츠 (Content)
+      &content {
+        @include flex-container-append( justify-end );
+
+        .messages > p[aria-label="message"] { @include set-prefix( animation, swing-in-right-bck .6s cubic-bezier(.175,.885,.32,1.275) both, "webkit" "" ); }
+      }
+    } // .chat-
+
   } // &.type-user 
 
   /// @ 미디어 쿼리 
@@ -556,132 +711,3 @@ svg.loader.type-1 {
 
 } // .chat 
 
-
-/////
-
-
-
-
-////
-////
-////
-/// 
-/// 
-
-// .select-box {
-//   position: relative;
-//   display: block;
-//   width: 100%;
-//   margin: 0 auto;
-//   font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-//   font-size: 18px;
-//   color: #60666d;
-  
-//   @media (min-width: 768px) {
-//     width: 70%;
-//   }
-  
-//   @media (min-width: 992px) {
-//     width: 50%;
-//   }
-  
-//   @media (min-width: 1200px) {
-//     width: 30%;
-//   }
-  
-//   &__current {
-//     position: relative;
-//     box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
-//     cursor: pointer;
-//     outline: none;
-    
-//     &:focus {
-//       & + .select-box__list {
-//         opacity: 1;
-
-//         // We have to set "animation-name: none;" to make the list visible (read below how it works)
-
-//         animation-name: none;
-        
-//         .select-box__option {
-//           cursor: pointer;
-//         }
-//       }
-      
-//       .select-box__icon {
-//         transform: translateY(-50%) rotate(180deg);
-//       }
-//     }
-//   }
-  
-//   &__icon {
-//     position: absolute;
-//     top: 50%;
-//     right: 15px;
-//     transform: translateY(-50%);
-//     width: 20px;
-//     opacity: 0.3;
-//     transition: 0.2s ease;
-//   }
-  
-//   &__value {
-//     display: flex;
-//   }
-  
-//   &__input {
-//     display: none;
-    
-//     &:checked + .select-box__input-text {
-//       display: block;
-//     }
-//   }
-  
-//   &__input-text {
-//     display: none;
-//     width: 100%;
-//     margin: 0;
-//     padding: 15px;
-//     background-color: #fff;
-//   }
-  
-//   &__list {
-//     position: absolute;
-//     width: 100%;
-//     padding: 0;
-//     list-style: none;
-//     opacity: 0;
-    
-//     // We need to use animation with delay.
-//     // Otherwise the click event will not have time to run on label, because this element disapears immediately when .select-box__current element loses the focus.
-//     // This delay will not be noticed because we set "opacity" to "0".
-//     // We also use "animation-fill-mode: forwards" to make the list stay hidden.
-    
-//     animation-name: HideList;
-//     animation-duration: 0.5s;
-//     animation-delay: 0.5s;
-//     animation-fill-mode: forwards;
-//     animation-timing-function: step-start;
-//     box-shadow: 0 15px 30px -10px transparentize(#000, 0.9);
-//   }
-  
-//   &__option {
-//     display: block;
-//     padding: 15px;
-//     background-color: #fff;
-    
-//     &:hover,
-//     &:focus {
-//       color: #546c84;
-//       background-color: #fbfbfb;
-//     }
-//   }
-// }
-
-// @keyframes HideList {
-//   from {
-//     transform: scaleY(1);
-//   }
-//   to {
-//     transform: scaleY(0);
-//   }
-// }

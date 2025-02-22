@@ -131,7 +131,7 @@
                     <!-- 채팅: 사용자 (USER) -->
                     <div class="chat-wrap" >
                       <article class="chat type-user" itemscope="itemscope" itemprop="message" itemtype="https://schema.org/Message" data-status="done">
-                        <div class="row me-0">
+                        <div class="row ms-0">
                           <div class="chat-thumb col-auto px-0">
                             <div class="back"> 
                               <div class="back-in"></div> 
@@ -152,7 +152,7 @@
                     <!-- 채팅: 봇 (BOT) -->
                     <div class="chat-wrap">
                       <article class="chat type-bot" itemscope="itemscope" itemprop="message" itemtype="https://schema.org/Message" data-status="pending"><!-- pending | fulfilled | rejected -->
-                        <div class="row ms-0">
+                        <div class="row me-0">
                           <div class="chat-thumb col-auto px-0">
                             <div class="back"> 
                               <div class="back-in"></div> 
@@ -181,21 +181,13 @@
                               </p>
                             </div> <!-- .content -->
                           </div> <!-- .chat__content -->
-                        </div> <div class="row ms-0">
+                        </div> <div class="row me-0">
                           <div class="chat-content">
                             <div class="messages type-main">
                               <!-- <p aria-label="message"> </p> -->
-                            </div> <!-- .messages -->
-                            <div class="meta">
-                              <div class="meta-terms terms">
-                                <ul class="list-unstyled d-flex flex-row flex-wrap">
-                                  <li><a class="term term-category">귀코목질환</a></li>
-                                  <li><a class="term term-category">중이염</a></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div> <!-- chat-content -->
-                        </div> <!-- .row -->
+                            </div> <!-- .content -->
+                          </div>
+                        </div>
                       </article> <!-- .chat-type-answer -->
                     </div> <!-- .chat-wrap -->
 
@@ -311,9 +303,71 @@
                     <!--
                       추천 및 인기 컨텐츠 목록
                     -->
-                    <div class="inner form-after">
+                    <div class="content content-popular" >
+                      <ul class="boxes list-unstyled">
+                        
+                        <li class="box"> <!-- HEALT INFORMATION -->
+                          <div class="list-wrap">
+                            <div class="list list-entry list-entry-post post-type-healthinfo">
 
-                    </div> <!-- .form-after -->
+                              <!--
+                                .entry-card 아이템 목록 
+                              -->
+                              <a href class="a-wrap entry-card-wrap cf" title="파킨슨병"> 
+                                <!-- has-post-thumbnail hentry(제목, 작성자, 날짜, 본문내용)-->
+                                <article id class="entry-card type-healthinfo category-healthinfo status-publish format-standard">  
+                                  <figure class="entry-card-thumb">
+                                    <img width="300" height="300" src="" class="entry-card-thumb-image wp-post-image" alt="파킨슨병" decoding="async" loading="lazy">  
+                                  </figure>
+
+                                  <div class="entry-card-content">
+
+                                    <div class="entry-card-meta top">
+                                      <div class="entry-card-info">
+                                        <div class="post-category">
+                                          <span class="entry-category">
+                                            <i class="im type-anatomy icon-brain-2"></i>
+                                          </span>
+                                        </div>
+                                        <div class="post-date">
+                                          <span class="entry-date">2025/02/21</span>
+                                        </div>
+                                      </div>
+                                    </div> <!-- .entry-card-meta.top -->
+
+                                    <h2 class="entry-card-title" itemprop="headline">
+                                      파킨슨병
+                                    </h2> <!-- .entry-card-title -->
+
+                                    <div class="entry-card-snippet"></div> <!-- .entry-card-snippet -->
+
+                                    <div class="entry-card-meta bottom">
+                                      <div class="entry-card-info">
+                                        <div class="post-category">
+                                          <span class="entry-category"></span>
+                                        </div>
+                                        <div class="post-date">
+                                          <span class="entry-date">2025/02/21</span>
+                                        </div>
+                                      </div>
+                                    </div> <!-- .entry-card-meta.bottom -->
+
+                                  </div> <!-- .entry-card-content -->
+
+                                </article>
+                              </a> <!-- .a-wrap -->
+                              
+                            </div> <!-- .list -->
+                          </div> <!-- .list-wrap -->
+                        </li>
+
+                        <li class="box"> <!-- KEYWORDS--> 
+                          KEYWORDS
+                        </li>
+                        
+                      </ul>
+                    </div>
+              
 
                   </div>
                 </div>  <!-- #chat-content-bar -->

@@ -136,10 +136,10 @@ async function fetchGetJSONAsync( url, params, cb_success = null, cb_error = nul
  * @return {string} 
  */
 function toSpannedLine ( value ) {
-
+  
   var value = value.replace(/<(?!br\s*\/?)[^>]+>/gi, ''); // 모든 HTML 태그 제거, <br> 제외
-  if ( ! value || value.trim() != '' ) return ''
-
+  if ( ! value || value.trim() == '' ) return ''
+  
   var lines = value.split( /<br\s*\/?>/i );  // <br> 기준으로 텍스트 분리
   var wrappedLines = lines.map( function( line ) {
     
@@ -149,13 +149,16 @@ function toSpannedLine ( value ) {
 
       count ++; 
       char = char.replace(/(\r\n|\n|\r)/g, '<br/>'); // <br/>
+      char = char.replace(/ /g, '&nbsp;'); // ' ' -> &nbsp;
       
       if ( char == "<br/>" ) return char;
-      else return `<span class='ch' data-index="${count}">${char}</span>` 
+      else return `<span class='d-inline-block' data-index="${count}">${char}</span>` 
 
     } ).join('');
 
   } );
+
+
 
   return wrappedLines.join('<br>'); // <br>을 추가하여 원래 형식으로 반환
 }
@@ -295,7 +298,9 @@ function loadHTMLSelectElement( elem ) {
 
     var item = document.createElement( "div" );
     item.className = `${__PREFIX__}__value`;
-    item.innerHTML = `<p class="${__PREFIX__}__input-text">${curoption.textContent}</p>`;
+    item.innerHTML = `<p class="${__PREFIX__}__input-text">${curoption.textContent}</p>
+      <div class="${__PREFIX__}__expand"><i class="im im-ict icon-chevron-down"></i>
+    </div>`;
 
     rootCur.appendChild( item ); // append &__value
     rootCur.appendChild( sel ); // append <select> (clone)
@@ -320,8 +325,9 @@ function loadHTMLSelectElement( elem ) {
       rootList.appendChild( item ); // append items
     }
 
-    // 바인드 : 'list' Click  (Capturing)
-    setEventListener( rootList, 'click', function(e) {
+    // 바인드 : 'list' MouseDown  (Capturing)
+    // Display 'none' is not a clicked.
+    setEventListener( rootList, 'mousedown', function(e) {
 
       var t = e.target;
       var list = t.closest('ul');

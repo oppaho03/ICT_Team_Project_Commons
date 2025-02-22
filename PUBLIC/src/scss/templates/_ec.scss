@@ -1,0 +1,58 @@
+@charset 'UTF-8';
+
+/// --------------------------------------------------------------
+/// # 카드형 개체 (Entry Card 또는 Card)
+/// --------------------------------------------------------------
+/// - .entry-card
+/// --------------------------------------------------------------
+
+.entry-card {
+
+  /*
+  - has-post-thumbnail 
+  - hentry : 제목, 작성자, 날짜, 본문내용
+  */
+
+  & {
+    font-size: 1rem;
+    color: var(--app-color-text-body);
+  }
+
+  &-wrap { 
+    display: block; 
+    text-decoration: none;
+  }
+
+  $ec: entry-card; // prefix
+
+  &:not(.has-post-thumbnail) {
+    .#{$ec}-thumb { display: none; }
+  }
+
+  & &- {
+
+    &meta { 
+      color: var(--app-color-text-bodysub);
+      font-size: 0.75em; 
+    }
+
+    &title { color: var(--app-color-primary); }
+
+  } // .entry-card-*
+
+  // :HOVER 
+  &-wrap:hover & {
+
+    .#{$ec}- {
+
+      &title { 
+        color: var(--app-color-primary-hover); 
+        text-decoration: underline;
+        text-underline-offset: 0.25em;
+      }
+
+    } // .entry-card-*
+
+  } // :HOVER 
+
+}
