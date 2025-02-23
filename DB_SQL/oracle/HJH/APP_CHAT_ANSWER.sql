@@ -34,5 +34,9 @@ values('f_name1','intro1','body1','conclusion1');
 insert into APP_CHAT_ANSWER(file_name,intro, body, conclusion)
 values('f_name2','intro2','body2','conclusion2');
 
+commit;
 
 select * from APP_CHAT_ANSWER;
+
+
+

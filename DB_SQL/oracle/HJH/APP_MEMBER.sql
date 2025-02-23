@@ -50,5 +50,11 @@ values('email2','pwd2',default,'name2','nick2',TO_DATE('2025-02-14'),'F','01011'
 insert into APP_MEMBER(email,password,role,name,nickname,birth,gender,contact,address,token,created_at,updated_at,status)
 values('email3','pwd3',default,'name3','nick3',TO_DATE('2025-02-15'),'F','010222','addr3',default,default,default,0);
 
+insert into APP_MEMBER(email,password,role,name,nickname,birth,gender,contact,address,token,created_at,status)
+values('email4','pwd4',default,'name3','nick3',TO_DATE('2025-02-15'),'F','010222','addr3',default,default,0);
+
+commit;
+
 select * from APP_MEMBER;
+
 

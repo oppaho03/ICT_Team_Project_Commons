@@ -10,11 +10,16 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [대화 세션]
 create table APP_CHAT_SESSION(
     id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    member_id NUMBER(20,0) NOT NULL REFERENCES APP_MEMBER(id), -- 외래키
+    member_id NUMBER(20,0) NOT NULL , -- 외래키
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL, -- 디폴트는 created_at
     status NUMBER(1,0) NOT NULL,
-    count NUMBER(20,0) DEFAULT 0 NOT NULL
+    count NUMBER(20,0) DEFAULT 0 NOT NULL,
+    
+     -- 외래키 제약조건
+    CONSTRAINT fk_member_id_chat_session FOREIGN KEY (member_id)  
+        REFERENCES APP_MEMBER(id)    
+        ON DELETE CASCADE 
 );
 
 -- APP_CHAT_SESSION 테이블에 대한 트리거 설정
@@ -38,6 +43,11 @@ values(1,SYSDATE,1);
 
 insert into APP_CHAT_SESSION(member_id,updated_at,status)
 values(2,TO_TIMESTAMP('2025-02-15 9:00:00'),0);
+
+insert into APP_CHAT_SESSION(member_id,status)
+values(2,0);
+
+commit;
 
 select * from APP_CHAT_SESSION;
 

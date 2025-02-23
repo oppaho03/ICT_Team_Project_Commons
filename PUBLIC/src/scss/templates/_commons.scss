@@ -240,7 +240,8 @@ a.term {
   @include position(relative);
   display: block;
   background-color: var(--app-color-bg-300);
-  text-decoration: none;
+  // text-decoration: none;
+
 }
 
 // button 

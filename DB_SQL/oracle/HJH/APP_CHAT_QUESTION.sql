@@ -32,8 +32,9 @@ values('내용1',SYSDATE);
 insert into APP_CHAT_QUESTION(content, created_at)
 values('내용1',TO_TIMESTAMP('2025-02-14 11:12:15'));
 
-insert into APP_CHAT_QUESTION(content, created_at)
-values('내용22',DEFAULT);
+insert into APP_CHAT_QUESTION(content)
+values('내용22');
 
+commit;
 
 select * from APP_CHAT_QUESTION;

@@ -10,9 +10,14 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [회원 메타]
 create table APP_MEMBER_META(
     meta_id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    member_id NUMBER(20,0) NOT NULL REFERENCES APP_MEMBER(id), -- 외래키
+    member_id NUMBER(20,0) NOT NULL , -- 외래키
     meta_key VARCHAR2(255) NOT NULL,
-    meta_value CLOB DEFAULT EMPTY_CLOB()
+    meta_value CLOB DEFAULT EMPTY_CLOB(),
+    
+    -- 외래키 제약조건
+    CONSTRAINT fk_member_id_member_meta FOREIGN KEY (member_id)  
+        REFERENCES APP_MEMBER(id)    
+        ON DELETE CASCADE 
 );
 
 -- APP_MEMBER_META 테이블에 대한 트리거 설정
@@ -29,6 +34,8 @@ END;
 -- APP_MEMBER_META 테이블에 테스트 데이터 삽입
 insert into APP_MEMBER_META(member_id, meta_key)
 values(1,'key1');
+
+commit;
 
 select * from APP_MEMBER_META;
 

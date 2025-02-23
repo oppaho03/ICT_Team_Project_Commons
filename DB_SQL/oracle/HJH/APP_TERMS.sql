@@ -38,8 +38,11 @@ values('용어1','slug1',0);
 insert into APP_TERMS(name,slug)
 values('용어2','slug2');
 
+commit;
 
 select * from APP_TERMS;
 
--- DROP TRIGGER APP_TERMS_TRG;
+
+
+
 

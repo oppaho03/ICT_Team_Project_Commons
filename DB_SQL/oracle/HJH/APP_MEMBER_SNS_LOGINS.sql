@@ -10,7 +10,7 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [회원SNS로그인]
 create table APP_MEMBER_SNS_LOGINS(
     id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    member_id NUMBER(20,0) NOT NULL REFERENCES APP_MEMBER(id), --외래키
+    member_id NUMBER(20,0) NOT NULL , --외래키
     -- login_id는 반드시 빈문자열이 아닌 문자열로 넘어오는 값이다
     login_id VARCHAR2(100) DEFAULT '' NOT NULL,
     provider VARCHAR2(20) NOT NULL,
@@ -19,7 +19,12 @@ create table APP_MEMBER_SNS_LOGINS(
     refresh_token CLOB,
     status NUMBER(1) DEFAULT 1 NOT NULL,
     login_modified_at TIMESTAMP NOT NULL,
-    login_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    login_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    
+    -- 외래키 제약조건
+    CONSTRAINT fk_member_id_member FOREIGN KEY (member_id)  
+        REFERENCES APP_MEMBER(id)    
+        ON DELETE CASCADE 
 );
 
 -- APP_MEMBER_SNS_LOGINS 테이블에 대한 트리거 설정
@@ -42,6 +47,8 @@ values(2,'id2','sns2',2,TO_TIMESTAMP('2025-02-15 11:46'),DEFAULT);
 
 insert into APP_MEMBER_SNS_LOGINS(member_id,login_id,provider,provider_id,login_modified_at,login_created_at)
 values(3,'id3','sns3',3,TO_TIMESTAMP('2025-02-15 11:46'),DEFAULT);
+
+commit;
 
 select * from APP_MEMBER_SNS_LOGINS;
 

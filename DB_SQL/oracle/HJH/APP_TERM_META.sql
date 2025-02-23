@@ -10,9 +10,14 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [용어 메타]
 create table APP_TERM_META(
     meta_id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    term_id NUMBER(20,0) NOT NULL REFERENCES APP_TERMS(id), -- 외래키
+    term_id NUMBER(20,0) NOT NULL , -- 외래키
     meta_key VARCHAR2(255) NOT NULL,
-    meta_value CLOB DEFAULT EMPTY_CLOB()
+    meta_value CLOB DEFAULT EMPTY_CLOB(),
+    
+    -- 외래키 제약조건
+    CONSTRAINT fk_term_id_term_meta FOREIGN KEY (term_id)  
+        REFERENCES APP_TERMS(id)    
+        ON DELETE CASCADE 
 );
 
 -- APP_TERM_META 테이블에 대한 트리거 설정
@@ -35,6 +40,8 @@ values(1,'k2',DEFAULT);
 
 insert into APP_TERM_META(term_id,meta_key,meta_value)
 values(2,'k3','v3');
+
+commit;
 
 select * from APP_TERM_META;
 

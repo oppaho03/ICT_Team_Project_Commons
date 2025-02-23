@@ -10,12 +10,17 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [리소스 보안]
 create table APP_RESOURCES_SEC(
     id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    post_id NUMBER(20,0) NOT NULL REFERENCES APP_POSTS(id),
+    post_id NUMBER(20,0) NOT NULL , -- 외래키
     file_name NVARCHAR2(255),
     file_ext VARCHAR2(20) DEFAULT '',
     file_url VARCHAR2(500) DEFAULT '',
     enc_key VARCHAR2(255) DEFAULT '',
-    enc_status NUMBER(1) DEFAULT 0 NOT NULL
+    enc_status NUMBER(1) DEFAULT 0 NOT NULL,
+    
+     -- 외래키 제약조건
+    CONSTRAINT fk_post_id_resources_sec FOREIGN KEY (post_id)  
+        REFERENCES APP_POSTS(id)    
+        ON DELETE CASCADE 
 );
 
 -- APP_RESOURCES_SEC 테이블에 대한 트리거 설정
@@ -33,7 +38,10 @@ END;
 insert into APP_RESOURCES_SEC(post_id)
 values(2);
 
+commit;
+
 select * from APP_RESOURCES_SEC;
+
 
 
 

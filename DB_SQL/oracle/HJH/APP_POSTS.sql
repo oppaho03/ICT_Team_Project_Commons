@@ -10,7 +10,7 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [글(포스트)]
 create table APP_POSTS(
     id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    post_author NUMBER(20,0) NOT NULL REFERENCES APP_MEMBER(id), --외래키
+    post_author NUMBER(20,0) NOT NULL, --외래키
     post_title CLOB NOT NULL,
     post_content CLOB DEFAULT EMPTY_CLOB(),
     post_summary CLOB DEFAULT EMPTY_CLOB(),
@@ -21,7 +21,12 @@ create table APP_POSTS(
     post_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     post_modified_at TIMESTAMP NOT NULL, --디폴트는 post_created_at(글 생성일시)
     comment_status VARCHAR2(20) DEFAULT 'OPEN' NOT NULL,
-    comment_count NUMBER(20) DEFAULT 0
+    comment_count NUMBER(20) DEFAULT 0,
+    
+    -- 외래키 제약조건
+    CONSTRAINT fk_post_author_posts FOREIGN KEY (post_author)  
+        REFERENCES APP_MEMBER(id)    
+        ON DELETE CASCADE 
 );
 
 -- APP_POSTS 테이블에 대한 트리거 설정
@@ -48,6 +53,8 @@ values(2,'title2', TO_TIMESTAMP('2025-02-14 11:12:15'),DEFAULT);
 
 insert into APP_POSTS(post_author,post_title, post_content, post_created_at, post_modified_at )
 values(2,'title2',DEFAULT, TO_TIMESTAMP('2025-02-14 11:12:15'),DEFAULT);
+
+commit;
 
 -- 오라클은 CLOB타입일때, DEFAULT EMPTY_CLOB() 으로 디폴트값 설정하면
 -- 값을 안 넣거나 DEFAULT로 넣을때 빈문자열로 잘 들어간다
