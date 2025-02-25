@@ -53,6 +53,14 @@ DROP INDEX 인덱스_이름;
 
 -- 테이블 컬럼 수정 
 ALTER TABLE 테이블_이름 MODIFY 컬럼명 값(타입/기본값/조건 등);
+
+
+-- 제약 조건 확인 및 삭제 
+SELECT constraint_name, table_name
+FROM user_constraints
+WHERE table_name = '__테이블_이름__' AND constraint_type = 'U';
+ALTER TABLE __테이블_이름__ DROP CONSTRAINT __조건이름__;
+
 */
 
 /* SEQUENCE 생성

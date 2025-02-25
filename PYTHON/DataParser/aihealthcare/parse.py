@@ -92,6 +92,18 @@ class AIHealthCare :
           if not isinstance(value, str): continue
           raw_data[key] = [_.strip() for _ in value.split(",")]  # str to list
 
+        # department -> list
+        key = "department"
+        if key == "department" :
+          revalue = []
+          for value in raw_data[key] :
+            if "\n" in value :
+              for _invalue in value.split("\n") :
+                revalue.append(_invalue)
+            else :
+              revalue.append(value)
+          raw_data[key] = revalue
+
         result = raw_data
     except (FileNotFoundError, FileExistsError) as e :
       result = None

@@ -11,7 +11,7 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 create table APP_TERM_CATEGORY(
     id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
     term_id NUMBER(20,0) NOT NULL, -- 외래키
-    category VARCHAR2(20) UNIQUE NOT NULL,
+    category VARCHAR2(20) NOT NULL, -- UNIQUE 제거
     description CLOB DEFAULT '',
     count NUMBER(20,0) DEFAULT 0,
     parent NUMBER(20,0) DEFAULT 0,
