@@ -11,6 +11,10 @@ if __name__ == '__main__':
     import re
     import urllib.parse # URLEncode
 
+    termDisease = []
+    termDepartment = []
+    termIntention = []
+    chats = []
 
     # 질문
     # questions = aihc.load(path + "/../_DATA/초거대AI_사전학습용_헬스케어_질의응답_데이터/1.질문")
@@ -37,6 +41,15 @@ if __name__ == '__main__':
 
     # 답변
     answers = aihc.load( path + "/../_DATA/초거대AI_사전학습용_헬스케어_질의응답_데이터/2.답변" )
+
+    disease = []
+    department = []
+    intention = []
+    chats = []
+
+    answers_total_count = len(str(len(answers) - 1))
+    answers_index = 1
+
     for cnt in answers :
         """
         키 맵핑(Key Mapping)
@@ -47,4 +60,115 @@ if __name__ == '__main__':
             의도 - intention : str -> list
             답변 - answer : dict => intro : str | body : str | conclusion : str
         """
-        
+        # all_cats = []
+        # termDisease = []
+        # termDepartment = []
+        # termIntention = []
+        # chats = []
+        all_cats = []
+
+        # 질병
+        disease_category = [ _.strip() for _ in cnt['disease_category'] if _.strip() ]
+        for term in disease_category :
+            _slug = urllib.parse.quote(term)
+            _name = term
+            if not _name :
+                continue
+
+            if _slug not in [_['slug'] for _ in termDisease] :
+                termDisease.append( { "slug": _slug, "name": _name, "parent": "" } )
+                all_cats.append(_slug)
+
+        # 질병
+        disease_name = cnt['disease_name'] # disease (kor | eng)
+        if disease_name :
+            term = disease_name
+            _slug = urllib.parse.quote(
+                re.sub(
+                    r"\s+",
+                    "_",
+                    term['eng'].lower().strip()
+                ) if term['eng'] else  term['kor']
+            )
+            _name = term['kor'].strip()
+            _parent = disease_category[0].strip()
+            if _slug not in [_['slug'] for _ in termDisease]:
+                termDisease.append({"slug": _slug, "name": _name, "parent": _parent})
+                all_cats.append(_slug)
+
+        # 진료과
+        department = [ _.strip() for _ in cnt['department'] if _.strip() ] # department
+        for term in department:
+            _slug = urllib.parse.quote(term)
+            _name = term
+            if _slug not in [_['slug'] for _ in termDepartment]:
+                termDepartment.append({"slug": _slug, "name": _name, "parent": ""})
+                all_cats.append(_slug)
+
+        # 의도
+        intention = [ _.strip() for _ in cnt['intention'] if _.strip() ] # intention
+        for term in intention:
+            _slug = urllib.parse.quote(term)
+            _name = term
+            if not _name :
+                continue
+            if _slug not in [_['slug'] for _ in termIntention]:
+                termIntention.append({"slug": _slug, "name": _name, "parent": ""})
+                all_cats.append(_slug)
+
+        # 채팅 : 답변
+        chats.append( {
+            "filename": cnt['fileName'] + ' ' + f"{answers_index:0{answers_total_count}}",
+            "categories": all_cats,
+            "intro" : cnt['answer']['intro'],
+            "body": cnt['answer']['body'],
+            "conclusion": cnt['answer']['conclusion']
+        } )
+        answers_index += 1
+
+    # termDisease = []
+    # termDepartment = []
+    # termIntention = []
+    with open("terms.sql", encoding="utf-8", mode="w") as fc:
+
+        index = 1
+        for terms in [ termDisease, termDepartment, termIntention ]:
+            if index == 1 :
+                taxonomy = 'disease'
+            elif index == 2 :
+                taxonomy = 'department'
+            else :
+                taxonomy = 'intention'
+            index += 1
+            for term in terms:
+                _name = term['name']
+                _slug = term['slug']
+
+                # APP_TERMS: INSERT
+                fc.write("INSERT INTO APP_TERMS( name, slug ) VALUES('" + _name + "', '" + _slug + "');\n")
+
+                # APP_TERM_CATEGORY: INSERT
+                _term_id = "(SELECT id FROM APP_TERMS WHERE slug='" + _slug + "')"
+                _parent = '0' if term['parent'] == "" else "(SELECT id FROM APP_TERMS WHERE name='" + term['parent'] + "')"
+                fc.write("INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES(" + _term_id + ", '" + taxonomy + "', " + _parent + ");\n")
+
+    for i in range(0, len(chats), 10000):
+        if i == 0:
+            with open(f'answer_0.sql', encoding="utf-8", mode="w") as fc:
+                fc.write("INSERT INTO APP_TERMS( name, slug ) VALUES('답변', 'answer');\n")
+                fc.write("INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='answer'), 'chat', 0);\n")
+
+        data = chats[i:i + 10000]
+        with open(f'answer_{(i + 10000)}.sql', encoding="utf-8", mode="w") as fc:
+            for d in data:
+                # APP_CHAT_ANSWER
+                fc.write("INSERT INTO APP_CHAT_ANSWER( file_name, intro, body, conclusion ) VALUES( '" + d['filename'] + "', '" + d['intro'] + "', '" + d['body'] + "', '" + d['conclusion'] + "' );\n")
+
+                # APP_ANC
+                _term_id = "(SELECT id FROM APP_TERM_CATEGORY WHERE term_id=(SELECT id FROM APP_TERMS WHERE slug='answer'))"
+                _id = "(SELECT id FROM APP_CHAT_ANSWER WHERE file_name='" + d['filename'] + "')"
+                fc.write("INSERT INTO APP_ANC( term_category_id, answer_id ) VALUES(" + _term_id + ", " + _id + ");\n")
+
+                for _slug in d['categories']:
+                    _term_id = "(SELECT id FROM APP_TERM_CATEGORY WHERE term_id=(SELECT id FROM APP_TERMS WHERE slug='" + _slug + "'))"
+                    fc.write("INSERT INTO APP_ANC( term_category_id, answer_id ) VALUES(" + _term_id + ", " + _id + ");\n")

@@ -14,3 +14,4 @@
 + 2025.02.10 reset
 + 2025.02.10 DB_SQL/*/**
 + 2025.02.10 remove python
++ 2025.02.26 초 거대 AI 헬스케어 ... 데이터 INSERT QUERY 
