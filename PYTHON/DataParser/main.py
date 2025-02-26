@@ -35,7 +35,7 @@ if __name__ == '__main__':
     #     """
     #     print(cnt)
 
-
+    # 답변
     answers = aihc.load( path + "/../_DATA/초거대AI_사전학습용_헬스케어_질의응답_데이터/2.답변" )
     for cnt in answers :
         """
@@ -47,4 +47,4 @@ if __name__ == '__main__':
             의도 - intention : str -> list
             답변 - answer : dict => intro : str | body : str | conclusion : str
         """
-
+        

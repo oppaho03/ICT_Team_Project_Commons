@@ -10,7 +10,7 @@ NOCYCLE;  -- 최대값 도달 시 다시 1부터 시작하지 않음
 -- [답변]
 create table APP_CHAT_ANSWER(
     id NUMBER(20,0) PRIMARY KEY, -- 시퀀스 값
-    file_name VARCHAR2(20) NOT NULL,
+    file_name VARCHAR2(100) NOT NULL,
     intro CLOB NOT NULL,
     body CLOB NOT NULL,
     conclusion CLOB NOT NULL
