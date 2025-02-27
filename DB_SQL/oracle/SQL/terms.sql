@@ -1,3 +1,54 @@
+-- 대분류 
+-- post : 글 (단일 분류, 상수)
+-- page : 페이지 (단일 분류, 상수)
+-- media : 이미지 및 파일 분류 (단일 분류, 상수)
+-- tags : 태그 (단일 분류, 상수)
+-- keywords : 키워드 (단일 분류, 상수)
+-- category : 글 또는 페이지의 분류
+-- disease : 질병 분류
+-- department : 진료과 분류
+-- intention : 의도 분류 
+-- chat : 채팅 분류
+---- answer 
+---- question 
+
+-- 글 
+INSERT INTO APP_TERMS( name, slug ) VALUES('글', 'post'); 
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='post'), 'post', 0);
+
+-- 페이지
+INSERT INTO APP_TERMS( name, slug ) VALUES('페이지', 'page'); 
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='page'), 'page', 0);
+
+-- 미디어 (전체 파일)
+INSERT INTO APP_TERMS( name, slug ) VALUES('미디어', 'media'); 
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='media'), 'media', 0);
+
+-- 태그
+INSERT INTO APP_TERMS( name, slug ) VALUES('테그', 'tags'); 
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='tags'), 'tags', 0);
+
+-- 키워드
+INSERT INTO APP_TERMS( name, slug ) VALUES('키워드', 'keywords'); 
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='keywords'), 'keywords', 0);
+
+
+-- 글 (일반 카테고리)
+-- 정보(article)
+---- 공지사항 (notice)
+---- 건강정보 (healthinfo)
+-- 글 타입입 
+INSERT INTO APP_TERMS( name, slug ) VALUES('미분류', 'unknown');
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='unknown'), 'category', 0);
+INSERT INTO APP_TERMS( name, slug ) VALUES('정보', 'article');
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='article'), 'category', 0);
+INSERT INTO APP_TERMS( name, slug ) VALUES('공지사항', 'notice');
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='notice'), 'category', (SELECT id FROM APP_TERMS WHERE slug='info'));
+INSERT INTO APP_TERMS( name, slug ) VALUES('건강정보', 'healthinfo');
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='healthinfo'), 'category', (SELECT id FROM APP_TERMS WHERE slug='info'));
+
+
+-- 답변 관련 
 INSERT INTO APP_TERMS( name, slug ) VALUES('감염성질환', '%EA%B0%90%EC%97%BC%EC%84%B1%EC%A7%88%ED%99%98');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='%EA%B0%90%EC%97%BC%EC%84%B1%EC%A7%88%ED%99%98'), 'disease', 0);
 INSERT INTO APP_TERMS( name, slug ) VALUES('HIV 감염', 'hiv_infection');
