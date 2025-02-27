@@ -7,6 +7,10 @@
 2. 공개(PUBLIC)되어 있으므로 개인정보를 포함하여 보안 관련 정보는 [PUSH] 금지
 ---
 
+## INSTALL
+`
+git clone https://github.com/oppaho03/ICT_Team_Project_Commons.git
+`
 
 ## UPDATE history logs
 + 2025.02.07 DB_Oracle/
