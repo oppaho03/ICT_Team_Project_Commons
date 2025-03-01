@@ -3,7 +3,7 @@
 -- CONTAINS 를 통해 검색을 위해 CLOB 형 컬럼에 CTXSYS.CONTEXT 인덱싱 적용
 CREATE INDEX idx_chat_answer_text ON APP_CHAT_ANSWER(intro) INDEXTYPE IS CTXSYS.CONTEXT;
 CREATE INDEX idx_chat_answer_body ON APP_CHAT_ANSWER(body) INDEXTYPE IS CTXSYS.CONTEXT;
-CREATE INDEX idx_chat_answer_conclusion ON APP_CHAT_ANSWER(co
+CREATE INDEX idx_chat_answer_conclusion ON APP_CHAT_ANSWER(conclusion) INDEXTYPE IS CTXSYS.CONTEXT;
 
 /* 검색 패턴 (Search)
  * 키워드 : '고혈압', '당뇨', '혈당', '관리' 
