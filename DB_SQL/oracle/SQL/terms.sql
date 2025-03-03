@@ -32,7 +32,6 @@ INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FRO
 INSERT INTO APP_TERMS( name, slug ) VALUES('키워드', 'keywords'); 
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='keywords'), 'keywords', 0);
 
-
 -- 글 (일반 카테고리)
 -- 정보(article)
 ---- 공지사항 (notice)
@@ -1659,3 +1658,7 @@ INSERT INTO APP_TERMS( name, slug ) VALUES('치료', '%EC%B9%98%EB%A3%8C');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='%EC%B9%98%EB%A3%8C'), 'intention', 0);
 INSERT INTO APP_TERMS( name, slug ) VALUES('운동', '%EC%9A%B4%EB%8F%99');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='%EC%9A%B4%EB%8F%99'), 'intention', 0);
+
+-- 답변
+INSERT INTO APP_TERMS( name, slug ) VALUES('답변', 'answer');
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='answer'), 'chat', 0);
