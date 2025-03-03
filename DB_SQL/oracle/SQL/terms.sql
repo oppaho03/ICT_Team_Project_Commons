@@ -1662,3 +1662,7 @@ INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FRO
 -- 답변
 INSERT INTO APP_TERMS( name, slug ) VALUES('답변', 'answer');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='answer'), 'chat', 0);
+
+-- 회원 : 관리자
+insert into APP_MEMBER(email,password,role,name,nickname,birth,gender,contact,address,token,created_at,updated_at,status)
+values('admin@gmail.com','1234', 'ADMINSTOR','관리자','admin',SYSDATE,'F','01000000000','서울시 강남구',default,default,default,1);
