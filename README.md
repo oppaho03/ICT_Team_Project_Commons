@@ -11,6 +11,16 @@
 `
 git clone https://github.com/oppaho03/ICT_Team_Project_Commons.git
 `
+### Database : Oracle
+- [SQL 폴더](https://github.com/oppaho03/ICT_Team_Project_Commons/tree/main/DB_SQL/oracle/SQL)
+- install.sql 쿼리 실행
+    - 관리자 계정 등록 
+    - Email: admin@gmail.com 
+    - Password: 1234
+- terms.sql 쿼리 실행 
+- answer_*****.sql 답변(answer) 데이터
+
+
 
 ## UPDATE history logs
 + 2025.02.07 DB_Oracle/

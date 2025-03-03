@@ -138,6 +138,10 @@ BEGIN -- 프로그램 코딩부
     END IF;
 END;
 
+-- 회원 : 관리자
+insert into APP_MEMBER(email,password,role,name,nickname,birth,gender,contact,address,token,created_at,updated_at,status)
+values('admin@gmail.com','1234', 'ADMINSTOR','관리자','admin',SYSDATE,'F','01000000000','서울시 강남구',default,default,default,1);
+
 /* APP_TERM_CATEGORY
 */
 -- APP_MEMBER_META 테이블용 시퀀스 생성
