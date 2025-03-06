@@ -77,9 +77,9 @@ if __name__ == '__main__':
 
             if _slug not in [_['slug'] for _ in termDisease] :
                 termDisease.append( { "slug": _slug, "name": _name, "parent": "" } )
-                all_cats.append(_slug)
+            all_cats.append(_slug)
 
-        # 질병
+            # 질병
         disease_name = cnt['disease_name'] # disease (kor | eng)
         if disease_name :
             term = disease_name
@@ -94,7 +94,7 @@ if __name__ == '__main__':
             _parent = disease_category[0].strip()
             if _slug not in [_['slug'] for _ in termDisease]:
                 termDisease.append({"slug": _slug, "name": _name, "parent": _parent})
-                all_cats.append(_slug)
+            all_cats.append(_slug)
 
         # 진료과
         department = [ _.strip() for _ in cnt['department'] if _.strip() ] # department
@@ -103,7 +103,7 @@ if __name__ == '__main__':
             _name = term
             if _slug not in [_['slug'] for _ in termDepartment]:
                 termDepartment.append({"slug": _slug, "name": _name, "parent": ""})
-                all_cats.append(_slug)
+            all_cats.append(_slug)
 
         # 의도
         intention = [ _.strip() for _ in cnt['intention'] if _.strip() ] # intention
@@ -114,7 +114,7 @@ if __name__ == '__main__':
                 continue
             if _slug not in [_['slug'] for _ in termIntention]:
                 termIntention.append({"slug": _slug, "name": _name, "parent": ""})
-                all_cats.append(_slug)
+            all_cats.append(_slug)
 
         # 채팅 : 답변
         chats.append( {
