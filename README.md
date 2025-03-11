@@ -28,4 +28,4 @@ git clone https://github.com/oppaho03/ICT_Team_Project_Commons.git
 + 2025.02.10 reset
 + 2025.02.10 DB_SQL/*/**
 + 2025.02.10 remove python
-+ 2025.02.26 초 거대 AI 헬스케어 ... 데이터 INSERT QUERY 
++ 2025.02.26 초 거대 AI 헬스케어 ... 데이터 INSERT QUERY 1
