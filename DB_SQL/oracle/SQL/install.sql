@@ -140,7 +140,7 @@ END;
 
 -- 회원 : 관리자
 insert into APP_MEMBER(email,password,role,name,nickname,birth,gender,contact,address,token,created_at,updated_at,status)
-values('admin@gmail.com','1234', 'ADMINSTOR','관리자','admin',SYSDATE,'F','01000000000','서울시 강남구',default,default,default,1);
+values('admin@gmail.com','1234', 'ADMINISTRATOR','관리자','admin',SYSDATE,'F','01000000000','서울시 강남구',default,default,default,1);
 
 /* APP_TERM_CATEGORY
 */
