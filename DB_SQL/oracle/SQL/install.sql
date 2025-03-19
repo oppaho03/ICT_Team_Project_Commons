@@ -26,6 +26,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_TERMS_SEQ.NEXTVAL;
     END IF;
 END;
+/
 
 /* APP_TERM_META
 */
@@ -59,6 +60,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.meta_id := APP_TERM_META_SEQ.NEXTVAL;
     END IF;
 END;
+/
 
 /* APP_TERM_CATEGORY
 */
@@ -94,7 +96,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_TERM_CATEGORY_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 /* APP_MEMBER
 */
@@ -137,6 +139,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.updated_at := :NEW.created_at;
     END IF;
 END;
+/
 
 -- 회원 : 관리자
 insert into APP_MEMBER(email,password,role,name,nickname,birth,gender,contact,address,token,created_at,updated_at,status)
@@ -174,7 +177,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.meta_id := APP_MEMBER_META_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 
 /* APP_MEMBER_SNS_LOGINS
@@ -216,7 +219,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_MEMBER_SNS_LOGINS_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 
 
@@ -266,7 +269,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.post_modified_at := :NEW.post_created_at;
     END IF;
 END;
-
+/
 
 
 /* APP_POST_META
@@ -301,7 +304,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.meta_id := APP_POST_META_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 
 /* APP_POST_CATEGORY_RELATIONSHIPS
@@ -360,7 +363,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_RESOURCES_SEC_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 
 /* APP_CHAT_ANSWER
@@ -391,7 +394,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_CHAT_ANSWER_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 
 /* APP_ANC
@@ -442,6 +445,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_CHAT_QUESTION_SEQ.NEXTVAL;
     END IF;
 END;
+/
 
 /* APP_CHAT_SESSION
 */
@@ -481,7 +485,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.updated_at := :NEW.created_at;
     END IF;
 END;
-
+/
 
 /* APP_CHAT_QNA
 */
@@ -522,7 +526,7 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_CHAT_QNA_SEQ.NEXTVAL;
     END IF;
 END;
-
+/
 
 
 /* APP_KEYWORD_COUNTING
@@ -557,3 +561,4 @@ BEGIN -- 프로그램 코딩부
         :NEW.id := APP_KEYWORD_COUNTING_SEQ.NEXTVAL;
     END IF;
 END;
+/
