@@ -14,11 +14,15 @@ if __name__ == '__main__':
     termDisease = []
     termDepartment = []
     termIntention = []
-    chats = []
 
     # 질문
-    # questions = aihc.load(path + "/../_DATA/초거대AI_사전학습용_헬스케어_질의응답_데이터/1.질문")
-    # for cnt in questions:
+    questions = aihc.load( path + "/../_DATA/초거대AI_사전학습용_헬스케어_질의응답_데이터/1.질문" )
+
+    chats = []
+    questions_total_count = len(str(len(questions) - 1))
+    questions_index = 1
+
+    for cnt in questions:
     #     """
     #     키 맵핑(Key Mapping)
     #         식별자(ID, 파일명) - fileName : str
@@ -27,7 +31,7 @@ if __name__ == '__main__':
     #             식별자(ID) - participantID : str
     #             성별 - gender : str
     #             연령 - age : str ( 00대 )
-    #             직업 - occupation : str
+    #             직업 - occupation  : str
     #             기록 - history : boolean
     #             지역 - rPlace: str (sep = /)
     #         질병 - disease_category : str -> list
@@ -37,10 +41,47 @@ if __name__ == '__main__':
     #         개체그룹 - entities : list [ type(dict) ]
     #              ex. { "id": 0, "text": "고막염", "entity": "질환명", "position": 0 }
     #     """
-    #     print(cnt)
+    #    print(cnt['participantsInfo'])
+
+        fileName = cnt['fileName'] # 파일 이름
+        partInfo = cnt['participantsInfo'] # 참가자 정보
+        _age = partInfo['age'] if 'age' in partInfo else 0
+        _gender = partInfo['gender'] if 'gender' in partInfo else "남성"
+        _gender = "M" if _gender == "남성" else "F"
+        _occupation = partInfo['occupation'] if 'occupation' in partInfo else "기타"
+        disease_category = cnt['disease_category'][0] if 'disease_category' in cnt else "기타"
+        disease_name_kor = cnt['disease_name']['kor'] if 'disease_name' in cnt else "기타"
+        disease_name_eng = cnt['disease_name']['eng'] if 'disease_name' in cnt else "others"
+        question = cnt['question'] if 'question' in cnt else ""
+
+        chats.append({
+            "file_name": fileName,
+            "age": _age,
+            "gender": _gender,
+            "occupation": _occupation,
+            "disease_category": disease_category,
+            "disease_name_kor": disease_name_kor,
+            "disease_name_eng": disease_name_eng,
+            "question": question
+        } )
+        questions_index += 1
+
+    for i in range(0, len(chats), 10000):
+        data = chats[i:i + 10000]
+        with open(f'questions_{(i + 10000)}.sql', encoding="utf-8", mode="w") as fc:
+            # APP_EXTERNAL_QUESTION
+            for d in data:
+                # age | disease_category | disease_name_kor | disease_name_eng | file_name | gender | occupation | question
+                fc.write("INSERT INTO APP_EXTERNAL_QUESTION( age, disease_category, disease_name_kor, disease_name_eng, file_name, gender, occupation, question ) VALUES( '" + d['age'] + "', '" + d['disease_category'] + "', '" + d['disease_name_kor'] + "', '" + d['disease_name_eng'] + "', '" + d['file_name'] + "', '" + d['gender'] + "', '" + d['occupation'] + "', '" + d['question'] + "' );\n")
+
+
 
     # 답변
     answers = aihc.load( path + "/../_DATA/초거대AI_사전학습용_헬스케어_질의응답_데이터/2.답변" )
+
+    termDisease = []
+    termDepartment = []
+    termIntention = []
 
     disease = []
     department = []

@@ -85,16 +85,18 @@ class AIHealthCare :
     try:
       with open( path, encoding=encoding, mode="r" ) as fc:
         raw_data = dict( json.load(fc) )
-      
+
         # 질병(disease_category) / 의도(intention) 값, str->list 변형
         for key in ("disease_category", "intention"):
+          if not key in raw_data: continue;
+
           value = raw_data[key]
           if not isinstance(value, str): continue
           raw_data[key] = [_.strip() for _ in value.split(",")]  # str to list
 
         # department -> list
         key = "department"
-        if key == "department" :
+        if key in raw_data and key == "department" :
           revalue = []
           for value in raw_data[key] :
             if "\n" in value :
