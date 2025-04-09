@@ -45,6 +45,9 @@ INSERT INTO APP_TERMS( name, slug ) VALUES('공지사항', 'notice');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='notice'), 'category', (SELECT id FROM APP_TERMS WHERE slug='info'));
 INSERT INTO APP_TERMS( name, slug ) VALUES('건강정보', 'healthinfo');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='healthinfo'), 'category', (SELECT id FROM APP_TERMS WHERE slug='info'));
+INSERT INTO APP_TERMS( name, slug ) VALUES('최신소식', 'news'); 
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='news'), 'post', (SELECT id FROM APP_TERMS WHERE slug='info'));
+
 
 
 -- 답변 관련 
