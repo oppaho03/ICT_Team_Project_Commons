@@ -46,7 +46,7 @@ INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FRO
 INSERT INTO APP_TERMS( name, slug ) VALUES('건강정보', 'healthinfo');
 INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='healthinfo'), 'category', (SELECT id FROM APP_TERMS WHERE slug='info'));
 INSERT INTO APP_TERMS( name, slug ) VALUES('최신소식', 'news'); 
-INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='news'), 'post', (SELECT id FROM APP_TERMS WHERE slug='info'));
+INSERT INTO APP_TERM_CATEGORY( term_id, category, parent ) VALUES((SELECT id FROM APP_TERMS WHERE slug='news'), 'category', (SELECT id FROM APP_TERMS WHERE slug='info'));
 
 UPDATE APP_TERM_CATEGORY SET parent=(SELECT id FROM APP_TERMS WHERE slug='post') WHERE id=(SELECT id FROM APP_TERM_CATEGORY WHERE term_id=(SELECT id FROM APP_TERMS WHERE slug = 'notice'));
 UPDATE APP_TERM_CATEGORY SET parent=(SELECT id FROM APP_TERMS WHERE slug='post') WHERE id=(SELECT id FROM APP_TERM_CATEGORY WHERE term_id=(SELECT id FROM APP_TERMS WHERE slug = 'news'));
